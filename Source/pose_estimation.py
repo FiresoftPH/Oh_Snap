@@ -28,7 +28,7 @@ while True:
     #    print('X Coords are', result.pose_landmarks.landmark[mp_pose.PoseLandmark.NOSE].x * 640)
     #    print('Y Coords are', result.pose_landmarks.landmark[mp_pose.PoseLandmark.NOSE].y * 480)
     #except:
-    #    pass
+    #    pass 
 
     #Draw the framework of body onto the processed image and then show it in the preview window
     mpDraw.draw_landmarks(frame1,result.pose_landmarks,mp_pose.POSE_CONNECTIONS)

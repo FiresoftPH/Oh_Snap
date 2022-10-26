@@ -8,7 +8,8 @@ cap=cv2.VideoCapture(0)
 #Initialise Media Pipe Pose features
 mp_pose=mp.solutions.pose
 mpDraw=mp.solutions.drawing_utils
-pose=mp_pose.Pose(model_complexity = 0)
+pose=mp_pose.Pose()
+# pose=mp_pose.Pose(model_complexity = 1)
 
 img_counter = 0
 apath = "/home/pi/Documents/Project/Oh_Snap/Source/Imgsavedinto"
@@ -50,7 +51,7 @@ while True:
     #    pass
     
     #Draw the framework of body onto the processed image and then show it in the preview window
-    # mpDraw.draw_landmarks(frame1,result.pose_landmarks,mp_pose.POSE_CONNECTIONS)
+    mpDraw.draw_landmarks(frame1,result.pose_landmarks,mp_pose.POSE_CONNECTIONS)
     cv2.imshow("frame",frame1)
 
     
