@@ -15,7 +15,7 @@ class App(customtkinter.CTk):
                                                   corner_radius = 0,
                                                   fg_color = "#BFD4FF")
         
-        self.dummy = Image.open('Pictures\sticker_3.png')
+        self.dummy = Image.open('Oh_Snap/Pictures/sticker_3.png')
         self.dummy_picture = ImageTk.PhotoImage(self.dummy)
 
         self.logo = customtkinter.CTkLabel(master = self.start_frame,
@@ -41,7 +41,7 @@ class App(customtkinter.CTk):
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
         
-        self.vertical_frame = Image.open("Pictures\Frame_Vertical.png")
+        self.vertical_frame = Image.open("Oh_Snap/Pictures/Frame_Vertical.png")
         self.vertical_frame_picture = ImageTk.PhotoImage(self.vertical_frame)
 
         self.vertical_frame_button = customtkinter.CTkButton(master = self.frame_selection,
