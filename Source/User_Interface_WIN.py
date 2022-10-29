@@ -105,9 +105,14 @@ class App(customtkinter.CTk):
 
         # Confirmation Pop-up window setup
         confirmation_window = customtkinter.CTkToplevel(self)
+
         confirmation_window.geometry("320x200")
         confirmation_window.title("Frame")
 
+        main_window_x = self.winfo_x()
+        main_window_y = self.winfo_y()
+
+        confirmation_window.geometry("+%d+%d" % (main_window_x + 850, main_window_y + 500))
         # Confirmation Pop-up window frame
         confirmation_frame = customtkinter.CTkFrame(master = confirmation_window,
                                                      width = 320,
@@ -117,23 +122,31 @@ class App(customtkinter.CTk):
         # Frame elements
         confirmation_label = customtkinter.CTkLabel(master = confirmation_frame,
                                                     text = "Are you sure?",
-                                                    text_font = ("Imprima", 15, "underline"),
+                                                    text_font = ("Imprima", 20, "underline"),
                                                     text_color = "black")
 
         confirmation_button_yes = customtkinter.CTkButton(master = confirmation_frame,
                                                           hover = False,
                                                           text = "Yes",
-                                                          text_font = ("Imprima", 15),
+                                                          text_font = ("Imprima", 20),
+                                                          text_color = "white",
+                                                          width = 60,
+                                                          height = 30,
+                                                          corner_radius = 8)
+
+        confirmation_button_no = customtkinter.CTkButton(master = confirmation_frame,
+                                                          hover = False,
+                                                          text = "No",
+                                                          text_font = ("Imprima", 20),
                                                           text_color = "white",
                                                           width = 60,
                                                           height = 30,
                                                           corner_radius = 8)
         # Packing elements in the pop-up frame
         confirmation_frame.pack(fill = "both", expand = 1)
-        confirmation_label.grid(row = 0, column = 0, padx = 100, pady = 20)
-        # confirmation_label.pack(side = "top", padx = 80, pady = 20)
-        confirmation_button_yes.grid(row = 1, column = 0, padx = 0, pady = 0)
-
+        confirmation_label.place(x = 80, y = 40)
+        confirmation_button_yes.place(x = 60, y = 100)
+        confirmation_button_no.place(x = 200, y = 100)
         
     def change_to_taking_picture_frame():
         pass
