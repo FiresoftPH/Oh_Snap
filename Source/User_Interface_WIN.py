@@ -88,9 +88,9 @@ class MainUI(customtkinter.CTk):
         
         # Select Frame Label
         self.select_frame_label = customtkinter.CTkLabel(master = self.frame_selection,
-                                                             text = "Select Frame",
-                                                             text_font = ("Inter", 25, "underline"),
-                                                             text_color = "Black")
+                                                         text = "Select Frame",
+                                                         text_font = ("Inter", 25, "underline"),
+                                                         text_color = "Black")
 
         # Packing elements in the second frame
 
@@ -108,7 +108,7 @@ class MainUI(customtkinter.CTk):
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
 
-        # Camera.py dummy elements
+        # Camera start UI
 
         self.camera_icon = Image.open("Pictures\Camera_Icon.png")
         self.camera_icon_resize = self.camera_icon.resize((self.camera_icon.size[0] * 2, self.camera_icon.size[1] * 2))
@@ -124,30 +124,24 @@ class MainUI(customtkinter.CTk):
         # Placing elements in the third frame
         self.camera_start_button.place(x = 350, y = 100)
 
-        # Main Camera controls frames (WIP)
-        self.camera_preview = customtkinter.CTkFrame(master = self,
-                                                      width = 960,
-                                                      height = 800,
-                                                      corner_radius = 0,
-                                                      fg_color = "#BFD4FF")
-
-        self.camera_controls = customtkinter.CTkFrame(master = self,
-                                                     width = 320,
-                                                     height = 800,
-                                                     corner_radius = 0,
-                                                     fg_color = "Salmon")
+        # Camera controlling UI
+        self.camera_controller_frame = customtkinter.CTkFrame(master = self,
+                                                              width = 1280,
+                                                              height = 800,
+                                                              corner_radius = 0,
+                                                              fg_color = "#BFD4FF")
 
         self.shutter_logo = Image.open("Pictures\Camera_Icon.png")
         self.shutter_logo_resize = self.shutter_logo.resize((256, 256))
         self.shutter_logo_picture = ImageTk.PhotoImage(self.shutter_logo_resize)
 
-        self.shutter_button = customtkinter.CTkButton(master = self.camera_controls,
+        self.shutter_button = customtkinter.CTkButton(master = self.camera_controller_frame,
                                                       text = "",
                                                       image = self.shutter_logo_picture,
                                                       hover = False,
                                                       command = self.snap,
-                                                      bg_color = "Salmon",
-                                                      fg_color = "Salmon")
+                                                      bg_color = "#5C5C5C",
+                                                      fg_color = "#5C5C5C")
         
         # Packing elements in fourth and fifth frame
         self.shutter_button.pack(padx = 0, pady = 300)
@@ -172,8 +166,7 @@ class MainUI(customtkinter.CTk):
     # Change from photo taking frame to selecting pictures frame
     def change_to_making_picture_strip_frame(self):
         self.camera_ui_frame.pack_forget()
-        self.camera_preview.pack(side = "left", fill = "both", expand = 1)
-        self.camera_controls.pack(side = "left", fill = "both", expand = 1)
+        self.camera_controller_frame.pack(fill = "both", expand = 1)
 
     # Taking a photo
     def snap(self):
