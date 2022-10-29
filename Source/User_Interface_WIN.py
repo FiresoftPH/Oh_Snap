@@ -1,7 +1,7 @@
 import customtkinter
 from PIL import Image, ImageTk
 
-class App(customtkinter.CTk):
+class MainUI(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
@@ -108,13 +108,36 @@ class App(customtkinter.CTk):
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
 
+        # Camera.py dummy elements
+
         self.camera_icon = Image.open("Pictures\Camera_Icon.png")
-        self.camera_icon_picture = ImageTk.PhotoImage(self.camera_icon)
+        self.camera_icon_resize = self.camera_icon.resize((self.camera_icon.size[0] * 2, self.camera_icon.size[1] * 2))
+        self.camera_icon_picture = ImageTk.PhotoImage(self.camera_icon_resize)
 
         self.camera_start_button = customtkinter.CTkButton(master = self.camera_ui_frame,
-                                                           image = self.camera_icon)
+                                                           image = self.camera_icon_picture,
+                                                           hover = False,
+                                                           text = "",
+                                                           fg_color = "#BFD4FF",
+                                                           command = self.change_to_making_picture_strip_frame)
 
-    def quit(self,e):
+        # Placing elements in the third frame
+        self.camera_start_button.place(x = 375, y = 200)
+
+        # Main Camera controls frames (WIP)
+        self.camera_controls = customtkinter.CTkFrame(master = self,
+                                                      width = 960,
+                                                      height = 800,
+                                                      corner_radius = 0,
+                                                      fg_color = "#BFD4FF")
+
+        self.camera_preview = customtkinter.CTkFrame(master = self,
+                                                     width = 320,
+                                                     height = 800,
+                                                     corner_radius = 0,
+                                                     fg_color = "#FFFFFF")
+
+    def quit(self, e):
         self.destroy()
 
     # Change to selecting frame style for the photobooth
@@ -130,6 +153,11 @@ class App(customtkinter.CTk):
 
     def close_pop_up(self):
         self.confirmation_window.destroy()
+
+    # Change from photo taking frame to selecting pictures frame
+    def change_to_making_picture_strip_frame(self):
+        self.camera_ui_frame.pack_forget()
+        self.camera_controls.pack(side = "left")
         
     # Create a pop-up confirmation window
     def confirmation_pop_up(self):
@@ -185,5 +213,5 @@ class App(customtkinter.CTk):
         confirmation_button_no.place(x = 200, y = 100)
 
 
-app = App()
+app = MainUI()
 app.mainloop()
