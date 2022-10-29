@@ -1,6 +1,6 @@
 import customtkinter
 from PIL import Image, ImageTk
-from numpy import column_stack
+from time import sleep
 
 class MainUI(customtkinter.CTk):
     def __init__(self):
@@ -158,11 +158,10 @@ class MainUI(customtkinter.CTk):
         self.manual_button_label = customtkinter.CTkLabel(master = self.camera_controller_frame,
                                                           text = "Or skip",
                                                           text_color = "White",
-                                                          text_font = ("Inter", 20),
-                                                          )
+                                                          text_font = ("Inter", 20),)
         
         # Packing elements in fourth frame and fith frames
-        self.hand_label.grid(row = 0, column = 0, padx = 200, pady = 100)
+        self.hand_label.grid(row = 0, column = 0, padx = 250, pady = 100)
         self.hand_icon.grid(row = 1, column = 0)
         self.manual_button_label.grid(row = 2, column = 1)
         self.manual_button.grid(row = 3, column = 1)
@@ -191,7 +190,16 @@ class MainUI(customtkinter.CTk):
 
     # Taking a photo
     def take_picture(self):
-        print("Works")
+        self.timer(5)
+
+    # Timer (input in seconds)
+    def timer(self, initial_time):
+        while initial_time != 0:
+            mins, secs = divmod(initial_time, 60)
+            timer = '{:02d}:{:02d}'.format(mins, secs)
+            print(timer, end="\r")
+            sleep(1)
+            initial_time -= 1
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self):
