@@ -127,10 +127,11 @@ class MainUI(customtkinter.CTk):
 
         # Camera controlling UI
         self.camera_controller_frame = customtkinter.CTkFrame(master = self,
-                                                              width = 1280,
+                                                              width = 960,
                                                               height = 800,
                                                               corner_radius = 0,
-                                                              fg_color = "#5C5C5C")
+                                                              fg_color = "#5C5C5C",
+                                                              border_width = 0)
 
         self.hand_icon = Image.open("Pictures\Hand_Icon.png")
         self.hand_icon_picture = ImageTk.PhotoImage(self.hand_icon)
@@ -160,11 +161,11 @@ class MainUI(customtkinter.CTk):
                                                           text_font = ("Inter", 20),
                                                           )
         
-        # Packing elements in fourth frame
-        self.hand_label.grid(row = 0, column = 0)
+        # Packing elements in fourth frame and fith frames
+        self.hand_label.grid(row = 0, column = 0, padx = 200, pady = 100)
         self.hand_icon.grid(row = 1, column = 0)
-        self.manual_button_label.grid(row = 0, column = 1)
-        self.manual_button.grid(row = 1, column = 1)
+        self.manual_button_label.grid(row = 2, column = 1)
+        self.manual_button.grid(row = 3, column = 1)
 
     def quit(self, e):
         self.destroy()
