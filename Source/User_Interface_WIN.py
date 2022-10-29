@@ -125,17 +125,32 @@ class MainUI(customtkinter.CTk):
         self.camera_start_button.place(x = 375, y = 200)
 
         # Main Camera controls frames (WIP)
-        self.camera_controls = customtkinter.CTkFrame(master = self,
+        self.camera_preview = customtkinter.CTkFrame(master = self,
                                                       width = 960,
                                                       height = 800,
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
 
-        self.camera_preview = customtkinter.CTkFrame(master = self,
+        self.camera_controls = customtkinter.CTkFrame(master = self,
                                                      width = 320,
                                                      height = 800,
                                                      corner_radius = 0,
-                                                     fg_color = "#FFFFFF")
+                                                     fg_color = "Salmon")
+
+        self.shutter_logo = Image.open("Pictures\Camera_Icon.png")
+        self.shutter_logo_resize = self.shutter_logo.resize((256, 256))
+        self.shutter_logo_picture = ImageTk.PhotoImage(self.shutter_logo_resize)
+
+        self.shutter_button = customtkinter.CTkButton(master = self.camera_controls,
+                                                      text = "",
+                                                      image = self.shutter_logo_picture,
+                                                      hover = False,
+                                                      command = self.snap,
+                                                      bg_color = "Salmon",
+                                                      fg_color = "Salmon")
+        
+        # Packing elements in fourth and fifth frame
+        self.shutter_button.pack()
 
     def quit(self, e):
         self.destroy()
@@ -157,8 +172,13 @@ class MainUI(customtkinter.CTk):
     # Change from photo taking frame to selecting pictures frame
     def change_to_making_picture_strip_frame(self):
         self.camera_ui_frame.pack_forget()
-        self.camera_controls.pack(side = "left")
-        
+        self.camera_preview.pack(side = "left", fill = "both", expand = 1)
+        self.camera_controls.pack(side = "left", fill = "both", expand = 1)
+
+    # Taking a photo
+    def snap(self):
+        print("Works")
+
     # Create a pop-up confirmation window
     def confirmation_pop_up(self):
 
@@ -172,13 +192,13 @@ class MainUI(customtkinter.CTk):
         main_window_y = self.winfo_y()
 
         self.confirmation_window.geometry("+%d+%d" % (main_window_x + 850, main_window_y + 500))
-        
+
         # Confirmation Pop-up window frame
         confirmation_frame = customtkinter.CTkFrame(master = self.confirmation_window,
-                                                     width = 320,
-                                                     height = 200,
-                                                     corner_radius = 0,
-                                                     fg_color = "#FFFFFF")
+                                                    width = 320,
+                                                    height = 200,
+                                                    corner_radius = 0,
+                                                    fg_color = "#FFFFFF")
         
         # Frame elements
         confirmation_label = customtkinter.CTkLabel(master = confirmation_frame,
@@ -211,7 +231,6 @@ class MainUI(customtkinter.CTk):
         confirmation_label.place(x = 80, y = 40)
         confirmation_button_yes.place(x = 60, y = 100)
         confirmation_button_no.place(x = 200, y = 100)
-
 
 app = MainUI()
 app.mainloop()
