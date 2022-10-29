@@ -28,19 +28,17 @@ class App(customtkinter.CTk):
 
         self.start_button = customtkinter.CTkButton(master = self.start_frame,
                                                     text = "Tap to start",
-                                                    text_font = ("Inter", 40),
+                                                    text_font = ("Imprima", 30),
                                                     command = self.change_to_select_frame,
                                                     fg_color = "#4A6EAF",
                                                     hover = True,
-                                                    border_color = "Black",
+                                                    height = 70,
                                                     text_color = "White",
-                                                    corner_radius = 20)
+                                                    corner_radius = 50)
         
         # Placing Elements in the first frame
         self.logo.grid(row = 0, column = 0, pady = 100, padx = 400)
-
-        self.start_button.grid(row = 1, column = 0, pady = 100, padx = 0)
-
+        self.start_button.grid(row = 1, column = 0, pady = 0, padx = 0)
         self.start_frame.pack(fill = "both", expand = 1)
 
         # "Frame Selection" Elements
@@ -102,6 +100,17 @@ class App(customtkinter.CTk):
         self.horizontal_frame_button.grid(row = 1, column = 2, padx = 0, pady = 0, sticky = "nsew")
         self.select_frame_label.grid(row = 2, column = 1, padx = 20, pady = 0, sticky = "ns", rowspan = 1, columnspan = 1)
 
+        # Camera.py dummy UI here
+
+        self.camera_ui_frame = customtkinter.CTkFrame(master = self,
+                                                       width = 1280,
+                                                       height = 800,
+                                                       corner_radius = 0,
+                                                       fg_color = "#BFD4FF")
+
+        self.camera_start_button = customtkinter.CTkButton(master = self.camera_ui_frame,
+                                                           )
+
     def quit(self,e):
         self.destroy()
 
@@ -122,7 +131,7 @@ class App(customtkinter.CTk):
 
         # Confirmation Pop-up window setup
         self.confirmation_window = customtkinter.CTkToplevel(self)
-
+        
         self.confirmation_window.geometry("320x200")
         self.confirmation_window.title("Frame")
 
@@ -139,7 +148,7 @@ class App(customtkinter.CTk):
         # Frame elements
         confirmation_label = customtkinter.CTkLabel(master = confirmation_frame,
                                                     text = "Are you sure?",
-                                                    text_font = ("Imprima", 20, "underline"),
+                                                    text_font = ("Imprima", 20),
                                                     text_color = "black")
 
         confirmation_button_yes = customtkinter.CTkButton(master = confirmation_frame,
