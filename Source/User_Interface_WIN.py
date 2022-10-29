@@ -1,5 +1,6 @@
 import customtkinter
 from PIL import Image, ImageTk
+from numpy import column_stack
 
 class MainUI(customtkinter.CTk):
     def __init__(self):
@@ -129,22 +130,41 @@ class MainUI(customtkinter.CTk):
                                                               width = 1280,
                                                               height = 800,
                                                               corner_radius = 0,
-                                                              fg_color = "#BFD4FF")
+                                                              fg_color = "#5C5C5C")
 
-        self.shutter_logo = Image.open("Pictures\Camera_Icon.png")
-        self.shutter_logo_resize = self.shutter_logo.resize((256, 256))
-        self.shutter_logo_picture = ImageTk.PhotoImage(self.shutter_logo_resize)
+        self.hand_icon = Image.open("Pictures\Hand_Icon.png")
+        self.hand_icon_picture = ImageTk.PhotoImage(self.hand_icon)
 
-        self.shutter_button = customtkinter.CTkButton(master = self.camera_controller_frame,
-                                                      text = "",
-                                                      image = self.shutter_logo_picture,
-                                                      hover = False,
-                                                      command = self.snap,
-                                                      bg_color = "#5C5C5C",
-                                                      fg_color = "#5C5C5C")
+        self.hand_icon = customtkinter.CTkLabel(master = self.camera_controller_frame,
+                                                image = self.hand_icon_picture)
         
-        # Packing elements in fourth and fifth frame
-        self.shutter_button.pack(padx = 0, pady = 300)
+        self.hand_label = customtkinter.CTkLabel(master = self.camera_controller_frame,
+                                                 text = "Raise your hand to take a picture",
+                                                 text_color = "White",
+                                                 text_font = ("Inter", 25))
+
+        self.manual_button_icon = Image.open("Pictures\Arrow_Button.png")
+        self.manual_button_picture = ImageTk.PhotoImage(self.manual_button_icon)
+
+        self.manual_button = customtkinter.CTkButton(master = self.camera_controller_frame,
+                                                     command = self.take_picture,
+                                                     text = "",
+                                                     hover = False,
+                                                     image = self.manual_button_picture,
+                                                     bg_color = "#5C5C5C",
+                                                     fg_color = "#5C5C5C")
+
+        self.manual_button_label = customtkinter.CTkLabel(master = self.camera_controller_frame,
+                                                          text = "Or skip",
+                                                          text_color = "White",
+                                                          text_font = ("Inter", 20),
+                                                          )
+        
+        # Packing elements in fourth frame
+        self.hand_label.grid(row = 0, column = 0)
+        self.hand_icon.grid(row = 1, column = 0)
+        self.manual_button_label.grid(row = 0, column = 1)
+        self.manual_button.grid(row = 1, column = 1)
 
     def quit(self, e):
         self.destroy()
@@ -169,7 +189,7 @@ class MainUI(customtkinter.CTk):
         self.camera_controller_frame.pack(fill = "both", expand = 1)
 
     # Taking a photo
-    def snap(self):
+    def take_picture(self):
         print("Works")
 
     # Create a pop-up confirmation window
