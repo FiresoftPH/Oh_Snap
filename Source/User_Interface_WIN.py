@@ -37,7 +37,7 @@ class MainUI(customtkinter.CTk):
                                                     corner_radius = 50)
         
         # Placing Elements in the first frame
-        self.logo.grid(row = 0, column = 0, pady = 100, padx = 400)
+        self.logo.grid(row = 0, column = 0, pady = 100, padx = 380)
         self.start_button.grid(row = 1, column = 0, pady = 0, padx = 0)
         self.start_frame.pack(fill = "both", expand = 1)
 
@@ -95,10 +95,10 @@ class MainUI(customtkinter.CTk):
         # Packing elements in the second frame
 
         self.vertical_frame_label.grid(row = 0, column = 0, padx = 150, pady = 60, sticky = "new", rowspan = 10)
-        self.vertical_frame_button.grid(row = 1, column = 0, padx = 120, pady = 100, sticky = "nsew")
-        self.horizontal_frame_label.grid(row = 0, column = 2, padx = 0, pady = 140, sticky = "new", rowspan = 10)
+        self.vertical_frame_button.grid(row = 1, column = 0, padx = 50, pady = 100, sticky = "nsew")
+        self.horizontal_frame_label.grid(row = 0, column = 2, padx = 0, pady = 160, sticky = "new", rowspan = 10)
         self.horizontal_frame_button.grid(row = 1, column = 2, padx = 0, pady = 0, sticky = "nsew")
-        self.select_frame_label.grid(row = 2, column = 1, padx = 20, pady = 0, sticky = "ns", rowspan = 1, columnspan = 1)
+        self.select_frame_label.grid(row = 2, column = 1, padx = 50, pady = 0, rowspan = 1, columnspan = 1)
 
         # Camera.py dummy UI here
 
@@ -122,7 +122,7 @@ class MainUI(customtkinter.CTk):
                                                            command = self.change_to_making_picture_strip_frame)
 
         # Placing elements in the third frame
-        self.camera_start_button.place(x = 375, y = 200)
+        self.camera_start_button.place(x = 350, y = 100)
 
         # Main Camera controls frames (WIP)
         self.camera_preview = customtkinter.CTkFrame(master = self,
@@ -150,7 +150,7 @@ class MainUI(customtkinter.CTk):
                                                       fg_color = "Salmon")
         
         # Packing elements in fourth and fifth frame
-        self.shutter_button.pack()
+        self.shutter_button.pack(padx = 0, pady = 300)
 
     def quit(self, e):
         self.destroy()
@@ -191,7 +191,7 @@ class MainUI(customtkinter.CTk):
         main_window_x = self.winfo_x()
         main_window_y = self.winfo_y()
 
-        self.confirmation_window.geometry("+%d+%d" % (main_window_x + 850, main_window_y + 500))
+        self.confirmation_window.geometry("+%d+%d" % (main_window_x + 700, main_window_y + 500))
 
         # Confirmation Pop-up window frame
         confirmation_frame = customtkinter.CTkFrame(master = self.confirmation_window,
