@@ -103,13 +103,16 @@ class App(customtkinter.CTk):
         # Camera.py dummy UI here
 
         self.camera_ui_frame = customtkinter.CTkFrame(master = self,
-                                                       width = 1280,
-                                                       height = 800,
-                                                       corner_radius = 0,
-                                                       fg_color = "#BFD4FF")
+                                                      width = 1280,
+                                                      height = 800,
+                                                      corner_radius = 0,
+                                                      fg_color = "#BFD4FF")
+
+        self.camera_icon = Image.open("Pictures\Camera_Icon.png")
+        self.camera_icon_picture = ImageTk.PhotoImage(self.camera_icon)
 
         self.camera_start_button = customtkinter.CTkButton(master = self.camera_ui_frame,
-                                                           )
+                                                           image = self.camera_icon)
 
     def quit(self,e):
         self.destroy()
@@ -122,6 +125,8 @@ class App(customtkinter.CTk):
     # Pop-Up Button controls
     def change_to_taking_picture_frame(self):
         self.frame_selection.pack_forget()
+        self.camera_ui_frame.pack(fill = "both", expand = 1)
+        self.confirmation_window.destroy()
 
     def close_pop_up(self):
         self.confirmation_window.destroy()
@@ -139,12 +144,14 @@ class App(customtkinter.CTk):
         main_window_y = self.winfo_y()
 
         self.confirmation_window.geometry("+%d+%d" % (main_window_x + 850, main_window_y + 500))
+        
         # Confirmation Pop-up window frame
         confirmation_frame = customtkinter.CTkFrame(master = self.confirmation_window,
                                                      width = 320,
                                                      height = 200,
                                                      corner_radius = 0,
                                                      fg_color = "#FFFFFF")
+        
         # Frame elements
         confirmation_label = customtkinter.CTkLabel(master = confirmation_frame,
                                                     text = "Are you sure?",
