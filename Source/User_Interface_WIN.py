@@ -12,6 +12,7 @@ Command Codes List (The number corresponds to the command)
 1. Show the countdown widget with the camera
 2. 
 """
+
 # Importing other python scripts from other files
 
 from data_structure import Stack
@@ -31,7 +32,8 @@ class MainUI(customtkinter.CTk):
         # Universal class variables
         self.confirmation_window = None
         self.command_code = 0 # For issuing similar commands at different conditions
-        self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One"}
+        self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
+        self.image_count = 0 # For counting how many images have been taken
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
@@ -123,8 +125,8 @@ class MainUI(customtkinter.CTk):
         # Camera.py dummy UI here
 
         self.camera_ui_frame = customtkinter.CTkFrame(master = self,
-                                                      width = 1280,
-                                                      height = 800,
+                                                      width = 960,
+                                                      height = 600,
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
 
@@ -146,8 +148,8 @@ class MainUI(customtkinter.CTk):
 
         # Camera controlling UI
         self.camera_controller_frame = customtkinter.CTkFrame(master = self,
-                                                              width = 1280,
-                                                              height = 800,
+                                                              width = 960,
+                                                              height = 600,
                                                               corner_radius = 0,
                                                               fg_color = "#5C5C5C",
                                                               border_width = 0)
@@ -180,7 +182,7 @@ class MainUI(customtkinter.CTk):
                                                           text_color = "White",
                                                           text_font = ("Inter", 30))
         
-        # Packing elements in fourth frame and fith frames
+        # Packing elements in fourth frame
         self.hand_label.grid(row = 0, column = 0, padx = 300, pady = 80)
         self.hand_icon.grid(row = 1, column = 0)
         self.manual_button_label.grid(row = 2, column = 1)
@@ -189,7 +191,7 @@ class MainUI(customtkinter.CTk):
         # Countdown frame for camera
         self.countdown_frame = customtkinter.CTkFrame(master = self,
                                                       width = 960,
-                                                      height = 800,
+                                                      height = 600,
                                                       corner_radius = 0,
                                                       fg_color = "#5C5C5C",
                                                       border_width = 0)
@@ -199,8 +201,8 @@ class MainUI(customtkinter.CTk):
                                                      text = "",
                                                      image = None)
 
-        # Packing the elements in the sixth frame
-        self.countdown_icon.place(x = 350, y = 100)
+        # Packing the elements in the fifth frame
+        self.countdown_icon.place(x = 530, y = 300)
 
     def quit(self, e):
         self.destroy()
@@ -222,24 +224,36 @@ class MainUI(customtkinter.CTk):
     # Change from photo taking frame to selecting pictures frame
     def change_to_camera_instructions_frame(self):
         self.camera_ui_frame.pack_forget()
-        self.camera_controller_frame.pack(fill = "both", expand = 1)
+        self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both")
 
     # Taking a photo
     def take_picture(self):
-        self.camera_controller_frame.pack_forget()
-        self.command_code = 1
-        self.timer(5)
+        if self.image_count < 8:
+            self.camera_controller_frame.pack_forget()
+            self.update()
+            self.command_code = 1
+            self.timer(5)
+            # After the timer, the camera snips a picture.
+            print("Snap!")
+            self.image_count += 1
+            print(self.image_count)
+            self.countdown_frame.pack_forget()
+            self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both")
+            
+        else:
+            print("Limit was reached")
 
     # Timer (input in seconds)
     def timer(self, initial_time):
         if self.command_code == 1:
-            self.countdown_frame.pack(fill = "both", expand = 1)
-            self.update_idletasks()
-        
+            self.update()
+            self.countdown_frame.pack(fill = "both", padx = 20, pady = 20, expand = 1)
+            self.update()
+
         while initial_time >= 0:
+            self.update()
             mins, secs = divmod(initial_time, 60)
             timer = '{:02d}:{:02d}'.format(mins, secs)
-            print(timer, end = "\r")
             if self.command_code == 1:
                 image_index = self.number_to_text[initial_time]
                 image_directory = "Pictures\Countdown_display\{}.png".format(image_index)
@@ -250,7 +264,6 @@ class MainUI(customtkinter.CTk):
             
             sleep(1)
             initial_time -= 1
-            self.update_idletasks()
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self):
