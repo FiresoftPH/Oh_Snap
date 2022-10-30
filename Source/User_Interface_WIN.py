@@ -2,6 +2,22 @@ import customtkinter
 from PIL import Image, ImageTk
 from time import sleep
 
+"""
+Description: This UI_Interface is for development in windows. Adapting to Linux version is simple, changing the directory
+of the images and files to Linux syntax and everything should work fine.
+"""
+
+"""
+Command Codes List (The number corresponds to the command)
+1. Show the countdown widget with the camera
+2. 
+"""
+# Importing other python scripts from other files
+
+from data_structure import Stack
+
+# Dictionary Translating
+
 class MainUI(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -10,9 +26,12 @@ class MainUI(customtkinter.CTk):
         self.geometry("1280x800")
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
+        self.configure(fg_color = "#BFD4FF")
 
         # Universal class variables
         self.confirmation_window = None
+        self.command_code = 0 # For issuing similar commands at different conditions
+        self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One"}
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
@@ -120,14 +139,14 @@ class MainUI(customtkinter.CTk):
                                                            hover = False,
                                                            text = "",
                                                            fg_color = "#BFD4FF",
-                                                           command = self.change_to_making_picture_strip_frame)
+                                                           command = self.change_to_camera_instructions_frame)
 
         # Placing elements in the third frame
         self.camera_start_button.place(x = 350, y = 100)
 
         # Camera controlling UI
         self.camera_controller_frame = customtkinter.CTkFrame(master = self,
-                                                              width = 960,
+                                                              width = 1280,
                                                               height = 800,
                                                               corner_radius = 0,
                                                               fg_color = "#5C5C5C",
@@ -140,9 +159,10 @@ class MainUI(customtkinter.CTk):
                                                 image = self.hand_icon_picture)
         
         self.hand_label = customtkinter.CTkLabel(master = self.camera_controller_frame,
-                                                 text = "Raise your hand to take a picture",
+                                                 anchor = "center",
+                                                 text = "Raise your hand to\ntake a picture",
                                                  text_color = "White",
-                                                 text_font = ("Inter", 25))
+                                                 text_font = ("Inter", 35))
 
         self.manual_button_icon = Image.open("Pictures\Arrow_Button.png")
         self.manual_button_picture = ImageTk.PhotoImage(self.manual_button_icon)
@@ -158,13 +178,28 @@ class MainUI(customtkinter.CTk):
         self.manual_button_label = customtkinter.CTkLabel(master = self.camera_controller_frame,
                                                           text = "Or skip",
                                                           text_color = "White",
-                                                          text_font = ("Inter", 20),)
+                                                          text_font = ("Inter", 30))
         
         # Packing elements in fourth frame and fith frames
-        self.hand_label.grid(row = 0, column = 0, padx = 250, pady = 100)
+        self.hand_label.grid(row = 0, column = 0, padx = 300, pady = 80)
         self.hand_icon.grid(row = 1, column = 0)
         self.manual_button_label.grid(row = 2, column = 1)
         self.manual_button.grid(row = 3, column = 1)
+
+        # Countdown frame for camera
+        self.countdown_frame = customtkinter.CTkFrame(master = self,
+                                                      width = 960,
+                                                      height = 800,
+                                                      corner_radius = 0,
+                                                      fg_color = "#5C5C5C",
+                                                      border_width = 0)
+
+        # Countdown display
+        self.countdown_icon = customtkinter.CTkLabel(master = self.countdown_frame,
+                                                     image = None)
+
+        # Packing the elements in the sixth frame
+        self.countdown_icon.place(x = 350, y = 100)
 
     def quit(self, e):
         self.destroy()
@@ -184,22 +219,37 @@ class MainUI(customtkinter.CTk):
         self.confirmation_window.destroy()
 
     # Change from photo taking frame to selecting pictures frame
-    def change_to_making_picture_strip_frame(self):
+    def change_to_camera_instructions_frame(self):
         self.camera_ui_frame.pack_forget()
         self.camera_controller_frame.pack(fill = "both", expand = 1)
 
     # Taking a photo
     def take_picture(self):
+        self.camera_controller_frame.pack_forget()
+        self.command_code = 1
         self.timer(5)
 
     # Timer (input in seconds)
     def timer(self, initial_time):
-        while initial_time != 0:
+        if self.command_code == 1:
+            self.countdown_frame.pack(fill = "both", expand = 1)
+            self.update_idletasks()
+        
+        while initial_time >= 0:
             mins, secs = divmod(initial_time, 60)
             timer = '{:02d}:{:02d}'.format(mins, secs)
-            print(timer, end="\r")
+            print(timer, end = "\r")
+            if self.command_code == 1:
+                image_index = self.number_to_text[initial_time]
+                image_directory = "Pictures\Countdown_display\{}.png".format(image_index)
+                display_image = Image.open(image_directory)
+                display_image_python = ImageTk.PhotoImage(display_image)
+                self.countdown_icon.configure(image = display_image_python)
+                self.countdown_icon.image = display_image_python
+            
             sleep(1)
             initial_time -= 1
+            self.update_idletasks()
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self):
