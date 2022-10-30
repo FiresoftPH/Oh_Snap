@@ -196,6 +196,7 @@ class MainUI(customtkinter.CTk):
 
         # Countdown display
         self.countdown_icon = customtkinter.CTkLabel(master = self.countdown_frame,
+                                                     text = "",
                                                      image = None)
 
         # Packing the elements in the sixth frame
