@@ -34,8 +34,8 @@ while True:
         break
 
     ret,frame=cap.read()
-    flipped=cv2.flip(frame,flipCode=1)
-    frame1 = cv2.resize(flipped,(640,480))
+    flipped=cv2.flip(frame,flipCode = 1)
+    frame1 = cv2.resize(flipped,(640, 480))
     result = pose.process(frame1)
 
     # rgb_img=cv2.cvtColor(frame1,cv2.COLOR_BGR2BGR)
