@@ -34,7 +34,7 @@ class MainUI(customtkinter.CTk):
         self.command_code = 0 # For issuing similar commands at different conditions
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
         self.image_count = 0 # For counting how many images have been taken
-        self.image_stack = Stack([])
+        self.image_stack = Stack([], 8)
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
@@ -208,6 +208,8 @@ class MainUI(customtkinter.CTk):
         # Packing the elements in the fifth frame
         self.countdown_icon.place(x = 475, y = 250)
 
+        # Camera frame
+
     def quit(self, e):
         self.destroy()
 
@@ -232,7 +234,7 @@ class MainUI(customtkinter.CTk):
 
     # Taking a photo
     def take_picture(self):
-        if self.image_count < 8:
+        if self.image_count < self.image_stack.limit:
             self.camera_controller_frame.pack_forget()
             self.update()
             self.command_code = 1
@@ -240,13 +242,13 @@ class MainUI(customtkinter.CTk):
             # After the timer, the camera snips a picture.
             print("Snap!")
             self.image_count += 1
-            print(self.image_count)
+            self.image_stack.push("photo{}".format(self.image_count))
+            print(self.image_stack)
             self.countdown_frame.pack_forget()
             self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both")
             
         else:
             self.camera_controller_frame.pack_forget()
-            
             print("Limit was reached")
 
     # Timer (input in seconds)
