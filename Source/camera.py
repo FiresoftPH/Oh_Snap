@@ -4,8 +4,8 @@ import mediapipe as mp
 from customtkinter import CTkLabel, CTk
 from PIL import Image, ImageTk
 
-# window = CTk()
-# window.geometry("640x400")
+window = CTk()
+window.geometry("640x400")
 
 class ShowFrame:
     def __init__(self, frame):
@@ -25,14 +25,22 @@ class ShowFrame:
         self.opencv_image = CTkLabel(frame)
         self.opencv_image.grid(row=0, column=0)
         
-        self.ret, self.frame = self.cap.read()
-        self.flipped = cv2.flip(self.frame, flipCode = 1)
-        self.frame1 = cv2.resize(self.flipped, (640, 480))
-        self.result = self.pose.process(self.frame1)
+        # self.ret, self.frame = self.cap.read()
+        # self.flipped = cv2.flip(self.frame, flipCode = 1)
+        # self.frame1 = cv2.resize(self.flipped, (640, 480))
+        # self.result = self.pose.process(self.frame1)
 
     def detect_hand(self):
         #Start endless loop to create video frame by frame Add details about video size and image post-processing to better identify bodies
         while True:
+            
+            text = "TutorialsPoint"
+            coordinates = (100,100)
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            fontScale = 1
+            color = (255,0,255)
+            thickness = 2
+            image = cv2.putText(image, text, coordinates, font, fontScale, color, thickness, cv2.LINE_AA)
 
             self.key_1 = cv2.waitKey(1)
             self.key_2 = cv2.waitKey(1) & 0xFF
@@ -95,4 +103,6 @@ class ShowFrame:
         self.opencv_image.configure(image=imgtk)
         self.opencv_image.after(60, self.show_tkinter)
 
-        
+app = ShowFrame(window)
+app.show_tkinter()
+window.mainloop()
