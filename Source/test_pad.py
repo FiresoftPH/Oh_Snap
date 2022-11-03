@@ -1,22 +1,30 @@
+# Import required Libraries
+from tkinter import *
 from PIL import Image, ImageTk
-import customtkinter
+import cv2
 
-window = customtkinter.CTk()
+# Create an instance of TKinter Window or frame
+win = Tk()
 
-label = customtkinter.CTkLabel(master = window, image = None)
-def test_fun(index):
+# Set the size of the window
+win.geometry("700x350")
 
-    number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One"}
-    image_index = number_to_text[index]
-    image_directory = "Pictures\Countdown_display\{}.png".format(image_index)
-    print(image_directory)
-    print("Pictures\Countdown_display\Five.png")
-    test_1 = Image.open(image_directory)
-    test_2 = ImageTk.PhotoImage(test_1)
-    label.configure(image = test_2)
-    label.image = test_2
+# Create a Label to capture the Video frames
+label =Label(win)
+label.grid(row=0, column=0)
+cap= cv2.VideoCapture(0)
 
-test_fun(5)
+# Define function to show frame
+def show_frames():
+   # Get the latest frame and convert into Image
+   cv2image= cv2.cvtColor(cap.read()[1],cv2.COLOR_BGR2RGB)
+   img = Image.fromarray(cv2image)
+   # Convert image to PhotoImage
+   imgtk = ImageTk.PhotoImage(image = img)
+   label.imgtk = imgtk
+   label.configure(image=imgtk)
+   # Repeat after an interval to capture continiously
+   label.after(20, show_frames)
 
-label.pack()
-window.mainloop()
+show_frames()
+win.mainloop()
