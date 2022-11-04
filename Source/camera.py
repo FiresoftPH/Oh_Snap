@@ -23,62 +23,44 @@ class ShowFrame:
         self.image_list = Stack()
         self.image_counter = 0
 
+        self.stop_detect = False
+
     def detect_hand(self):
         #Start endless loop to create video frame by frame Add details about video size and image post-processing to better identify bodies
         while True:
             
-            text = "TutorialsPoint"
-            coordinates = (100,100)
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            fontScale = 1
-            color = (255,0,255)
-            thickness = 2
-            image = cv2.putText(image, text, coordinates, font, fontScale, color, thickness, cv2.LINE_AA)
+            if self.stop_detect == False:
+                self.ret, self.frame = self.cap.read()
+                self.flipped = cv2.flip(self.frame, flipCode = 1)
+                self.frame1 = cv2.resize(self.flipped, (640, 480))
+                self.result = self.pose.process(self.frame1)
 
-            self.key_1 = cv2.waitKey(1)
-            self.key_2 = cv2.waitKey(1) & 0xFF
-            if self.key_1 % 256 == 32:
-                # SPACE pressed
-                self.img_name = "opencvframe{}.jpg".format(self.img_counter)
-                os.chdir(self.apath)
-                cv2.imwrite(self.img_name, self.frame) #imshow
-                print(self.img_name, "written!")
-                #cv2.waitKey(0)
+                # rgb_img=cv2.cvtColor(frame1,cv2.COLOR_BGR2BGR)
+                # result=pose.process(rgb_img)
+                # Print general details about observed body
+                # print (result.pose_landmarks)
+                
+                #Uncomment below to see X,Y coordinate Details on single location in this case the Nose Location.
+                
+                try:
+                    print('Shoulder: ', self.result.pose_landmarks.landmark[11].y * 640)
+                    print('Right Hand thing: ', self.result.pose_landmarks.landmark[19].y * 480)
 
-                self.img_counter += 1
-            
-            
-            #At any point if the | q | is pressed on the keyboard then the system will stop
-            elif self.key_2 == ord("q"):
+                except: 
+                    pass
+                
+                #Draw the framework of body onto the processed image and then show it in the preview window
+                self.mpDraw.draw_landmarks(self.frame1, self.result.pose_landmarks, self.mp_pose.POSE_CONNECTIONS)
+
+                # Show camera frames
+                # cv2.imshow("frame", self.frame1)
+
+            elif self.stop_detect == True:
                 break
-
-            self.ret, self.frame = self.cap.read()
-            self.flipped = cv2.flip(self.frame, flipCode = 1)
-            self.frame1 = cv2.resize(self.flipped, (640, 480))
-            self.result = self.pose.process(self.frame1)
-
-            # rgb_img=cv2.cvtColor(frame1,cv2.COLOR_BGR2BGR)
-            # result=pose.process(rgb_img)
-            # Print general details about observed body
-            # print (result.pose_landmarks)
-            
-            #Uncomment below to see X,Y coordinate Details on single location in this case the Nose Location.
-            
-            try:
-                print('Shoulder: ', self.result.pose_landmarks.landmark[11].y * 640)
-                print('Right Hand thing: ', self.result.pose_landmarks.landmark[19].y * 480)
-
-            except: 
-                pass
-            
-            #Draw the framework of body onto the processed image and then show it in the preview window
-            self.mpDraw.draw_landmarks(self.frame1, self.result.pose_landmarks, self.mp_pose.POSE_CONNECTIONS)
-
-            # Show camera frames
-            cv2.imshow("frame", self.frame1)
 
     def show_cam(self):
 
+        self.stop_detect = True
         TIMER = int(5)
   
  

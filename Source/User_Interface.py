@@ -2,7 +2,6 @@
 
 import customtkinter
 from PIL import Image, ImageTk
-from time import sleep
 
 """
 Description: This UI_Interface is for development in windows. Adapting to Linux version is simple, changing the directory
@@ -11,8 +10,7 @@ of the images and files to Linux syntax and everything should work fine.
 
 """
 Command Codes List (The number corresponds to the command)
-1. Show the countdown widget with the camera
-2. 
+1. 
 """
 
 # Importing other python scripts from other files
@@ -234,8 +232,12 @@ class MainUI(customtkinter.CTk):
 
     # Taking a photo
     def take_picture(self):
-        self.camera.show_cam()
 
+        if self.camera.image_list.size() <= 8:
+            self.camera.show_cam()
+
+        else:
+            print("My progress is here")
 
     # Timer (input in seconds) (Unused Asset)
     def timer(self, initial_time):
