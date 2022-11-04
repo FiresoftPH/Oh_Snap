@@ -3,12 +3,10 @@ import os
 import mediapipe as mp
 from customtkinter import CTkLabel, CTk
 from PIL import Image, ImageTk
-
-window = CTk()
-window.geometry("640x400")
+import time
 
 class ShowFrame:
-    def __init__(self, frame):
+    def __init__(self):
         #Start cv2 video capturing through CSI port
         self.cap = cv2.VideoCapture(0)
 
@@ -20,10 +18,6 @@ class ShowFrame:
 
         self.img_counter = 0
         self.apath = "/home/pi/Documents/Project/Oh_Snap/Source/Imgsavedinto"
-
-        self.frame = frame
-        self.opencv_image = CTkLabel(frame)
-        self.opencv_image.grid(row=0, column=0)
         
         # self.ret, self.frame = self.cap.read()
         # self.flipped = cv2.flip(self.frame, flipCode = 1)
@@ -84,25 +78,82 @@ class ShowFrame:
             # Show camera frames
             cv2.imshow("frame", self.frame1)
 
-    def show_tkinter(self):
-        self.key_1 = cv2.waitKey(1)
-        if self.key_1 % 256 == 32:
-            # SPACE pressed
-            self.img_name = "opencvframe{}.jpg".format(self.img_counter)
-            os.chdir(self.apath)
-            cv2.imwrite(self.img_name, self.frame) #imshow
-            print(self.img_name, "written!")
-            #cv2.waitKey(0)
+    def show_cam(self):
 
-            self.img_counter += 1
+        TIMER = int(5)
+  
+ 
+        while True:
+     
+        # Read and display each frame
+            ret, img = self.cap.read()
+            flip = cv2.flip(img, flipCode = 0)
+            resize = cv2.resize(flip, (640, 480))
 
-        cv2image= cv2.cvtColor(self.cap.read()[1],cv2.COLOR_BGR2RGB)
-        img = Image.fromarray(cv2image)
-        imgtk = ImageTk.PhotoImage(image = img)
-        self.opencv_image.imgtk = imgtk
-        self.opencv_image.configure(image=imgtk)
-        self.opencv_image.after(60, self.show_tkinter)
+            cv2.imshow('Photo', resize)
+        
+            # check for the key pressed
+            k = cv2.waitKey(125)
+        
+            # set the key for the countdown
+            # to begin. Here we set q
+            # if key pressed is q
+            if k == ord('q'):
+                prev = time.time()
+        
+                while TIMER >= 0:
+                    ret, img = self.cap.read()
+                    flip = cv2.flip(img, flipCode = 0)
+                    resize = cv2.resize(flip, (640, 480))
+        
+                    # Display countdown on each frame
+                    # specify the font and draw the
+                    # countdown using puttext
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    cv2.putText(resize, str(TIMER),
+                                (50, 50), font,
+                                1, (0, 255, 255),
+                                2, cv2.LINE_4)
+                    cv2.imshow('Photo', resize)
+                    cv2.waitKey(125)
+        
+                    # current time
+                    cur = time.time()
+        
+                    # Update and keep track of Countdown
+                    # if time elapsed is one second
+                    # than decrease the counter
+                    if cur-prev >= 1:
+                        prev = cur
+                        TIMER = TIMER-1
+        
+                else:
+                    ret, img = self.cap.read()
+                    flip = cv2.flip(img, flipCode = 0)
+                    resize = cv2.resize(flip, (640, 480))
+        
+                    # Display the clicked frame for 2
+                    # sec.You can increase time in
+                    # waitKey also
+                    cv2.imshow('Photo', resize)
+        
+                    # time for which image displayed
+                    cv2.waitKey(2000)
+        
+                    # Save the frame
+                    self.img_name = "opencvframe{}.jpg".format(self.img_counter)
+                    os.chdir(self.apath)
+                    cv2.imwrite(self.img_name, resize) #imshow
+                    print(self.img_name, "written!")
+                    #cv2.waitKey(0)
 
-app = ShowFrame(window)
-app.show_tkinter()
-window.mainloop()
+                    self.img_counter += 1
+        
+                    # HERE we can reset the Countdown timer
+                    # if we want more Capture without closing
+                    # the camera
+                    break
+        
+            # Press Esc to exit
+            elif k == 27:
+                break

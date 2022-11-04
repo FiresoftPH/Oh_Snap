@@ -251,7 +251,7 @@ class MainUI(customtkinter.CTk):
             self.camera_controller_frame.pack_forget()
             print("Limit was reached")
 
-    # Timer (input in seconds)
+    # Timer (input in seconds) (Unused Asset)
     def timer(self, initial_time):
         if self.command_code == 1:
             self.countdown_frame.pack(fill = "both", padx = 20, pady = 20, expand = 1)
