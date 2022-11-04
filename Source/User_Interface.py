@@ -18,6 +18,7 @@ Command Codes List (The number corresponds to the command)
 # Importing other python scripts from other files
 
 from data_structure import Stack, SinglyLinkedList
+from camera import ShowFrame
 
 class MainUI(customtkinter.CTk):
     def __init__(self):
@@ -33,8 +34,7 @@ class MainUI(customtkinter.CTk):
         self.confirmation_window = None
         self.command_code = 0 # For issuing similar commands at different conditions
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
-        self.image_count = 0 # For counting how many images have been taken
-        self.image_stack = Stack([], 8)
+        self.camera = ShowFrame()
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
@@ -234,22 +234,8 @@ class MainUI(customtkinter.CTk):
 
     # Taking a photo
     def take_picture(self):
-        if self.image_count < self.image_stack.limit:
-            self.camera_controller_frame.pack_forget()
-            self.update()
-            self.command_code = 1
-            self.timer(5)
-            # After the timer, the camera snips a picture.
-            print("Snap!")
-            self.image_count += 1
-            self.image_stack.push("photo{}".format(self.image_count))
-            print(self.image_stack)
-            self.countdown_frame.pack_forget()
-            self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both")
-            
-        else:
-            self.camera_controller_frame.pack_forget()
-            print("Limit was reached")
+        self.camera.show_cam()
+
 
     # Timer (input in seconds) (Unused Asset)
     def timer(self, initial_time):
