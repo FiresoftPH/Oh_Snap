@@ -121,5 +121,6 @@ class ShowFrame:
             cv2.destroyWindow("Photo") 
 
             self.image_counter += 1
-            
+            self.stop_detect = False
+
             return self.image_list

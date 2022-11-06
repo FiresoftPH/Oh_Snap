@@ -27,23 +27,34 @@ class MainUI(customtkinter.CTk):
         self.geometry("1280x800")
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
-        self.configure(fg_color = "#BFD4FF")
+        # self.configure(fg_color = "#BFD4FF")
+
+        self.main_background = Image.open("Pictures/BG_PG1.png")
+        self.main_background_image = ImageTk.PhotoImage(self.main_background)
+
+        # Background Label
+
+        self.background_label = customtkinter.CTkLabel(master = self,
+                                                       image = self.main_background_image)
+                                                       
+        self.background_label.place(x = 0, y = 0)
 
         # Universal class variables
         self.confirmation_window = None
         self.command_code = 0 # For issuing similar commands at different conditions
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
         self.camera = ShowFrame()
+        self.frame_mode = None
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
-                                                  width = 1280,
-                                                  height = 800,
+                                                  width = 900,
+                                                  height = 600,
                                                   corner_radius = 0,
                                                   fg_color = "#BFD4FF")
         
         self.logo = Image.open("Pictures/logo.png")
-        self.logo_resize = self.logo.resize((806, 576))
+        self.logo_resize = self.logo.resize((706, 476))
         self.logo_picture = ImageTk.PhotoImage(self.logo_resize)
         self.logo = customtkinter.CTkLabel(master = self.start_frame,
                                            image = self.logo_picture)
@@ -59,17 +70,17 @@ class MainUI(customtkinter.CTk):
                                                     corner_radius = 50)
         
         # Placing Elements in the first frame
-        self.logo.grid(row = 0, column = 0, pady = 60, padx = 220)
+        self.logo.grid(row = 0, column = 0, pady = 30, padx = 250)
         self.start_button.grid(row = 1, column = 0, pady = 0, padx = 0)
-        self.start_frame.pack(fill = "both", expand = 1)
+        self.start_frame.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
 
         # "Frame Selection" Elements
 
         # Vertical frame widgets
 
         self.frame_selection = customtkinter.CTkFrame(master = self,
-                                                      width = 1280,
-                                                      height = 800,
+                                                      width = 900,
+                                                      height = 600,
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
         
@@ -82,7 +93,7 @@ class MainUI(customtkinter.CTk):
                                                              image = self.vertical_frame_picture,
                                                              hover = False,
                                                              text = "",
-                                                             command = self.confirmation_pop_up,
+                                                             command = lambda: self.confirmation_pop_up(0),
                                                              fg_color = "#BFD4FF")
 
         self.vertical_frame_label = customtkinter.CTkLabel(master = self.frame_selection,
@@ -101,7 +112,7 @@ class MainUI(customtkinter.CTk):
                                                                hover = False,
                                                                text = "",
                                                                fg_color = "#BFD4FF",
-                                                               command = self.confirmation_pop_up)
+                                                               command = lambda: self.confirmation_pop_up(1))
 
         self.horizontal_frame_label = customtkinter.CTkLabel(master = self.frame_selection,
                                                              text = "Horizontal",
@@ -116,9 +127,9 @@ class MainUI(customtkinter.CTk):
 
         # Packing elements in the second frame
 
-        self.vertical_frame_label.grid(row = 0, column = 0, padx = 150, pady = 60, sticky = "new", rowspan = 10)
-        self.vertical_frame_button.grid(row = 1, column = 0, padx = 50, pady = 100, sticky = "nsew")
-        self.horizontal_frame_label.grid(row = 0, column = 2, padx = 0, pady = 160, sticky = "new", rowspan = 10)
+        self.vertical_frame_label.grid(row = 0, column = 0, padx = 150, pady = 30, sticky = "new", rowspan = 10)
+        self.vertical_frame_button.grid(row = 1, column = 0, padx = 50, pady = 80, sticky = "nsew")
+        self.horizontal_frame_label.grid(row = 0, column = 2, padx = 0, pady = 40, sticky = "new", rowspan = 10)
         self.horizontal_frame_button.grid(row = 1, column = 2, padx = 0, pady = 0, sticky = "nsew")
         self.select_frame_label.grid(row = 2, column = 1, padx = 20, pady = 0, rowspan = 1, columnspan = 1)
 
@@ -144,7 +155,7 @@ class MainUI(customtkinter.CTk):
                                                            command = self.threaded_opencv)
 
         # Placing elements in the third frame
-        self.camera_start_button.place(x = 400, y = 200)
+        self.camera_start_button.pack(anchor = "center", pady = 150)
 
         # Camera controlling UI
         self.camera_controller_frame = customtkinter.CTkFrame(master = self,
@@ -207,7 +218,7 @@ class MainUI(customtkinter.CTk):
         # Packing the elements in the fifth frame
         self.countdown_icon.place(x = 475, y = 250)
 
-        # Camera frame
+        # 
 
     def quit(self, e):
         self.destroy()
@@ -215,12 +226,12 @@ class MainUI(customtkinter.CTk):
     # Change to selecting frame style for the photobooth
     def change_to_select_frame(self):
         self.start_frame.pack_forget()
-        self.frame_selection.pack(fill = "both", expand = 1)
+        self.frame_selection.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
 
     # Pop-Up Button controls
     def change_to_taking_picture_frame(self):
         self.frame_selection.pack_forget()
-        self.camera_ui_frame.pack(fill = "both", expand = 1)
+        self.camera_ui_frame.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
         self.confirmation_window.destroy()
 
     def close_pop_up(self):
@@ -229,7 +240,7 @@ class MainUI(customtkinter.CTk):
     # Change from photo taking frame to selecting pictures frame
     def change_to_camera_instructions_frame(self):
         self.camera_ui_frame.pack_forget()
-        self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both")
+        self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both", expand = 1)
 
     def run_hand_detect(self):
         self.camera.detect_hand()
@@ -244,34 +255,19 @@ class MainUI(customtkinter.CTk):
     # Taking a photo
     def take_picture(self):
         
-        if self.camera.image_list.size() <= 8:
+        if self.camera.image_list.size() < 8:
             self.camera.show_cam()
             self.threaded_opencv()
 
         else:
+            
             print("My progress is here")
 
-    # Timer (input in seconds) (Unused Asset)
-    def timer(self, initial_time):
-        if self.command_code == 1:
-            self.countdown_frame.pack(fill = "both", padx = 20, pady = 20, expand = 1)
-
-        while initial_time >= 0:
-            mins, secs = divmod(initial_time, 60)
-            timer = '{:02d}:{:02d}'.format(mins, secs)
-            if self.command_code == 1:
-                image_index = self.number_to_text[initial_time]
-                image_directory = "Pictures/Countdown_display/{}.png".format(image_index)
-                display_image = Image.open(image_directory)
-                display_image_python = ImageTk.PhotoImage(display_image)
-                self.countdown_icon.configure(image = display_image_python)
-                self.countdown_icon.image = display_image_python
-            
-            self.update()
-            initial_time -= 1
-
     # Create a pop-up confirmation window
-    def confirmation_pop_up(self):
+    def confirmation_pop_up(self, mode):
+
+        self.frame_mode = mode
+        print(self.frame_mode)
 
         # Confirmation Pop-up window setup
         self.confirmation_window = customtkinter.CTkToplevel(self)
@@ -282,7 +278,7 @@ class MainUI(customtkinter.CTk):
         main_window_x = self.winfo_x()
         main_window_y = self.winfo_y()
 
-        self.confirmation_window.geometry("+%d+%d" % (main_window_x + 700, main_window_y + 500))
+        self.confirmation_window.geometry("+%d+%d" % (main_window_x + 500, main_window_y + 300))
 
         # Confirmation Pop-up window frame
         confirmation_frame = customtkinter.CTkFrame(master = self.confirmation_window,
@@ -319,7 +315,7 @@ class MainUI(customtkinter.CTk):
         
         # Packing elements in the pop-up frame
         confirmation_frame.pack(fill = "both", expand = 1)
-        confirmation_label.place(x = 80, y = 40)
+        confirmation_label.place(x = 60, y = 40)
         confirmation_button_yes.place(x = 60, y = 100)
         confirmation_button_no.place(x = 200, y = 100)
 
