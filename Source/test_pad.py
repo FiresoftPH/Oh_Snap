@@ -1,35 +1,12 @@
-# Import module 
-from tkinter import *
-  
-# Create object 
-root = Tk()
-  
-# Adjust size 
-root.geometry("400x400")
-  
-# Add image file
-bg = PhotoImage(file = "/home/pi/Documents/Project/Oh_Snap/Pictures/BG_PG1.png")
-  
-# Show image using label
-label1 = Label( root, image = bg)
-label1.place(x = 0, y = 0)
-  
-label2 = Label( root, text = "Welcome")
-label2.pack(pady = 50)
-  
-# Create Frame
-frame1 = Frame(root)
-frame1.pack(pady = 20 )
-  
-# Add buttons
-button1 = Button(frame1,text="Exit")
-button1.pack(pady=20)
-  
-button2 = Button( frame1, text = "Start")
-button2.pack(pady = 20)
-  
-button3 = Button( frame1, text = "Reset")
-button3.pack(pady = 20)
-  
-# Execute tkinter
-root.mainloop()
+import customtkinter
+app = customtkinter.CTk()
+def segmented_button_callback(value):
+    print("segmented button clicked:", value)
+
+segemented_button = customtkinter.CTkOptionMenu(master=app,
+                                                values=["Value 1", "Value 2", "Value 3"],
+                                                command=segmented_button_callback)
+segemented_button.pack(padx=20, pady=10)
+segemented_button.set("Value 1")  # set initial value
+
+app.mainloop()

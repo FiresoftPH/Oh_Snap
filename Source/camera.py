@@ -18,7 +18,7 @@ class ShowFrame:
         # pose=mp_pose.Pose(model_complexity = 1)
 
         self.img_counter = 0
-        self.apath = "/home/pi/Documents/Project/Oh_Snap/Source/Imgsavedinto"
+        self.apath = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
         
         self.image_list = Stack()
         self.image_counter = 0
@@ -110,7 +110,7 @@ class ShowFrame:
             cv2.waitKey(2000)
 
             # Save the frame
-            self.img_name = "opencvframe{}.jpg".format(self.image_counter)
+            self.img_name = "Photo_{}.jpg".format(self.image_counter)
             os.chdir(self.apath)
             cv2.imwrite(self.img_name, resize) #imshow
             self.image_list.push(self.img_name)
