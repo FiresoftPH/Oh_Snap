@@ -44,6 +44,7 @@ class MainUI(customtkinter.CTk):
         self.command_code = 0 # For issuing similar commands at different conditions
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
         self.camera = ShowFrame()
+        self.chosen_image = Stack([], 6)
         self.frame_mode = None
 
         # First Frame
@@ -202,23 +203,15 @@ class MainUI(customtkinter.CTk):
         self.manual_button_label.grid(row = 2, column = 1)
         self.manual_button.grid(row = 3, column = 1)
 
-        # Countdown frame for camera
-        self.countdown_frame = customtkinter.CTkFrame(master = self,
-                                                      width = 960,
-                                                      height = 600,
-                                                      corner_radius = 0,
-                                                      fg_color = "#5C5C5C",
-                                                      border_width = 0)
+        # Picture selection
+        self.picture_selection_frame = customtkinter.CTkFrame(master = self,
+                                                              width = 960,
+                                                              height = 600,
+                                                              corner_radius = 0,
+                                                              fg_color = "#5C5C5C",
+                                                              border_width = 0)
 
-        # Countdown display
-        self.countdown_icon = customtkinter.CTkLabel(master = self.countdown_frame,
-                                                     text = "",
-                                                     image = None)
-
-        # Packing the elements in the fifth frame
-        self.countdown_icon.place(x = 475, y = 250)
-
-        # 
+        # My Progress is right here
 
     def quit(self, e):
         self.destroy()
