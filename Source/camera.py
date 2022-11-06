@@ -26,14 +26,18 @@ class ShowFrame:
         self.stop_detect = False
 
     def detect_hand(self):
+
+        self.stop_detect = False
+
         #Start endless loop to create video frame by frame Add details about video size and image post-processing to better identify bodies
         while True:
             
             if self.stop_detect == False:
                 self.ret, self.frame = self.cap.read()
-                self.flipped = cv2.flip(self.frame, flipCode = 1)
-                self.frame1 = cv2.resize(self.flipped, (640, 480))
-                self.result = self.pose.process(self.frame1)
+                self.flipped = cv2.flip(self.frame, flipCode = 0)
+                self.frame1 = cv2.resize(self.flipped, (1280, 800))
+                self.rgb_image = cv2.cvtColor(self.frame1, cv2.COLOR_BGR2RGB)
+                self.result = self.pose.process(self.rgb_image)
 
                 # rgb_img=cv2.cvtColor(frame1,cv2.COLOR_BGR2BGR)
                 # result=pose.process(rgb_img)
@@ -43,8 +47,8 @@ class ShowFrame:
                 #Uncomment below to see X,Y coordinate Details on single location in this case the Nose Location.
                 
                 try:
-                    print('Shoulder: ', self.result.pose_landmarks.landmark[11].y * 640)
-                    print('Right Hand thing: ', self.result.pose_landmarks.landmark[19].y * 480)
+                    print('Shoulder: ', self.result.pose_landmarks.landmark[11].y * 1280)
+                    print('Right Hand thing: ', self.result.pose_landmarks.landmark[19].y * 800)
 
                 except: 
                     pass
@@ -56,22 +60,13 @@ class ShowFrame:
                 # cv2.imshow("frame", self.frame1)
 
             elif self.stop_detect == True:
+                cv2.destroyWindow("Photo") 
                 break
 
     def show_cam(self):
 
         self.stop_detect = True
         TIMER = int(5)
-  
- 
-        # while True:
-     
-        # # Read and display each frame
-        #     ret, img = self.cap.read()
-        #     flip = cv2.flip(img, flipCode = 0)
-        #     resize = cv2.resize(flip, (1280, 800))
-
-        #     cv2.imshow('Photo', resize)
         
         prev = time.time()
         
@@ -119,9 +114,12 @@ class ShowFrame:
             os.chdir(self.apath)
             cv2.imwrite(self.img_name, resize) #imshow
             self.image_list.push(self.img_name)
+
             print(self.img_name, "written!")
             print(self.image_list.look())
-            self.image_counter += 1
 
-            return self.image_counter
-            cv2.destroyWindow("Photo")  
+            cv2.destroyWindow("Photo") 
+
+            self.image_counter += 1
+            
+            return self.image_list

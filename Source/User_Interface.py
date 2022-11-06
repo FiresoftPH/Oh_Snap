@@ -2,6 +2,7 @@
 
 import customtkinter
 from PIL import Image, ImageTk
+import threading
 
 """
 Description: This UI_Interface is for development in windows. Adapting to Linux version is simple, changing the directory
@@ -140,7 +141,7 @@ class MainUI(customtkinter.CTk):
                                                            hover = False,
                                                            text = "",
                                                            fg_color = "#BFD4FF",
-                                                           command = self.change_to_camera_instructions_frame)
+                                                           command = self.threaded_opencv)
 
         # Placing elements in the third frame
         self.camera_start_button.place(x = 400, y = 200)
@@ -230,11 +231,22 @@ class MainUI(customtkinter.CTk):
         self.camera_ui_frame.pack_forget()
         self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both")
 
+    def run_hand_detect(self):
+        self.camera.detect_hand()
+
+    def threaded_opencv(self):
+        thread_1 = threading.Thread(target = self.change_to_camera_instructions_frame)
+        thread_2 = threading.Thread(target = self.run_hand_detect)
+
+        thread_1.start()
+        thread_2.start()
+
     # Taking a photo
     def take_picture(self):
-
+        
         if self.camera.image_list.size() <= 8:
             self.camera.show_cam()
+            self.threaded_opencv()
 
         else:
             print("My progress is here")
@@ -256,7 +268,6 @@ class MainUI(customtkinter.CTk):
                 self.countdown_icon.image = display_image_python
             
             self.update()
-            sleep(1)
             initial_time -= 1
 
     # Create a pop-up confirmation window
