@@ -128,4 +128,10 @@ class ShowFrame:
 
             self.image_counter += 1
 
+            self.stop_detect = False
+
             return self.image_list
+
+    def close_all(self):
+        self.stop_detect = True
+
