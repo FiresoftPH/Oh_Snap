@@ -1,5 +1,5 @@
 # Import required Libraries
-
+import os
 import customtkinter
 from PIL import Image, ImageTk
 import threading
@@ -18,6 +18,8 @@ Command Codes List (The number corresponds to the command)
 
 from data_structure import Stack, SinglyLinkedList
 from camera import ShowFrame
+
+# print(os.getcwd())
 
 class MainUI(customtkinter.CTk):
     def __init__(self):
@@ -210,12 +212,8 @@ class MainUI(customtkinter.CTk):
                                                               width = 960,
                                                               height = 600,
                                                               corner_radius = 0,
-                                                              fg_color = "#5C5C5C",
+                                                              fg_color = "#BFD4FF",
                                                               border_width = 0)
-
-        # Picture selection button
-        self.picture_one = customtkinter.CTkButton(master = self.picture_selection_frame,
-                                                   )
 
     def quit(self, e):
         self.destroy()
@@ -239,9 +237,11 @@ class MainUI(customtkinter.CTk):
         self.camera_ui_frame.pack_forget()
         self.camera_controller_frame.pack(padx = 20, pady = 20, fill = "both", expand = 1)
 
+    # Run hand detection code
     def run_hand_detect(self):
         self.camera.detect_hand()
 
+    # Using threading, the two process can run simulataneously
     def threaded_opencv(self):
         thread_1 = threading.Thread(target = self.change_to_camera_instructions_frame)
         thread_2 = threading.Thread(target = self.run_hand_detect)
@@ -257,8 +257,32 @@ class MainUI(customtkinter.CTk):
             self.threaded_opencv()
 
         else:
-            
-            print("My progress is here")
+            self.camera_controller_frame.pack_forget()
+            self.make_picture_button()
+            self.picture_selection_frame.pack(fill = "both", expand = 1)
+
+    def make_picture_button(self):
+        
+        for x in range(7):
+            directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
+            os.chdir(directory)
+
+            image_directory = directory + "/{}".format(self.camera.image_list.search(x))
+            raw_picture = Image.open(image_directory)
+
+            if self.frame_mode == 1:
+                scale = tuple([round(raw_picture.size[0] * 0.4 / 2), round(raw_picture.size[1] * 0.4 / 2)])
+                
+            else:
+                scale = tuple([round(raw_picture.size[0] * 0.435 / 2), round(raw_picture.size[1] * 0.435 / 2)])
+
+            raw_picture_resize = raw_picture.resize(scale)
+            raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
+            operators = customtkinter.CTkButton(master = self.picture_selection_frame,
+                                                image = raw_picture_python,
+                                                text = "",
+                                                fg_color = "#BFD4FF",
+                                                bg_color = "#BFD4FF").pack()
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self, mode):

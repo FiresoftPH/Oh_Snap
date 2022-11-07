@@ -20,7 +20,7 @@ class ShowFrame:
         self.img_counter = 0
         self.apath = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
         
-        self.image_list = Stack()
+        self.image_list = Stack([], 8)
         self.image_counter = 0
 
         self.stop_detect = False
@@ -60,7 +60,7 @@ class ShowFrame:
                 # Show camera frames
                 # cv2.imshow("frame", self.frame1)
 
-            elif self.stop_detect == True:
+            elif self.stop_detect == True or self.image_counter == 8:
                 cv2.destroyWindow("Photo") 
                 break
             
@@ -127,6 +127,5 @@ class ShowFrame:
             cv2.destroyWindow("Photo") 
 
             self.image_counter += 1
-            self.stop_detect = False
 
             return self.image_list
