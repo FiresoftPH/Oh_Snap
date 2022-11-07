@@ -27,6 +27,8 @@ class MainUI(customtkinter.CTk):
         self.geometry("1280x800")
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
+        # self.attributes('-fullscreen', True)
+        
         # self.configure(fg_color = "#BFD4FF")
 
         self.main_background = Image.open("Pictures/BG_PG1.png")
@@ -85,10 +87,10 @@ class MainUI(customtkinter.CTk):
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
         
-        self.vertical_frame = Image.open("Pictures/Frame_Vertical.png")
-        self.vertical_frame_resize = self.vertical_frame.resize((503, 791))
+        self.vertical_frame = Image.open("Pictures/VERTICAL_FRAME_(3X2).png")
+        self.vertical_frame_resize = self.vertical_frame.resize((round(0.375 * self.vertical_frame.size[0]), round(0.375 * self.vertical_frame.size[1])))
    
-        self.vertical_frame_picture = ImageTk.PhotoImage(self.vertical_frame)
+        self.vertical_frame_picture = ImageTk.PhotoImage(self.vertical_frame_resize)
 
         self.vertical_frame_button = customtkinter.CTkButton(master = self.frame_selection,
                                                              image = self.vertical_frame_picture,
@@ -104,9 +106,9 @@ class MainUI(customtkinter.CTk):
         
         # Horizontal frame widgets
 
-        self.horizontal_frame = Image.open("Pictures/Frame_Horizontal.png")
-        self.horizontal_frame_resize = self.horizontal_frame.resize((791, 503))
-        self.horizontal_frame_picture = ImageTk.PhotoImage(self.horizontal_frame)
+        self.horizontal_frame = Image.open("Pictures/HORIZONTAL_FRAME_(2X3).png")
+        self.horizontal_frame_resize = self.horizontal_frame.resize((round(0.25 * self.horizontal_frame.size[0]), round(0.25 * self.horizontal_frame.size[1])))
+        self.horizontal_frame_picture = ImageTk.PhotoImage(self.horizontal_frame_resize)
 
         self.horizontal_frame_button = customtkinter.CTkButton(master = self.frame_selection,
                                                                image = self.horizontal_frame_picture,
@@ -129,10 +131,10 @@ class MainUI(customtkinter.CTk):
         # Packing elements in the second frame
 
         self.vertical_frame_label.grid(row = 0, column = 0, padx = 150, pady = 30, sticky = "new", rowspan = 10)
-        self.vertical_frame_button.grid(row = 1, column = 0, padx = 50, pady = 80, sticky = "nsew")
+        self.vertical_frame_button.grid(row = 1, column = 0, padx = 30, pady = 80, sticky = "nsew")
         self.horizontal_frame_label.grid(row = 0, column = 2, padx = 0, pady = 40, sticky = "new", rowspan = 10)
         self.horizontal_frame_button.grid(row = 1, column = 2, padx = 0, pady = 0, sticky = "nsew")
-        self.select_frame_label.grid(row = 2, column = 1, padx = 20, pady = 0, rowspan = 1, columnspan = 1)
+        self.select_frame_label.grid(row = 2, column = 1, padx = 20, pady = 0, rowspan = 1, columnspan = 1, sticky = "ns")
 
         # Camera.py dummy UI here
 
@@ -211,7 +213,9 @@ class MainUI(customtkinter.CTk):
                                                               fg_color = "#5C5C5C",
                                                               border_width = 0)
 
-        # My Progress is right here
+        # Picture selection button
+        self.picture_one = customtkinter.CTkButton(master = self.picture_selection_frame,
+                                                   )
 
     def quit(self, e):
         self.destroy()
@@ -264,9 +268,11 @@ class MainUI(customtkinter.CTk):
 
         # Confirmation Pop-up window setup
         self.confirmation_window = customtkinter.CTkToplevel(self)
+        self.confirmation_window.bind('<Escape>',lambda e: quit(e))
         
         self.confirmation_window.geometry("320x200")
         self.confirmation_window.title("Frame")
+        self.confirmation_window.attributes('-topmost', True)
 
         main_window_x = self.winfo_x()
         main_window_y = self.winfo_y()

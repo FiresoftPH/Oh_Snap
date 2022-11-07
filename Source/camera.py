@@ -32,6 +32,7 @@ class ShowFrame:
         #Start endless loop to create video frame by frame Add details about video size and image post-processing to better identify bodies
         while True:
             
+            key = cv2.waitKey(1)
             if self.stop_detect == False:
                 self.ret, self.frame = self.cap.read()
                 self.flipped = cv2.flip(self.frame, flipCode = 0)
@@ -62,6 +63,11 @@ class ShowFrame:
             elif self.stop_detect == True:
                 cv2.destroyWindow("Photo") 
                 break
+            
+            # elif key % 256 == 27:
+            #     # ESC pressed
+            #     print("Escape hit, closing...")
+            #     break
 
     def show_cam(self):
 
