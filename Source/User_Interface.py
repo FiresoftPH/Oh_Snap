@@ -256,6 +256,9 @@ class MainUI(customtkinter.CTk):
             self.camera.show_cam()
             self.threaded_opencv()
 
+        elif self.camera_image_list.size()  == 8:
+            self.manual_button_label.text = "Continue"
+
         else:
             self.camera_controller_frame.pack_forget()
             self.make_picture_button()
