@@ -1,21 +1,23 @@
-import streamlit as st
+#import streamlit as st
+from flask import Flask, render_template
 import pyqrcode
 import tkinter as tk
 from PIL import ImageTk,Image  
 import os
 import png
 
-link = 'https://share.streamlit.io/785putt/movieselector/main/main.py'
+link = 'http://172.20.10.2:5000'
+#link = 'http://127.0.0.1:5500/tss.html'
 url = pyqrcode.create(link)
 url.png("qrcodela.png", scale=8)
 
 
-# app = Flask(__name__)
-# def flasK():
-#     @app.route("/")
-#     def hello_world(name="Napat"):
-#         return 'Hello %s!' % name
-#     app.run(debug = True) #host= '192.168.1.117'
+app = Flask(__name__)
+def flasK():
+    @app.route("/")
+    def hello_world(name="Napat"):
+        return 'Hello %s!' % name
+    app.run(debug = True, host='172.20.10.2')
 
 
 
@@ -36,10 +38,9 @@ def GuI():
 def openst():
     img_file = 'C:/Users/mrput/Documents/VSProject/OhsnapQR/Imgsavedinto'
     # for i in os.listdir(img_file):
-    #     st.image(i)
-    st.image('opencvframe0.jpg')
+    #     print(i)
 
 while True:
-    #GuI()
+    GuI()
+    flasK()
     break
-openst()
