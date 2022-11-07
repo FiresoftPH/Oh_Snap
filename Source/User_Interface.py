@@ -259,11 +259,11 @@ class MainUI(customtkinter.CTk):
         else:
             self.camera_controller_frame.pack_forget()
             self.make_picture_button()
-            self.picture_selection_frame.pack(fill = "both", expand = 1)
+            self.camera.close_all()
 
     def make_picture_button(self):
         
-        for x in range(7):
+        for x in range(8):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
             os.chdir(directory)
 
@@ -276,13 +276,23 @@ class MainUI(customtkinter.CTk):
             else:
                 scale = tuple([round(raw_picture.size[0] * 0.435 / 2), round(raw_picture.size[1] * 0.435 / 2)])
 
+            if x > 3:
+                row_number = x - 4
+                column_number = 1
+
+            else:
+                row_number = x
+                column_number = 0
+
             raw_picture_resize = raw_picture.resize(scale)
             raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
             operators = customtkinter.CTkButton(master = self.picture_selection_frame,
                                                 image = raw_picture_python,
                                                 text = "",
                                                 fg_color = "#BFD4FF",
-                                                bg_color = "#BFD4FF").pack()
+                                                bg_color = "#BFD4FF").grid(row = row_number, column = column_number)
+        
+        self.picture_selection_frame.pack(fill = "both", expand = 1)
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self, mode):
