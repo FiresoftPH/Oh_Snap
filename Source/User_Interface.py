@@ -36,8 +36,13 @@ remove_cache_photo()
 
 os.chdir(default_directory)
 
+# Global Variables
+frame_mode = 0
+selected_images = Stack([], 6)
+
+
 class MainUI(customtkinter.CTk):
-    def __init__(self):
+    def __init__(self, frame_mode, selected_images):
         super().__init__()
 
         # Main window Setup
@@ -58,13 +63,13 @@ class MainUI(customtkinter.CTk):
                                                        
         self.background_label.place(x = 0, y = 0)
 
-        # Universal class variables
+        # Global class variables
         self.confirmation_window = None
         self.command_code = 0 # For issuing similar commands at different conditions
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
         self.camera = ShowFrame()
-        self.chosen_image = Stack([], 6)
-        self.frame_mode = None
+        self.selected_images = selected_images
+        self.frame_mode = frame_mode
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
@@ -243,9 +248,26 @@ class MainUI(customtkinter.CTk):
                                                          corner_radius = 0,
                                                          fg_color = "#BFD4FF",
                                                          border_width = 0)
+
+        if self.frame_mode == 0:
+            self.frame_image = Image.open("Pictures/VERTICAL_FRAME_(3X2).png")
+            self.frame_scale = tuple([round(self.frame_image.size[0] * 0.435), round(self.frame_image.size[1] * 0.435)])
+            self.frame_image_resize = self.frame_image.resize(self.frame_scale)
+            self.frame_image_python = ImageTk.PhotoImage(self.frame_image_resize)
+            self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
+                                                             image = self.frame_image_python)
+
+            self.picture_grid_label.place(x = 0, y = 0)
+
+        elif self.frame_mode == 1:
+            self.frame_image = Image.open("Pictures/Horizontal_FRAME_(3X2).png")
+            self.frame_scale = tuple([round(self.frame_image.size[0] * 0.4 / 2.2), round(self.frame_image.size[1] * 0.4 / 2.2)])
+            self.frame_image_resize = self.frame_image.resize(self.frame_scale)
+            self.frame_image_python = ImageTk.PhotoImage(self.frame_image_resize)
+            self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
+                                                             image = self.frame_image_python)
         
-        # Picture grid frame label
-        
+            self.picture_grid_label.place(x = 0, y = 0)
         
     def quit(self, e):
         self.destroy()
@@ -297,7 +319,6 @@ class MainUI(customtkinter.CTk):
 
         else:
             self.camera_controller_frame.pack_forget()
-            self.make_picture_preview()
             self.make_picture_button()
             self.camera.close_all()
 
@@ -305,9 +326,9 @@ class MainUI(customtkinter.CTk):
     def make_picture_button(self):
 
         self.picture_selection_frame_label.grid(row = 0, column = 0)
-        for x in range(8):
+        for x in range(self.camera.image_list.size()):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
-            os.chdir(directory)
+            # os.chdir(directory)
 
             image_directory = directory + "/{}".format(self.camera.image_list.search(x))
             raw_picture = Image.open(image_directory)
@@ -328,39 +349,18 @@ class MainUI(customtkinter.CTk):
 
             raw_picture_resize = raw_picture.resize(scale)
             raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
-            operators = customtkinter.CTkButton(master = self.picture_selection_frame,
-                                                image = raw_picture_python,
-                                                text = "",
-                                                fg_color = "#BFD4FF",
-                                                bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
-        
-        self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
-        
-    # Create an array of button for the picture selection frame preview
-    def make_picture_preview(self):
+            customtkinter.CTkButton(master = self.picture_selection_frame,
+                                    image = raw_picture_python,
+                                    text = "",
+                                    fg_color = "#BFD4FF",
+                                    bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
 
-        directory = "/home/pi/Documents/Project/Oh_Snap/Source"
-        os.chdir(directory)
-
-        if self.frame_mode == 0:
-            frame_image = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2).png")
-            frame_scale = tuple([round(frame_image.size[0] * 0.435 / 2.2), round(frame_image.size[1] * 0.435 / 2.2)])
-            frame_image_resize = frame_image.resize(frame_scale)
-            frame_image_python = ImageTk.PhotoImage(frame_image_resize)
-            self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
-                                                             image = frame_image_python)
-
-        elif self.frame_mode == 1:
-            frame_image = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2).png")
-            frame_scale = tuple([round(frame_image.size[0] * 0.435 / 2.2), round(frame_image.size[1] * 0.435 / 2.2)])
-            frame_image_resize = frame_image.resize(frame_scale)
-            frame_image_python = ImageTk.PhotoImage(frame_image_resize)
-            self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
-                                                             image = frame_image_python)
-
-        self.picture_grid_label.place(x = 0, y = 0)
-        self.picture_grid_frame.pack(side = "right", padx = 20, pady = 20, fill = "both")
-
+        self.camera_controller_frame.pack_forget()
+        self.picture_selection_frame.grid(row = 0, column = 0, padx = 20, pady = 20) 
+        self.picture_grid_frame.grid(row = 0, column = 1)
+                                   
+        # self.picture_grid_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
+        # self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self, mode):
@@ -420,5 +420,5 @@ class MainUI(customtkinter.CTk):
         confirmation_button_yes.place(x = 60, y = 100)
         confirmation_button_no.place(x = 200, y = 100)
 
-app = MainUI()
+app = MainUI(frame_mode, selected_images)
 app.mainloop()
