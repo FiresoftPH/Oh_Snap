@@ -20,6 +20,21 @@ from data_structure import Stack, SinglyLinkedList
 from camera import ShowFrame
 
 # print(os.getcwd())
+default_directory = os.getcwd()
+
+# This process is here to make sure that overridden does not happen too much
+def remove_cache_photo():
+    os.chdir("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images")
+    for x in range(8):
+        file_name = "Photo_{}".format(x)
+        if os.path.exists(file_name):
+            os.remove(file_name)
+        else:
+            pass
+
+remove_cache_photo()
+
+os.chdir(default_directory)
 
 class MainUI(customtkinter.CTk):
     def __init__(self):
@@ -215,6 +230,13 @@ class MainUI(customtkinter.CTk):
                                                               fg_color = "#BFD4FF",
                                                               border_width = 0)
 
+        # Select Image label
+        self.picture_selection_frame_label = customtkinter.CTkLabel(master = self.picture_selection_frame,
+                                                                    text_font = ("Inter", 25, "underline"),
+                                                                    text = "Select Image",
+                                                                    fg_color = "#BFD4FF")
+
+        
     def quit(self, e):
         self.destroy()
 
@@ -244,10 +266,10 @@ class MainUI(customtkinter.CTk):
     # Using threading, the two process can run simulataneously
     def threaded_opencv(self):
         thread_1 = threading.Thread(target = self.change_to_camera_instructions_frame)
-        thread_2 = threading.Thread(target = self.run_hand_detect)
+        # thread_2 = threading.Thread(target = self.run_hand_detect)
 
         thread_1.start()
-        thread_2.start()
+        # thread_2.start()
 
     # Taking a photo
     def take_picture(self):
@@ -256,8 +278,12 @@ class MainUI(customtkinter.CTk):
             self.camera.show_cam()
             self.threaded_opencv()
 
-        elif self.camera_image_list.size()  == 8:
+        elif self.camera.image_list.size()  == 8:
             self.manual_button_label.text = "Continue"
+            self.update()
+            self.camera_controller_frame.pack_forget()
+            self.make_picture_button()
+            self.camera.close_all()
 
         else:
             self.camera_controller_frame.pack_forget()
@@ -266,6 +292,8 @@ class MainUI(customtkinter.CTk):
 
     def make_picture_button(self):
         
+        self.picture_selection_frame_label.grid(row = 0, column = 2)
+        self.picture_selection_frame.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
         for x in range(8):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
             os.chdir(directory)
@@ -274,17 +302,17 @@ class MainUI(customtkinter.CTk):
             raw_picture = Image.open(image_directory)
 
             if self.frame_mode == 1:
-                scale = tuple([round(raw_picture.size[0] * 0.4 / 2), round(raw_picture.size[1] * 0.4 / 2)])
+                scale = tuple([round(raw_picture.size[0] * 0.4 / 2.2), round(raw_picture.size[1] * 0.4 / 2.2)])
                 
             else:
-                scale = tuple([round(raw_picture.size[0] * 0.435 / 2), round(raw_picture.size[1] * 0.435 / 2)])
+                scale = tuple([round(raw_picture.size[0] * 0.435 / 2.2), round(raw_picture.size[1] * 0.435 / 2.2)])
 
             if x > 3:
-                row_number = x - 4
+                row_number = (x + 1) - 4
                 column_number = 1
 
             else:
-                row_number = x
+                row_number = x + 1
                 column_number = 0
 
             raw_picture_resize = raw_picture.resize(scale)
@@ -293,9 +321,8 @@ class MainUI(customtkinter.CTk):
                                                 image = raw_picture_python,
                                                 text = "",
                                                 fg_color = "#BFD4FF",
-                                                bg_color = "#BFD4FF").grid(row = row_number, column = column_number)
-        
-        self.picture_selection_frame.pack(fill = "both", expand = 1)
+                                                bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
+
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self, mode):

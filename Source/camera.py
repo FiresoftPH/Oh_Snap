@@ -72,7 +72,7 @@ class ShowFrame:
     def show_cam(self):
 
         self.stop_detect = True
-        TIMER = int(5)
+        TIMER = int(3)
         
         prev = time.time()
         
@@ -86,8 +86,8 @@ class ShowFrame:
             # countdown using puttext
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(resize, str(TIMER),
-                        (50, 50), font,
-                        1, (0, 255, 255),
+                        (50, 120), font,
+                        3, (0, 255, 255),
                         2, cv2.LINE_4)
             cv2.imshow('Photo', resize)
             cv2.waitKey(125)
