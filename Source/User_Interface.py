@@ -26,7 +26,7 @@ default_directory = os.getcwd()
 def remove_cache_photo():
     os.chdir("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images")
     for x in range(8):
-        file_name = "Photo_{}".format(x)
+        file_name = "Photo_{}.jpg".format(x)
         if os.path.exists(file_name):
             os.remove(file_name)
         else:
@@ -224,7 +224,7 @@ class MainUI(customtkinter.CTk):
 
         # Picture selection
         self.picture_selection_frame = customtkinter.CTkFrame(master = self,
-                                                              width = 960,
+                                                              width = 460,
                                                               height = 600,
                                                               corner_radius = 0,
                                                               fg_color = "#BFD4FF",
@@ -236,6 +236,16 @@ class MainUI(customtkinter.CTk):
                                                                     text = "Select Image",
                                                                     fg_color = "#BFD4FF")
 
+        # Picture grid frame
+        self.picture_grid_frame = customtkinter.CTkFrame(master = self,
+                                                         width = 460,
+                                                         height = 600,
+                                                         corner_radius = 0,
+                                                         fg_color = "#BFD4FF",
+                                                         border_width = 0)
+        
+        # Picture grid frame label
+        
         
     def quit(self, e):
         self.destroy()
@@ -278,22 +288,23 @@ class MainUI(customtkinter.CTk):
             self.camera.show_cam()
             self.threaded_opencv()
 
-        elif self.camera.image_list.size()  == 8:
-            self.manual_button_label.text = "Continue"
-            self.update()
-            self.camera_controller_frame.pack_forget()
-            self.make_picture_button()
-            self.camera.close_all()
+        # elif self.camera.image_list.size()  == 8:
+        #     self.manual_button_label.text = "Continue"
+        #     self.update()
+        #     self.camera_controller_frame.pack_forget()
+        #     self.make_picture_button()
+        #     self.camera.close_all()
 
         else:
             self.camera_controller_frame.pack_forget()
+            self.make_picture_preview()
             self.make_picture_button()
             self.camera.close_all()
 
+    # Create similar button and frame for the picture selection
     def make_picture_button(self):
-        
-        self.picture_selection_frame_label.grid(row = 0, column = 2)
-        self.picture_selection_frame.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
+
+        self.picture_selection_frame_label.grid(row = 0, column = 0)
         for x in range(8):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
             os.chdir(directory)
@@ -308,11 +319,11 @@ class MainUI(customtkinter.CTk):
                 scale = tuple([round(raw_picture.size[0] * 0.435 / 2.2), round(raw_picture.size[1] * 0.435 / 2.2)])
 
             if x > 3:
-                row_number = (x + 1) - 4
+                row_number = x - 4
                 column_number = 1
 
             else:
-                row_number = x + 1
+                row_number = x 
                 column_number = 0
 
             raw_picture_resize = raw_picture.resize(scale)
@@ -322,6 +333,33 @@ class MainUI(customtkinter.CTk):
                                                 text = "",
                                                 fg_color = "#BFD4FF",
                                                 bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
+        
+        self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
+        
+    # Create an array of button for the picture selection frame preview
+    def make_picture_preview(self):
+
+        directory = "/home/pi/Documents/Project/Oh_Snap/Source"
+        os.chdir(directory)
+
+        if self.frame_mode == 0:
+            frame_image = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2).png")
+            frame_scale = tuple([round(frame_image.size[0] * 0.435 / 2.2), round(frame_image.size[1] * 0.435 / 2.2)])
+            frame_image_resize = frame_image.resize(frame_scale)
+            frame_image_python = ImageTk.PhotoImage(frame_image_resize)
+            self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
+                                                             image = frame_image_python)
+
+        elif self.frame_mode == 1:
+            frame_image = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2).png")
+            frame_scale = tuple([round(frame_image.size[0] * 0.435 / 2.2), round(frame_image.size[1] * 0.435 / 2.2)])
+            frame_image_resize = frame_image.resize(frame_scale)
+            frame_image_python = ImageTk.PhotoImage(frame_image_resize)
+            self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
+                                                             image = frame_image_python)
+
+        self.picture_grid_label.place(x = 0, y = 0)
+        self.picture_grid_frame.pack(side = "right", padx = 20, pady = 20, fill = "both")
 
 
     # Create a pop-up confirmation window
