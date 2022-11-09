@@ -125,13 +125,3 @@ class SinglyLinkedList:
         while (operation):
             print(operation.data)
             operation = operation.next
-
-test = SinglyLinkedList()
-test.add(1)
-test.add(2)
-test.add(3)
-
-test.printList()
-print(test.search(1))
-print(test.search(2))
-print(test.search(3))
