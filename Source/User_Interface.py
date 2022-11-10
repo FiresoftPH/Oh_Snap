@@ -1,4 +1,4 @@
-# Import required Libraries
+       # Import required Libraries
 import os
 import customtkinter
 from PIL import Image, ImageTk
@@ -39,6 +39,7 @@ os.chdir(default_directory)
 # Global Variables
 frame_mode = 0
 selected_images = Stack([], 6)
+picture_button_list = []
 
 
 class MainUI(customtkinter.CTk):
@@ -78,8 +79,9 @@ class MainUI(customtkinter.CTk):
                                                   corner_radius = 0,
                                                   fg_color = "#BFD4FF")
         
-        self.logo = Image.open("Pictures/logo.png")
-        self.logo_resize = self.logo.resize((706, 476))
+        self.logo = Image.open("Pictures/New_Logo.png")
+        # print(self.logo.size)
+        self.logo_resize = self.logo.resize((605, 650))
         self.logo_picture = ImageTk.PhotoImage(self.logo_resize)
         self.logo = customtkinter.CTkLabel(master = self.start_frame,
                                            image = self.logo_picture)
@@ -95,7 +97,7 @@ class MainUI(customtkinter.CTk):
                                                     corner_radius = 50)
         
         # Placing Elements in the first frame
-        self.logo.grid(row = 0, column = 0, pady = 30, padx = 250)
+        self.logo.grid(row = 0, column = 0, pady = 0, padx = 300)
         self.start_button.grid(row = 1, column = 0, pady = 0, padx = 0)
         self.start_frame.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
 
@@ -310,13 +312,6 @@ class MainUI(customtkinter.CTk):
             self.camera.show_cam()
             self.threaded_opencv()
 
-        # elif self.camera.image_list.size()  == 8:
-        #     self.manual_button_label.text = "Continue"
-        #     self.update()
-        #     self.camera_controller_frame.pack_forget()
-        #     self.make_picture_button()
-        #     self.camera.close_all()
-
         else:
             self.camera_controller_frame.pack_forget()
             self.make_picture_button()
@@ -324,13 +319,20 @@ class MainUI(customtkinter.CTk):
 
     # Create similar button and frame for the picture selection
     def make_picture_button(self):
+        
+        for y in range(self.camera.image_list.size()):
+            button_name = "Button_{}".format(self.camera.image_list.search(y))
+            picture_button_list.append(button_name)
+
+        print(picture_button_list)
 
         self.picture_selection_frame_label.grid(row = 0, column = 0)
         for x in range(self.camera.image_list.size()):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
-            # os.chdir(directory)
-
-            image_directory = directory + "/{}".format(self.camera.image_list.search(x))
+            
+            index = self.camera.image_list.search(x)
+            print(index)
+            image_directory = directory + "/{}".format(index)
             raw_picture = Image.open(image_directory)
 
             if self.frame_mode == 1:
@@ -347,20 +349,26 @@ class MainUI(customtkinter.CTk):
                 row_number = x 
                 column_number = 0
 
+            button_command = self.picture_selection_button_function(self.camera.image_list.search(x))
             raw_picture_resize = raw_picture.resize(scale)
             raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
-            customtkinter.CTkButton(master = self.picture_selection_frame,
-                                    image = raw_picture_python,
-                                    text = "",
-                                    fg_color = "#BFD4FF",
-                                    bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
+            picture_button_list[x] = customtkinter.CTkButton(master = self.picture_selection_frame,
+                                               image = raw_picture_python,
+                                               text = "",
+                                               command = lambda: button_command,
+                                               fg_color = "#BFD4FF",
+                                               bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
+        
+        self.camera_controller_frame.pack_forget()                        
+        self.picture_grid_frame.pack(side = "right", padx = 20, pady = 20, fill = "both", expand = 1)
+        self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
 
-        self.camera_controller_frame.pack_forget()
-        self.picture_selection_frame.grid(row = 0, column = 0, padx = 20, pady = 20) 
-        self.picture_grid_frame.grid(row = 0, column = 1)
-                                   
-        # self.picture_grid_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
-        # self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
+    # Defining Picture selection buttons functions according to the padding position
+
+    def picture_selection_button_function(self, index):
+        
+        print(index)
+        pass
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self, mode):
