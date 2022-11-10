@@ -1,5 +1,6 @@
-       # Import required Libraries
+# Import required Libraries
 import os
+import random
 import customtkinter
 from PIL import Image, ImageTk
 import threading
@@ -253,13 +254,13 @@ class MainUI(customtkinter.CTk):
 
         if self.frame_mode == 0:
             self.frame_image = Image.open("Pictures/VERTICAL_FRAME_(3X2).png")
-            self.frame_scale = tuple([round(self.frame_image.size[0] * 0.435), round(self.frame_image.size[1] * 0.435)])
+            self.frame_scale = tuple([round(self.frame_image.size[0] * 0.46), round(self.frame_image.size[1] * 0.46)])
             self.frame_image_resize = self.frame_image.resize(self.frame_scale)
             self.frame_image_python = ImageTk.PhotoImage(self.frame_image_resize)
             self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
                                                              image = self.frame_image_python)
 
-            self.picture_grid_label.place(x = 70, y = 90)
+            self.picture_grid_label.place(x = 40, y = 90)
 
         elif self.frame_mode == 1:
             self.frame_image = Image.open("Pictures/Horizontal_FRAME_(3X2).png")
@@ -344,13 +345,21 @@ class MainUI(customtkinter.CTk):
                 column_number = 0
 
             # Defining Picture selection buttons functions according to the padding position
-
-            def picture_selection_button_function(index = self.camera.image_list.search(x)):
-        
-                print(index)
-
             raw_picture_resize = raw_picture.resize(scale)
             raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
+
+            def picture_selection_button_function(photo_number = self.camera.image_list.search(x), selected_photo = raw_picture_python):
+                
+                selected_photo = customtkinter.CTkButton(master = self.picture_grid_frame,
+                                                         image = selected_photo,
+                                                         text = "",
+                                                         command = None,
+                                                         fg_color = "#BFD4FF",
+                                                         bg_color = "#BFD4FF")
+
+                
+                selected_photo.place(x = 70, y = 120)
+
             picture_button_dictionary[x] = customtkinter.CTkButton(master = self.picture_selection_frame,
                                                                    image = raw_picture_python,
                                                                    text = "",
