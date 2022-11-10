@@ -15,6 +15,11 @@ Oh Snap! is a mini PhotoBooth Project that uses Rasperry Pi 4B as the main compu
 
 Install the following libraries required to run the software
 
+Update your Raspberry Pi OS
+```bash
+sudo apt-get update && sudo apt-get upgrade
+```
+
 MediaPipe and OpenCV
 ```bash
 sudo apt-get install python-opencv python3-opencv opencv-data
@@ -36,17 +41,8 @@ sudo pip3 install Pillow
 
 ## Usage
 
-```python
-import foobar
-
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
+```terminal
+test
 ```
 
 ## Contributing
