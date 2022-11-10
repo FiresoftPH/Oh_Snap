@@ -4,10 +4,14 @@ Foobar is a Python library for dealing with word pluralization.
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Install the following libraries required to run the software
 
 ```bash
-pip install foobar
+sudo apt-get install python-opencv python3-opencv opencv-data
+sudo pip3 install mediapipe-rpi3
+sudo pip3 install mediapipe-rpi4
+sudo pip3 install gtts
+sudo apt install mpg321
 ```
 
 ## Usage
