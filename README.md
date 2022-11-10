@@ -23,9 +23,17 @@ sudo apt-get update && sudo apt-get upgrade
 MediaPipe and OpenCV
 ```bash
 sudo apt-get install python-opencv python3-opencv opencv-data
+```
+```bash
 sudo pip3 install mediapipe-rpi3
+```
+```bash
 sudo pip3 install mediapipe-rpi4
+```
+```bash
 sudo pip3 install gtts
+```
+```bash
 sudo apt install mpg321
 ```
 
@@ -39,10 +47,15 @@ Pillow (For Pictures)
 sudo pip3 install Pillow
 ```
 
+Flask
+```bash
+sudo pip3 install Flask
+```
+
 ## Usage
 
 ```terminal
-test
+TBA
 ```
 
 ## Contributing
