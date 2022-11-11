@@ -271,7 +271,22 @@ class MainUI(customtkinter.CTk):
                                                              image = self.frame_image_python)
         
             self.picture_grid_label.place(x = 0, y = 0)
+
+        self.reset_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Reset_Button.png")
+        self.reset_button_scale = (61, 61)
+        self.reset_button_resize = self.reset_button.resize(self.reset_button_scale)
+        self.reset_button_image_python = ImageTk.PhotoImage(self.reset_button_resize)
+        self.reset_picture_selection_button = customtkinter.CTkButton(master = self.picture_grid_frame,
+                                                                      image = self.reset_button_image_python,
+                                                                      text = "",
+                                                                      width = 0,
+                                                                      height = 0,
+                                                                      command = None,
+                                                                      bg_color = "#FFFFFF",
+                                                                      fg_color = "#FFFFFF")
         
+        self.reset_picture_selection_button.place(x = 50, y = 50)
+
     def quit(self, e):
         self.destroy()
 
@@ -360,7 +375,7 @@ class MainUI(customtkinter.CTk):
                                                          fg_color = "#FFFFFF",
                                                          bg_color = "#FFFFFF")
                 if self.frame_mode == 0:
-                    
+
                     if selected_images.size() == 1:
                         selected_photo.place(x = 64, y = 191)
 
