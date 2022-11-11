@@ -271,7 +271,22 @@ class MainUI(customtkinter.CTk):
                                                              image = self.frame_image_python)
         
             self.picture_grid_label.place(x = 0, y = 0)
+
+        self.reset_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Reset_Button.png")
+        self.reset_button_scale = (61, 61)
+        self.reset_button_resize = self.reset_button.resize(self.reset_button_scale)
+        self.reset_button_image_python = ImageTk.PhotoImage(self.reset_button_resize)
+        self.reset_picture_selection_button = customtkinter.CTkButton(master = self.picture_grid_frame,
+                                                                      image = self.reset_button_image_python,
+                                                                      text = "",
+                                                                      width = 0,
+                                                                      height = 0,
+                                                                      command = None,
+                                                                      bg_color = "#FFFFFF",
+                                                                      fg_color = "#FFFFFF")
         
+        self.reset_picture_selection_button.place(x = 50, y = 50)
+
     def quit(self, e):
         self.destroy()
 
@@ -326,7 +341,7 @@ class MainUI(customtkinter.CTk):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
             
             index = self.camera.image_list.search(x)
-            print(index)
+            # print(index)
             image_directory = directory + "/{}".format(index)
             raw_picture = Image.open(image_directory)
 
@@ -334,7 +349,7 @@ class MainUI(customtkinter.CTk):
                 scale = tuple([round(raw_picture.size[0] * 0.4 / 2.2), round(raw_picture.size[1] * 0.4 / 2.2)])
                 
             else:
-                scale = tuple([round(raw_picture.size[0] * 0.435 / 2.2), round(raw_picture.size[1] * 0.435 / 2.2)])
+                scale = tuple([round(raw_picture.size[0] * 0.435 / 2.19), round(raw_picture.size[1] * 0.435 / 2.19)])
 
             if x > 3:
                 row_number = x - 4
@@ -350,15 +365,34 @@ class MainUI(customtkinter.CTk):
 
             def picture_selection_button_function(photo_number = self.camera.image_list.search(x), selected_photo = raw_picture_python):
                 
+
+                selected_images.push(photo_number)
+                print(selected_images.look())
                 selected_photo = customtkinter.CTkButton(master = self.picture_grid_frame,
                                                          image = selected_photo,
                                                          text = "",
                                                          command = None,
-                                                         fg_color = "#BFD4FF",
-                                                         bg_color = "#BFD4FF")
+                                                         fg_color = "#FFFFFF",
+                                                         bg_color = "#FFFFFF")
+                if self.frame_mode == 0:
 
-                
-                selected_photo.place(x = 70, y = 120)
+                    if selected_images.size() == 1:
+                        selected_photo.place(x = 64, y = 191)
+
+                    elif selected_images.size() == 2:
+                        selected_photo.place(x = 330, y = 191)
+
+                    elif selected_images.size() == 3:
+                        selected_photo.place(x = 64, y = 361)
+
+                    elif selected_images.size() == 4:
+                        selected_photo.place(x = 330, y = 361)
+
+                    elif selected_images.size() == 5:
+                        selected_photo.place(x = 64, y = 531)
+
+                    elif selected_images.size() == 6:
+                        selected_photo.place(x = 330, y = 531)
 
             picture_button_dictionary[x] = customtkinter.CTkButton(master = self.picture_selection_frame,
                                                                    image = raw_picture_python,
