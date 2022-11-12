@@ -12,7 +12,8 @@ of the images and files to Linux syntax and everything should work fine.
 
 """
 Command Codes List (The number corresponds to the command)
-1. 
+1. Destroying the widget packing inside the picture_selection frame
+
 """
 
 # Importing other python scripts from other files
@@ -39,9 +40,10 @@ os.chdir(default_directory)
 
 # Global Variables
 frame_mode = 0
-selected_images = Stack([], 6)
+selected_images = []
 picture_button_dictionary = {}
-
+command_code = 0
+window_state = 0
 
 class MainUI(customtkinter.CTk):
     def __init__(self, frame_mode, selected_images):
@@ -51,6 +53,7 @@ class MainUI(customtkinter.CTk):
         self.geometry("1280x800")
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
+        self.bind('<Button-2>', lambda p: self.minimize(window_state, p))
         # self.attributes('-fullscreen', True)
         
         # self.configure(fg_color = "#BFD4FF")
@@ -67,7 +70,6 @@ class MainUI(customtkinter.CTk):
 
         # Global class variables
         self.confirmation_window = None
-        self.command_code = 0 # For issuing similar commands at different conditions
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
         self.camera = ShowFrame()
         self.selected_images = selected_images
@@ -281,14 +283,25 @@ class MainUI(customtkinter.CTk):
                                                                       text = "",
                                                                       width = 0,
                                                                       height = 0,
-                                                                      command = None,
+                                                                      command = self.reset_all_selection,
                                                                       bg_color = "#FFFFFF",
-                                                                      fg_color = "#FFFFFF")
+                                                                      fg_color = "#FFFFFF",
+                                                                      hover = False)
         
-        self.reset_picture_selection_button.place(x = 50, y = 50)
+        self.reset_picture_selection_button.place(x = 520, y = 110)
 
+    # Destroy the window
     def quit(self, e):
         self.destroy()
+    
+    # Minimize window
+    def minimize(self, window_state, e):
+        if window_state == 0:
+            self.attributes('-fullscreen', False)
+            window_state += 1
+        elif window_state == 1:
+            self.attributes('-fullscreen', True)
+            window_state = 0
 
     # Change to selecting frame style for the photobooth
     def change_to_select_frame(self):
@@ -363,36 +376,41 @@ class MainUI(customtkinter.CTk):
             raw_picture_resize = raw_picture.resize(scale)
             raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
 
-            def picture_selection_button_function(photo_number = self.camera.image_list.search(x), selected_photo = raw_picture_python):
+            def picture_selection_button_function(photo_number = picture_button_dictionary, selected_photo = raw_picture_python):
                 
-
-                selected_images.push(photo_number)
-                print(selected_images.look())
-                selected_photo = customtkinter.CTkButton(master = self.picture_grid_frame,
+                selected_images.append(selected_photo)
+                selected_images[len(selected_images) - 1] = customtkinter.CTkButton(master = self.picture_grid_frame,
                                                          image = selected_photo,
                                                          text = "",
                                                          command = None,
                                                          fg_color = "#FFFFFF",
-                                                         bg_color = "#FFFFFF")
+                                                         bg_color = "#FFFFFF",
+                                                         hover = False)
+                
+                selected_photo = selected_images[len(selected_images) - 1]
+                print(selected_images)
                 if self.frame_mode == 0:
 
-                    if selected_images.size() == 1:
+                    if len(selected_images) == 1:
                         selected_photo.place(x = 64, y = 191)
 
-                    elif selected_images.size() == 2:
+                    elif len(selected_images) == 2:
                         selected_photo.place(x = 330, y = 191)
 
-                    elif selected_images.size() == 3:
+                    elif len(selected_images) == 3:
                         selected_photo.place(x = 64, y = 361)
 
-                    elif selected_images.size() == 4:
+                    elif len(selected_images) == 4:
                         selected_photo.place(x = 330, y = 361)
 
-                    elif selected_images.size() == 5:
+                    elif len(selected_images) == 5:
                         selected_photo.place(x = 64, y = 531)
 
-                    elif selected_images.size() == 6:
+                    elif len(selected_images) == 6:
                         selected_photo.place(x = 330, y = 531)
+
+                    else:
+                        print("Picture Strip is full")
 
             picture_button_dictionary[x] = customtkinter.CTkButton(master = self.picture_selection_frame,
                                                                    image = raw_picture_python,
@@ -400,10 +418,24 @@ class MainUI(customtkinter.CTk):
                                                                    command = picture_selection_button_function,
                                                                    fg_color = "#BFD4FF",
                                                                    bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
-        
+            
+            picture_button_dictionary[x] = index
+            
+        print(picture_button_dictionary)
+
         self.camera_controller_frame.pack_forget()                        
         self.picture_grid_frame.pack(side = "right", padx = 20, pady = 20, fill = "both", expand = 1)
         self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
+
+    # Picture selection button function
+    def reset_all_selection(self):
+        for button in selected_images:
+            button.place_forget()
+        selected_images.clear()
+        # self.picture_grid_frame.pack_forget()
+        # self.picture_selection_frame.pack_forget()
+
+        # self.make_picture_button()
 
     # Create a pop-up confirmation window
     def confirmation_pop_up(self, mode):
