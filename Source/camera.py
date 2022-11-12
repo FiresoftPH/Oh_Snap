@@ -78,7 +78,7 @@ class ShowFrame:
         
         while TIMER >= 0:
             ret, img = self.cap.read()
-            flip = cv2.flip(img, flipCode = 0)
+            flip = cv2.flip(img, flipCode = 1)
             resize = cv2.resize(flip, (1280, 800))
 
             # Display countdown on each frame
@@ -104,7 +104,7 @@ class ShowFrame:
 
         else:
             ret, img = self.cap.read()
-            flip = cv2.flip(img, flipCode = 0)
+            flip = cv2.flip(img, flipCode = 1)
             resize = cv2.resize(flip, (1280, 800))
 
             # Display the clicked frame for 2

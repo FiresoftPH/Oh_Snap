@@ -38,6 +38,10 @@ class Stack:
     def search(self, index):
         return self.data[index]
 
+    def clear(self):
+        self.data = []
+        return self.data
+
 # Node Class for linked list
 class Node:
     def __init__(self,initdata):
