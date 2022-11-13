@@ -1,24 +1,9 @@
-import customtkinter
-from PIL import Image, ImageTk
-app = customtkinter.CTk()
-app.geometry("1280x800")
+test_var = 0
 
-frame = customtkinter.CTkFrame(master = app,
-                               width = 1280,
-                               height = 800)
+def changeVar(value):
+    test_var = value
+    return test_var
 
-frame.pack()
-
-buttonArray = {}
-def makeButton():
-    for count in range(3):
-        def buttonCommand(index = count):
-            print(index)
-
-        buttonArray[count] = customtkinter.CTkButton(master = frame, text = count, command = buttonCommand)
-        buttonArray[count].pack()
-
-
-makeButton()
-
-app.mainloop()
+for x in range(10):
+    changeVar(x)
+    print(test_var)

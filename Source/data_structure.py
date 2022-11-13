@@ -8,11 +8,15 @@ class Stack:
     def look(self):
         return self.data
 
+    def get_data(self, index):
+        return self.data[index]
+
     def push(self, item):
         if self.size() == self.limit:
             return "Stack is full"
         else:
-            return self.data.insert(0, item)
+            self.data.insert(0, item)
+            return self.peek()
 
     def pop(self, index):
         if len(self.data) == 0:
