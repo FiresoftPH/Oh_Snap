@@ -322,34 +322,48 @@ class MainUI(customtkinter.CTk):
             self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
                                                              image = self.frame_image_python)
 
+            self.reset_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Reset_Button.png")
+            self.reset_button_scale = (61, 61)
+            self.reset_button_resize = self.reset_button.resize(self.reset_button_scale)
+            self.reset_button_image_python = ImageTk.PhotoImage(self.reset_button_resize)
+            self.reset_picture_selection_button = customtkinter.CTkButton(master = self.picture_grid_frame,
+                                                                        image = self.reset_button_image_python,
+                                                                        text = "",
+                                                                        width = 0,
+                                                                        height = 0,
+                                                                        command = self.reset_all_selection,
+                                                                        bg_color = "#FFFFFF",
+                                                                        fg_color = "#FFFFFF",
+                                                                        hover = False)
+                                                                      
             self.picture_grid_label.place(x = 40, y = 90)
+            self.reset_picture_selection_button.place(x = 520, y = 110)
 
         elif frame_mode == 2:
             self.frame_image = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3).png")
-            self.frame_scale = tuple([round(self.frame_image.size[0] * 0.4 / 2.2), round(self.frame_image.size[1] * 0.4 / 2.2)])
+            self.frame_scale = tuple([round(self.frame_image.size[0] * 0.4), round(self.frame_image.size[1] * 0.4)])
             self.frame_image_resize = self.frame_image.resize(self.frame_scale)
             self.frame_image_python = ImageTk.PhotoImage(self.frame_image_resize)
             self.picture_grid_label = customtkinter.CTkLabel(master = self.picture_grid_frame,
                                                              image = self.frame_image_python)
-        
-            self.picture_grid_label.place(x = 0, y = 0)
 
-        self.reset_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Reset_Button.png")
-        self.reset_button_scale = (61, 61)
-        self.reset_button_resize = self.reset_button.resize(self.reset_button_scale)
-        self.reset_button_image_python = ImageTk.PhotoImage(self.reset_button_resize)
-        self.reset_picture_selection_button = customtkinter.CTkButton(master = self.picture_grid_frame,
-                                                                      image = self.reset_button_image_python,
-                                                                      text = "",
-                                                                      width = 0,
-                                                                      height = 0,
-                                                                      command = self.reset_all_selection,
-                                                                      bg_color = "#FFFFFF",
-                                                                      fg_color = "#FFFFFF",
-                                                                      hover = False)
+            self.reset_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Reset_Button.png")
+            self.reset_button_scale = (61, 61)
+            self.reset_button_resize = self.reset_button.resize(self.reset_button_scale)
+            self.reset_button_image_python = ImageTk.PhotoImage(self.reset_button_resize)
+            self.reset_picture_selection_button = customtkinter.CTkButton(master = self.picture_grid_frame,
+                                                                        image = self.reset_button_image_python,
+                                                                        text = "",
+                                                                        width = 0,
+                                                                        height = 0,
+                                                                        command = self.reset_all_selection,
+                                                                        bg_color = "#FFFFFF",
+                                                                        fg_color = "#FFFFFF",
+                                                                        hover = False)
+                                                                      
+            self.picture_grid_label.place(x = 25, y = 150)
+            self.reset_picture_selection_button.place(x = 570, y = 160)
         
-        self.reset_picture_selection_button.place(x = 520, y = 110)
-
     # Create similar button and frame for the picture selection
     def make_picture_button(self):
 
@@ -358,7 +372,7 @@ class MainUI(customtkinter.CTk):
         global selected_images
         selected_images = []
 
-        # self.picture_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
+        self.picture_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
         for x in range(self.camera.image_list.size()):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
             
@@ -368,7 +382,7 @@ class MainUI(customtkinter.CTk):
             raw_picture = Image.open(image_directory)
 
             if frame_mode == 2:
-                scale = tuple([round(raw_picture.size[0] * 0.4 / 2.155), round(raw_picture.size[1] * 0.4 / 2.155)])
+                scale = tuple([round(raw_picture.size[0] * 0.4 / 2.53), round(raw_picture.size[1] * 0.4 / 2.53)])
                 
             else:
                 scale = tuple([round(raw_picture.size[0] * 0.435 / 2.19), round(raw_picture.size[1] * 0.435 / 2.19)])
@@ -387,8 +401,6 @@ class MainUI(customtkinter.CTk):
 
             def picture_selection_button_function(selected_photo = raw_picture_python):
                 
-                # Storing the image data
-                selected_images.append(selected_photo)
                 # This is for making sure that the array will not go out of range
                 selected_button.append(selected_photo)
                 selected_button[len(selected_images) - 1] = customtkinter.CTkButton(master = self.picture_grid_frame,
@@ -399,27 +411,50 @@ class MainUI(customtkinter.CTk):
                                                          bg_color = "#FFFFFF",
                                                          hover = False)
                 
-                selected_photo = selected_button[len(selected_images) - 1]
-                print(selected_images)
+                selected_photo = selected_button[len(selected_button) - 1]
+                print(selected_button)
                 if frame_mode == 1:
 
-                    if len(selected_images) == 1:
+                    if len(selected_button) == 1:
                         selected_photo.place(x = 64, y = 191)
 
-                    elif len(selected_images) == 2:
+                    elif len(selected_button) == 2:
                         selected_photo.place(x = 330, y = 191)
 
-                    elif len(selected_images) == 3:
+                    elif len(selected_button) == 3:
                         selected_photo.place(x = 64, y = 361)
 
-                    elif len(selected_images) == 4:
+                    elif len(selected_button) == 4:
                         selected_photo.place(x = 330, y = 361)
 
-                    elif len(selected_images) == 5:
+                    elif len(selected_button) == 5:
                         selected_photo.place(x = 64, y = 531)
 
-                    elif len(selected_images) == 6:
+                    elif len(selected_button) == 6:
                         selected_photo.place(x = 330, y = 531)
+
+                    else:
+                        print("Picture Strip is full")
+
+                elif frame_mode == 2:
+
+                    if len(selected_button) == 1:
+                        selected_photo.place(x = 41, y = 242)
+
+                    elif len(selected_button) == 2:
+                        selected_photo.place(x = 255, y = 242)
+
+                    elif len(selected_button) == 3:
+                        selected_photo.place(x = 469, y = 242)
+
+                    elif len(selected_button) == 4:
+                        selected_photo.place(x = 41, y = 421)
+
+                    elif len(selected_button) == 5:
+                        selected_photo.place(x = 255, y = 421)
+
+                    elif len(selected_button) == 6:
+                        selected_photo.place(x = 469, y = 421)
 
                     else:
                         print("Picture Strip is full")
@@ -432,6 +467,7 @@ class MainUI(customtkinter.CTk):
                                                                    command = picture_selection_button_function,
                                                                    fg_color = "#BFD4FF",
                                                                    bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
+
 
         self.camera_controller_frame.pack_forget()                        
         self.picture_grid_frame.pack(side = "right", padx = 20, pady = 20, fill = "both", expand = 1)
