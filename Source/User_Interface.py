@@ -260,13 +260,31 @@ class MainUI(customtkinter.CTk):
 
         # Next Page button for the picture selection frame
         self.next_page_button = customtkinter.CTkButton(master = self.picture_grid_frame, 
-                                                       width = 0,
-                                                       height = 0,
-                                                       image = self.next_button_image,
-                                                       hover = False,
-                                                       command = self.change_to_filter_selection_frame,
-                                                       fg_color = "#BFD4FF",
-                                                       text = "")
+                                                        width = 0,
+                                                        height = 0,
+                                                        image = self.next_button_image,
+                                                        hover = False,
+                                                        command = self.change_to_filter_selection_frame,
+                                                        fg_color = "#BFD4FF",
+                                                        text = "")
+
+        # Theme selection button frame
+        self.filter_selection_frame = customtkinter.CTkFrame(master = self,
+                                                             width = 460,
+                                                             height = 600,
+                                                             corner_radius = 0,
+                                                             fg_color = "#BFD4FF",
+                                                             border_width = 0)
+
+        # Picture Preview frame for theme selection
+        self.picture_preview_theme = customtkinter.CTkFrame(master = self,
+                                                            width = 460,
+                                                            height = 600,
+                                                            corner_radius = 0,
+                                                            fg_color = "#BFD4FF",
+                                                            border_width = 0)
+
+        
 
     # Destroy the window
     def quit(self, e):
