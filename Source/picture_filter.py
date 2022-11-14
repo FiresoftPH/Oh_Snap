@@ -28,3 +28,6 @@ def brightness(image, beta_value):
 withBright = brightness(image, 50)
 filename = 'BRIGHT.jpg'
 cv2.imwrite(filename, withBright)
+
+def summertheme():
+    pass
