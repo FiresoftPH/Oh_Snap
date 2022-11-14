@@ -134,4 +134,3 @@ class ShowFrame:
 
     def close_all(self):
         self.stop_detect = True
-
