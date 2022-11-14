@@ -402,6 +402,7 @@ class MainUI(customtkinter.CTk):
             def picture_selection_button_function(selected_photo = raw_picture_python):
                 
                 # This is for making sure that the array will not go out of range
+                selected_images.append(selected_photo)
                 selected_button.append(selected_photo)
                 selected_button[len(selected_images) - 1] = customtkinter.CTkButton(master = self.picture_grid_frame,
                                                          image = selected_photo,
@@ -412,7 +413,7 @@ class MainUI(customtkinter.CTk):
                                                          hover = False)
                 
                 selected_photo = selected_button[len(selected_button) - 1]
-                print(selected_button)
+                print(selected_images)
                 if frame_mode == 1:
 
                     if len(selected_button) == 1:
