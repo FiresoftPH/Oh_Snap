@@ -596,14 +596,16 @@ class MainUI(customtkinter.CTk):
     # Changing to theme selection frame and deleting unselected photos
     def change_to_filter_selection_frame(self):
         operator = self.camera.image_list.look()
+        # print(selected_images)
         for directory in operator:
             complete_directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/" + directory
             print(complete_directory)
-            if complete_directory in selected_images:
-                print('Not removed')
-            else:
-                print('removed')
+            if complete_directory not in selected_images:
                 os.remove(directory)
+                print('removed')
+            else:
+                print('Not removed')
+                
 
         self.picture_grid_frame.pack_forget()
         self.picture_selection_frame.pack_forget()
