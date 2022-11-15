@@ -482,6 +482,8 @@ class MainUI(customtkinter.CTk):
         selected_button = []
         global selected_images
         selected_images = []
+        global image_position
+        image_position = 0
         
         self.next_page_button.place_forget()
         self.picture_selection_frame_label.grid(row = 0, column = 0, padx = 10, pady = 10)
@@ -512,9 +514,10 @@ class MainUI(customtkinter.CTk):
             raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
 
             def picture_selection_button_function(selected_photo = raw_picture_python, image_dir  = image_directory):
-                
-                # This is for making sure that the array will not go out of range
-                selected_images.append(image_dir)
+
+                # The array down here reference the image position relative to the strip (right-left)
+                selected_images.append([image_dir, image_position])
+                image_position += 1
                 selected_button.append(selected_photo)
                 selected_button[len(selected_images) - 1] = customtkinter.CTkButton(master = self.picture_grid_frame,
                                                          image = selected_photo,
@@ -574,8 +577,6 @@ class MainUI(customtkinter.CTk):
                     else:
                         print("Picture Strip is full")
 
-
-
             picture_button_dictionary[x] = customtkinter.CTkButton(master = self.picture_selection_frame,
                                                                    image = raw_picture_python,
                                                                    text = "",
@@ -596,16 +597,19 @@ class MainUI(customtkinter.CTk):
     # Changing to theme selection frame and deleting unselected photos
     def change_to_filter_selection_frame(self):
         operator = self.camera.image_list.look()
-        # print(selected_images)
-        for directory in operator:
-            complete_directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/" + directory
-            print(complete_directory)
-            if complete_directory not in selected_images:
+        print(selected_images)
+        image_list_transform = []
+        for name in operator:
+            new_directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/" +  name
+            image_list_transform.append(new_directory)
+        print(image_list_transform)
+
+        for directory in image_list_transform:
+            if directory in image_list_transform:
                 os.remove(directory)
-                print('removed')
+                print("Removed")
             else:
-                print('Not removed')
-                
+                print("Not Removed")
 
         self.picture_grid_frame.pack_forget()
         self.picture_selection_frame.pack_forget()
