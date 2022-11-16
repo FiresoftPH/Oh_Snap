@@ -416,7 +416,7 @@ class MainUI(customtkinter.CTk):
             self.threaded_opencv()
             if self.camera.image_list.size() == 8:
                 print("Im here")
-                self.manual_button_label.config(text = "Next")
+                self.manual_button_label.configure(text = "Next")
 
         else:
             self.camera_controller_frame.pack_forget()
@@ -657,6 +657,13 @@ class MainUI(customtkinter.CTk):
             button.place_forget()
             
         self.make_picture_button()
+
+    # Change Theme Color Button commands
+    def change_theme_color(self, mode):
+        if mode == 0:
+            pass
+        
+        pass
 
     # Change the global variable state
     def change_frame_mode(self, mode):
