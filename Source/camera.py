@@ -50,8 +50,8 @@ class ShowFrame:
                 #Uncomment below to see X,Y coordinate Details on single location in this case the Nose Location.
                 right_shoulder =  self.result.pose_landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_SHOULDER].y * 400
                 right_hand = self.result.pose_landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_INDEX].y * 400
-                print('Right Shoulder: ', right_shoulder)
-                print('Right Hand thing: ', right_hand)
+                # print('Right Shoulder: ', right_shoulder)
+                # print('Right Hand thing: ', right_hand)
 
                 if right_shoulder - right_hand >= 50:
                     self.first_pose_bool = True
@@ -60,7 +60,10 @@ class ShowFrame:
                 if right_shoulder - right_hand <= -50 and self.first_pose_bool == True:
                     self.second_pose_bool = True
                     print("Hand Down after Hand Raised")
-                
+
+                if self.first_pose_bool == True and self.second_pose_bool == True:
+                    self.show_cam()
+
                 current_time = time.time()
                 if current_time - initial_time >= 3:
                     self.first_pose_bool = False
@@ -72,7 +75,7 @@ class ShowFrame:
                 self.mpDraw.draw_landmarks(self.frame1, self.result.pose_landmarks, self.mp_pose.POSE_CONNECTIONS)
 
                 # Show camera frames
-                cv2.imshow("frame", self.frame1)
+                # cv2.imshow("frame", self.frame1)
 
             elif self.stop_detect == True or self.image_counter == 8:
                 cv2.destroyWindow("Photo") 
