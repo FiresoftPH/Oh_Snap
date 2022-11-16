@@ -32,7 +32,7 @@ class ShowFrame:
         self.stop_detect = False
         initial_time = time.time()
         #Start endless loop to create video frame by frame Add details about video size and image post-processing to better identify bodies
-        while True:
+        while self.image_list.size() < 8:
             
             key = cv2.waitKey(1)
             if self.stop_detect == False:
@@ -152,5 +152,5 @@ class ShowFrame:
     def close_all(self):
         self.stop_detect = True
 
-test = ShowFrame()
-test.detect_hand()
+# test = ShowFrame()
+# test.detect_hand()

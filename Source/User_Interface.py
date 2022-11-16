@@ -414,6 +414,9 @@ class MainUI(customtkinter.CTk):
         if self.camera.image_list.size() < 8:
             self.camera.show_cam()
             self.threaded_opencv()
+            if self.camera.image_list.size() == 8:
+                print("Im here")
+                self.manual_button_label.config(text = "Next")
 
         else:
             self.camera_controller_frame.pack_forget()
