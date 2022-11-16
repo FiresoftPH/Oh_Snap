@@ -403,10 +403,10 @@ class MainUI(customtkinter.CTk):
     # Using threading, the two process can run simulataneously
     def threaded_opencv(self):
         thread_1 = threading.Thread(target = self.change_to_camera_instructions_frame)
-        # thread_2 = threading.Thread(target = self.run_hand_detect)
+        thread_2 = threading.Thread(target = self.run_hand_detect)
 
         thread_1.start()
-        # thread_2.start()
+        thread_2.start()
 
     # Taking a photo
     def take_picture(self):
