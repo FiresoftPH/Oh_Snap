@@ -5,10 +5,7 @@ import customtkinter
 from PIL import Image, ImageTk
 import threading
 
-"""
-Description: This UI_Interface is for development in windows. Adapting to Linux version is simple, changing the directory
-of the images and files to Linux syntax and everything should work fine.
-"""
+# Created By Pattarapark Chutisamoot (FiresoftGH)
 
 """
 Command Codes List (The number corresponds to the command)

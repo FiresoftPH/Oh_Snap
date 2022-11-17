@@ -6,6 +6,8 @@ from PIL import Image, ImageTk
 import time
 from data_structure import Stack
 
+# Created by Pattarapark Chutisamoot (FiresoftGH) and Puttipong Aunggulsant (785putt)
+
 class ShowFrame:
     def __init__(self):
         #Start cv2 video capturing through CSI port
@@ -22,6 +24,7 @@ class ShowFrame:
         
         self.image_list = Stack([], 8)
         self.image_counter = 0
+        self.confidence = None
         self.first_pose_bool = None
         self.second_pose_bool = None
 
@@ -47,35 +50,49 @@ class ShowFrame:
                 # Print general details about observed body
                 # print (result.pose_landmarks)
                 
-                #Uncomment below to see X,Y coordinate Details on single location in this case the Nose Location.
-                right_shoulder =  self.result.pose_landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_SHOULDER].y * 400
-                right_hand = self.result.pose_landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_INDEX].y * 400
-                # print('Right Shoulder: ', right_shoulder)
-                # print('Right Hand thing: ', right_hand)
+                try:
+                # Uncomment below to see X,Y coordinate Details on single location in this case the Nose Location.
+                    right_shoulder =  self.result.pose_landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_SHOULDER].y * 400
+                    right_hand = self.result.pose_landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_INDEX].y * 400
+                    
+                    # Tracking Integrity to avoid other poses
+                    track_integrity = self.result.pose_landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_INDEX].x * 640
+                    # print('Right Shoulder: ', right_shoulder)
+                    # print('Right Hand thing: ', right_hand)
+                    print('Intergrity Count: ', track_integrity)
+                    
+                    if track_integrity >= 430 and track_integrity < 480:
+                        self.confidence = True
+                        print("Ready to Track")
 
-                if right_shoulder - right_hand >= 50:
-                    self.first_pose_bool = True
-                    print("Hand Raised")
+                    if right_shoulder - right_hand >= 50 and self.confidence == True:
+                        self.first_pose_bool = True
+                        print("Hand Raised")
 
-                if right_shoulder - right_hand <= -50 and self.first_pose_bool == True:
-                    self.second_pose_bool = True
-                    print("Hand Down after Hand Raised")
+                    if right_shoulder - right_hand <= -50 and self.first_pose_bool == True:
+                        self.second_pose_bool = True
+                        print("Hand Down after Hand Raised")
 
-                if self.first_pose_bool == True and self.second_pose_bool == True:
-                    self.show_cam()
+                    if self.first_pose_bool == True and self.second_pose_bool == True:
+                        self.show_cam()
 
-                current_time = time.time()
-                if current_time - initial_time >= 3:
-                    self.first_pose_bool = False
-                    self.second_pose_bool = False
-                    print("Variable Reset")
-                    initial_time = time.time()
+                    current_time = time.time()
+                    if current_time - initial_time >= 0.5 :
+                        self.first_pose_bool = False
+                        self.second_pose_bool = False
+                        self.coinfidence = False
+                        print("Variable Reset")
+                        initial_time = time.time()
+                    
+                    #Draw the framework of body onto the processed image and then show it in the preview window
+                    self.mpDraw.draw_landmarks(self.frame1, self.result.pose_landmarks, self.mp_pose.POSE_CONNECTIONS)
+
+
+                    # Show camera frames
+                    # cv2.imshow("frame", self.frame1)
                 
-                #Draw the framework of body onto the processed image and then show it in the preview window
-                self.mpDraw.draw_landmarks(self.frame1, self.result.pose_landmarks, self.mp_pose.POSE_CONNECTIONS)
-
-                # Show camera frames
-                # cv2.imshow("frame", self.frame1)
+                except:
+                    pass
 
             elif self.stop_detect == True or self.image_counter == 8:
                 cv2.destroyWindow("Photo") 
@@ -152,5 +169,5 @@ class ShowFrame:
     def close_all(self):
         self.stop_detect = True
 
-# test = ShowFrame()
-# test.detect_hand()
+test = ShowFrame()
+test.detect_hand()
