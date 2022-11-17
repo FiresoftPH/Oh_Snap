@@ -36,9 +36,6 @@ remove_cache_photo()
 os.chdir(default_directory)
 
 # Global Variables
-# frame_mode = 0
-# selected_images = []
-# selected_button = []
 picture_button_dictionary = {}
 command_code = 0
 window_state = 0
@@ -659,8 +656,22 @@ class MainUI(customtkinter.CTk):
     def change_theme_color(self, mode):
         if mode == 0:
             pass
+
+        elif mode == 1:
+            pass
+
+        elif mode == 2:
+            pass
+
+        elif mode == 3:
+            pass
+
+        elif mode == 4:
+            pass
+
+        elif mode == 5:
+            pass
         
-        pass
 
     # Change the global variable state
     def change_frame_mode(self, mode):
