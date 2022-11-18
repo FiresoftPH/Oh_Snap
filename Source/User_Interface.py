@@ -298,7 +298,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = None)
+                                                         command = lambda: self.change_to_filter_selection_frame(1))
 
         self.blue_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Blue_Bond.png")
         self.blue_bond_icon_resize = self.blue_bond_icon.resize((self.blue_bond_icon.size[0] // 10, self.blue_bond_icon.size[1] // 10))
@@ -311,7 +311,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = None)
+                                                         command = lambda: self.change_to_filter_selection_frame(4))
 
         self.purple_pink_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Purple-Pink_Bond.png")
         self.purple_pink_bond_icon_resize = self.purple_pink_bond_icon.resize((self.purple_pink_bond_icon.size[0] // 10, self.purple_pink_bond_icon.size[1] // 10))
@@ -323,7 +323,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = None)
+                                                         command = lambda: self.change_to_filter_selection_frame(5))
 
         self.red_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Red_Bond.png")
         self.red_bond_icon_resize = self.red_bond_icon.resize((self.red_bond_icon.size[0] // 10, self.red_bond_icon.size[1] // 10))
@@ -335,7 +335,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = None)
+                                                         command = lambda: self.change_to_filter_selection_frame(3))
 
         self.original_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Original_Bond.png")
         self.original_bond_icon_resize = self.original_bond_icon.resize((self.original_bond_icon.size[0] // 10, self.original_bond_icon.size[1] // 10))
@@ -347,11 +347,9 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = None)
+                                                         command = lambda: self.change_to_filter_selection_frame(2))
 
         # Placing the buttons on the frame
-        # self.black_bond_button.pack(side = "right")
-        # self.blue_bond_button.pack(side = "right")
         self.black_bond_button.grid(row = 0, column = 0)
         self.blue_bond_button.grid(row = 0, column = 1)
         self.purple_pink_bond_button.grid(row = 0, column = 2)
@@ -654,24 +652,9 @@ class MainUI(customtkinter.CTk):
 
     # Change Theme Color Button commands
     def change_theme_color(self, mode):
-        if mode == 0:
-            pass
-
-        elif mode == 1:
-            pass
-
-        elif mode == 2:
-            pass
-
-        elif mode == 3:
-            pass
-
-        elif mode == 4:
-            pass
-
-        elif mode == 5:
-            pass
-        
+        global theme_color
+        theme_color = mode
+        return
 
     # Change the global variable state
     def change_frame_mode(self, mode):
