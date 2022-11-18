@@ -49,7 +49,7 @@ class MainUI(customtkinter.CTk):
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
         self.bind('<Button-2>', lambda p: self.minimize(window_state, p))
-        self.attributes('-fullscreen', True)
+        # self.attributes('-fullscreen', True)
         
         # self.configure(fg_color = "#BFD4FF")
 
@@ -247,7 +247,7 @@ class MainUI(customtkinter.CTk):
                                                          fg_color = "#BFD4FF",
                                                          border_width = 0)
 
-        self.next_button_icon = Image.open("Pictures/Arrow_Button.png")
+        self.next_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Black_Arrow_Button.png")
         # print(self.manual_button_icon.size)
         self.next_button_icon_resize = self.next_button_icon.resize((61, 61))
         self.next_button_image = ImageTk.PhotoImage(self.manual_button_icon_resize)
@@ -298,7 +298,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = lambda: self.change_to_filter_selection_frame(1))
+                                                         command = lambda: self.change_theme_color(1))
 
         self.blue_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Blue_Bond.png")
         self.blue_bond_icon_resize = self.blue_bond_icon.resize((self.blue_bond_icon.size[0] // 10, self.blue_bond_icon.size[1] // 10))
@@ -311,7 +311,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = lambda: self.change_to_filter_selection_frame(4))
+                                                         command = lambda: self.change_theme_color(4))
 
         self.purple_pink_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Purple-Pink_Bond.png")
         self.purple_pink_bond_icon_resize = self.purple_pink_bond_icon.resize((self.purple_pink_bond_icon.size[0] // 10, self.purple_pink_bond_icon.size[1] // 10))
@@ -323,7 +323,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = lambda: self.change_to_filter_selection_frame(5))
+                                                         command = lambda: self.change_theme_color(5))
 
         self.red_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Red_Bond.png")
         self.red_bond_icon_resize = self.red_bond_icon.resize((self.red_bond_icon.size[0] // 10, self.red_bond_icon.size[1] // 10))
@@ -335,7 +335,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = lambda: self.change_to_filter_selection_frame(3))
+                                                         command = lambda: self.change_theme_color(3))
 
         self.original_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Original_Bond.png")
         self.original_bond_icon_resize = self.original_bond_icon.resize((self.original_bond_icon.size[0] // 10, self.original_bond_icon.size[1] // 10))
@@ -347,7 +347,7 @@ class MainUI(customtkinter.CTk):
                                                          text = "",
                                                          fg_color = "#FFFFFF",
                                                          hover = False,
-                                                         command = lambda: self.change_to_filter_selection_frame(2))
+                                                         command = lambda: self.change_theme_color(2))
 
         # Placing the buttons on the frame
         self.black_bond_button.grid(row = 0, column = 0)
@@ -610,6 +610,10 @@ class MainUI(customtkinter.CTk):
         self.picture_grid_frame.pack_forget()
         self.picture_selection_frame.pack_forget()
 
+        # My Progress is right here
+        
+        self.change_to_filter_selection_frame_button = customtkinter.CTk()
+
         self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
 
         if frame_mode == 1:
@@ -638,8 +642,8 @@ class MainUI(customtkinter.CTk):
             self.picture_preview_label = customtkinter.CTkLabel(master = self.picture_preview_frame,
                                                                 image = self.picture_preview_python)
 
-            self.theme_color_selection_frame_label.grid(row = 0, column = 0)
-            self.picture_preview_label.grid(row = 1, column = 0)
+            self.theme_color_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
+            self.picture_preview_label.grid(row = 1, column = 0, padx = 20, pady = 20)
             self.theme_color_selection_frame.grid(row = 1, column = 1)
 
     # Picture selection button function
