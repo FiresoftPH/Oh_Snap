@@ -161,7 +161,7 @@ class ImageProcessing:
             x += self.new_size_x + self.space_x # change the position of x-axis to the next block
             
             if (i + 1) % self.columns == 0: 
-                y += self.new_size_y + self.space_y  ]
+                y += self.new_size_y + self.space_y  
                 x = 0 
                 
         background.save(self.Output) 
