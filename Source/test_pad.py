@@ -1,9 +1,10 @@
-test_var = 0
+from time import time
 
-def changeVar(value):
-    test_var = value
-    return test_var
+initial = time()
+while True:
+    current = time()
+    if current - initial >= 1:
+        print(current - initial)
+        initial = time()
 
-for x in range(10):
-    changeVar(x)
-    print(test_var)
+    

@@ -1,3 +1,5 @@
+# Created by Pattarapark Chutisamoot (FiresoftGH)
+
 # Limited Size Stack
 
 class Stack:

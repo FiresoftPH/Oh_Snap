@@ -5,10 +5,7 @@ import customtkinter
 from PIL import Image, ImageTk
 import threading
 
-"""
-Description: This UI_Interface is for development in windows. Adapting to Linux version is simple, changing the directory
-of the images and files to Linux syntax and everything should work fine.
-"""
+# Created By Pattarapark Chutisamoot (FiresoftGH)
 
 """
 Command Codes List (The number corresponds to the command)
@@ -39,9 +36,6 @@ remove_cache_photo()
 os.chdir(default_directory)
 
 # Global Variables
-# frame_mode = 0
-# selected_images = []
-# selected_button = []
 picture_button_dictionary = {}
 command_code = 0
 window_state = 0
@@ -209,7 +203,7 @@ class MainUI(customtkinter.CTk):
 
         self.manual_button_icon = Image.open("Pictures/Arrow_Button.png")
         # print(self.manual_button_icon.size)
-        self.manual_button_icon_resize = self.manual_button_icon.resize((45, 45))
+        self.manual_button_icon_resize = self.manual_button_icon.resize((61, 61))
         self.manual_button_picture = ImageTk.PhotoImage(self.manual_button_icon)
 
         self.manual_button = customtkinter.CTkButton(master = self.camera_controller_frame,
@@ -253,6 +247,117 @@ class MainUI(customtkinter.CTk):
                                                          fg_color = "#BFD4FF",
                                                          border_width = 0)
 
+        self.next_button_icon = Image.open("Pictures/Arrow_Button.png")
+        # print(self.manual_button_icon.size)
+        self.next_button_icon_resize = self.next_button_icon.resize((61, 61))
+        self.next_button_image = ImageTk.PhotoImage(self.manual_button_icon_resize)
+
+        # Next Page button for the picture selection frame
+        self.next_page_button = customtkinter.CTkButton(master = self.picture_grid_frame, 
+                                                        width = 0,
+                                                        height = 0,
+                                                        image = self.next_button_image,
+                                                        hover = False,
+                                                        command = self.change_to_filter_selection_frame,
+                                                        fg_color = "#BFD4FF",
+                                                        text = "")
+
+        # Picture Preview frame for theme selection
+        self.picture_preview_frame = customtkinter.CTkFrame(master = self,
+                                                            width = 960,
+                                                            height = 600,
+                                                            corner_radius = 0,
+                                                            fg_color = "#5C5C5C",
+                                                            border_width = 0)
+
+        # Theme color selection button frame
+        self.theme_color_selection_frame = customtkinter.CTkFrame(master = self.picture_preview_frame,
+                                                                  width = 480,
+                                                                  height = 400,
+                                                                  corner_radius = 10,
+                                                                  fg_color = "#FFFFFF",
+                                                                  border_width = 0)
+        
+        # Instruction label
+        self.theme_color_selection_frame_label = customtkinter.CTkLabel(master = self.picture_preview_frame,
+                                                                        text = "Select Frame Color",
+                                                                        fg_color = "#5C5C5C",
+                                                                        text_color = "White",
+                                                                        text_font = ("Inter", 30, "underline"),
+                                                                        corner_radius = 10)
+
+        # Theme selection buttons
+        self.black_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Black_Bond.png")
+        self.black_bond_icon_resize = self.black_bond_icon.resize((self.black_bond_icon.size[0] // 10, self.black_bond_icon.size[1] // 10))
+        print(self.black_bond_icon_resize.size)
+        self.black_bond_icon_picture = ImageTk.PhotoImage(self.black_bond_icon_resize)
+        self.black_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
+                                                         width = 0,
+                                                         image = self.black_bond_icon_picture,
+                                                         height = 0,
+                                                         text = "",
+                                                         fg_color = "#FFFFFF",
+                                                         hover = False,
+                                                         command = None)
+
+        self.blue_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Blue_Bond.png")
+        self.blue_bond_icon_resize = self.blue_bond_icon.resize((self.blue_bond_icon.size[0] // 10, self.blue_bond_icon.size[1] // 10))
+        print(self.blue_bond_icon_resize.size)
+        self.blue_bond_icon_picture = ImageTk.PhotoImage(self.blue_bond_icon_resize)
+        self.blue_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
+                                                         width = 0,
+                                                         image = self.blue_bond_icon_picture,
+                                                         height = 0,
+                                                         text = "",
+                                                         fg_color = "#FFFFFF",
+                                                         hover = False,
+                                                         command = None)
+
+        self.purple_pink_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Purple-Pink_Bond.png")
+        self.purple_pink_bond_icon_resize = self.purple_pink_bond_icon.resize((self.purple_pink_bond_icon.size[0] // 10, self.purple_pink_bond_icon.size[1] // 10))
+        self.purple_pink_bond_icon_picture = ImageTk.PhotoImage(self.purple_pink_bond_icon_resize)
+        self.purple_pink_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
+                                                         width = 0,
+                                                         image = self.purple_pink_bond_icon_picture,
+                                                         height = 0,
+                                                         text = "",
+                                                         fg_color = "#FFFFFF",
+                                                         hover = False,
+                                                         command = None)
+
+        self.red_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Red_Bond.png")
+        self.red_bond_icon_resize = self.red_bond_icon.resize((self.red_bond_icon.size[0] // 10, self.red_bond_icon.size[1] // 10))
+        self.red_bond_icon_picture = ImageTk.PhotoImage(self.red_bond_icon_resize)
+        self.red_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
+                                                         width = 0,
+                                                         image = self.red_bond_icon_picture,
+                                                         height = 0,
+                                                         text = "",
+                                                         fg_color = "#FFFFFF",
+                                                         hover = False,
+                                                         command = None)
+
+        self.original_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Original_Bond.png")
+        self.original_bond_icon_resize = self.original_bond_icon.resize((self.original_bond_icon.size[0] // 10, self.original_bond_icon.size[1] // 10))
+        self.original_bond_icon_picture = ImageTk.PhotoImage(self.original_bond_icon_resize)
+        self.original_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
+                                                         width = 0,
+                                                         image = self.original_bond_icon_picture,
+                                                         height = 0,
+                                                         text = "",
+                                                         fg_color = "#FFFFFF",
+                                                         hover = False,
+                                                         command = None)
+
+        # Placing the buttons on the frame
+        # self.black_bond_button.pack(side = "right")
+        # self.blue_bond_button.pack(side = "right")
+        self.black_bond_button.grid(row = 0, column = 0)
+        self.blue_bond_button.grid(row = 0, column = 1)
+        self.purple_pink_bond_button.grid(row = 0, column = 2)
+        self.red_bond_button.grid(row = 1, column = 0)
+        self.original_bond_button.grid(row = 1, column = 1)
+
     # Destroy the window
     def quit(self, e):
         self.destroy()
@@ -292,10 +397,10 @@ class MainUI(customtkinter.CTk):
     # Using threading, the two process can run simulataneously
     def threaded_opencv(self):
         thread_1 = threading.Thread(target = self.change_to_camera_instructions_frame)
-        # thread_2 = threading.Thread(target = self.run_hand_detect)
+        thread_2 = threading.Thread(target = self.run_hand_detect)
 
         thread_1.start()
-        # thread_2.start()
+        thread_2.start()
 
     # Taking a photo
     def take_picture(self):
@@ -303,6 +408,9 @@ class MainUI(customtkinter.CTk):
         if self.camera.image_list.size() < 8:
             self.camera.show_cam()
             self.threaded_opencv()
+            if self.camera.image_list.size() == 8:
+                print("Im here")
+                self.manual_button_label.configure(text = "Next")
 
         else:
             self.camera_controller_frame.pack_forget()
@@ -336,8 +444,8 @@ class MainUI(customtkinter.CTk):
                                                                         fg_color = "#FFFFFF",
                                                                         hover = False)
                                                                       
-            self.picture_grid_label.place(x = 40, y = 90)
-            self.reset_picture_selection_button.place(x = 520, y = 110)
+            self.picture_grid_label.place(x = 50, y = 90)
+            self.reset_picture_selection_button.place(x = 550, y = 110)
 
         elif frame_mode == 2:
             self.frame_image = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3).png")
@@ -352,17 +460,17 @@ class MainUI(customtkinter.CTk):
             self.reset_button_resize = self.reset_button.resize(self.reset_button_scale)
             self.reset_button_image_python = ImageTk.PhotoImage(self.reset_button_resize)
             self.reset_picture_selection_button = customtkinter.CTkButton(master = self.picture_grid_frame,
-                                                                        image = self.reset_button_image_python,
-                                                                        text = "",
-                                                                        width = 0,
-                                                                        height = 0,
-                                                                        command = self.reset_all_selection,
-                                                                        bg_color = "#FFFFFF",
-                                                                        fg_color = "#FFFFFF",
-                                                                        hover = False)
+                                                                          image = self.reset_button_image_python,
+                                                                          text = "",
+                                                                          width = 0,
+                                                                          height = 0,
+                                                                          command = self.reset_all_selection,
+                                                                          bg_color = "#FFFFFF",
+                                                                          fg_color = "#FFFFFF",
+                                                                          hover = False)
                                                                       
-            self.picture_grid_label.place(x = 25, y = 150)
-            self.reset_picture_selection_button.place(x = 570, y = 160)
+            self.picture_grid_label.place(x = 35, y = 150)
+            self.reset_picture_selection_button.place(x = 600, y = 160)
         
     # Create similar button and frame for the picture selection
     def make_picture_button(self):
@@ -371,8 +479,9 @@ class MainUI(customtkinter.CTk):
         selected_button = []
         global selected_images
         selected_images = []
-
-        self.picture_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
+        
+        self.next_page_button.place_forget()
+        self.picture_selection_frame_label.grid(row = 0, column = 0, padx = 10, pady = 10)
         for x in range(self.camera.image_list.size()):
             directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images"
             
@@ -399,10 +508,11 @@ class MainUI(customtkinter.CTk):
             raw_picture_resize = raw_picture.resize(scale)
             raw_picture_python = ImageTk.PhotoImage(raw_picture_resize)
 
-            def picture_selection_button_function(selected_photo = raw_picture_python):
-                
-                # This is for making sure that the array will not go out of range
-                selected_images.append(selected_photo)
+            def picture_selection_button_function(selected_photo = raw_picture_python, image_dir  = image_directory):
+
+                # The array down here reference the image position relative to the strip (right-left)
+                selected_images.append(image_dir)
+
                 selected_button.append(selected_photo)
                 selected_button[len(selected_images) - 1] = customtkinter.CTkButton(master = self.picture_grid_frame,
                                                          image = selected_photo,
@@ -413,26 +523,27 @@ class MainUI(customtkinter.CTk):
                                                          hover = False)
                 
                 selected_photo = selected_button[len(selected_button) - 1]
-                print(selected_images)
+                # print(selected_images)
                 if frame_mode == 1:
 
                     if len(selected_button) == 1:
-                        selected_photo.place(x = 64, y = 191)
+                        selected_photo.place(x = 74, y = 191)
 
                     elif len(selected_button) == 2:
-                        selected_photo.place(x = 330, y = 191)
+                        selected_photo.place(x = 340, y = 191)
 
                     elif len(selected_button) == 3:
-                        selected_photo.place(x = 64, y = 361)
+                        selected_photo.place(x = 74, y = 361)
 
                     elif len(selected_button) == 4:
-                        selected_photo.place(x = 330, y = 361)
+                        selected_photo.place(x = 340, y = 361)
 
                     elif len(selected_button) == 5:
-                        selected_photo.place(x = 64, y = 531)
+                        selected_photo.place(x = 74, y = 531)
 
                     elif len(selected_button) == 6:
-                        selected_photo.place(x = 330, y = 531)
+                        selected_photo.place(x = 340, y = 531)
+                        self.next_page_button.place(x = 550, y = 20)
 
                     else:
                         print("Picture Strip is full")
@@ -440,39 +551,98 @@ class MainUI(customtkinter.CTk):
                 elif frame_mode == 2:
 
                     if len(selected_button) == 1:
-                        selected_photo.place(x = 41, y = 242)
+                        selected_photo.place(x = 51, y = 242)
 
                     elif len(selected_button) == 2:
-                        selected_photo.place(x = 255, y = 242)
+                        selected_photo.place(x = 265, y = 242)
 
                     elif len(selected_button) == 3:
-                        selected_photo.place(x = 469, y = 242)
+                        selected_photo.place(x = 479, y = 242)
 
                     elif len(selected_button) == 4:
-                        selected_photo.place(x = 41, y = 421)
+                        selected_photo.place(x = 51, y = 421)
 
                     elif len(selected_button) == 5:
-                        selected_photo.place(x = 255, y = 421)
+                        selected_photo.place(x = 265, y = 421)
 
                     elif len(selected_button) == 6:
-                        selected_photo.place(x = 469, y = 421)
+                        selected_photo.place(x = 479, y = 421)
+                        self.next_page_button.place(x = 600, y = 20)
 
                     else:
                         print("Picture Strip is full")
-
-
 
             picture_button_dictionary[x] = customtkinter.CTkButton(master = self.picture_selection_frame,
                                                                    image = raw_picture_python,
                                                                    text = "",
                                                                    command = picture_selection_button_function,
                                                                    fg_color = "#BFD4FF",
-                                                                   bg_color = "#BFD4FF").grid(row = row_number, column = column_number, padx = 10, pady = 10)
+                                                                   bg_color = "#BFD4FF")
 
+            if frame_mode == 1:
+                picture_button_dictionary[x].grid(row = row_number, column = column_number, padx = 5, pady = 5)                         
+
+            elif frame_mode == 2:
+                picture_button_dictionary[x].grid(row = row_number, column = column_number, padx = 20, pady = 20)
 
         self.camera_controller_frame.pack_forget()                        
         self.picture_grid_frame.pack(side = "right", padx = 20, pady = 20, fill = "both", expand = 1)
         self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
+
+    # Changing to theme selection frame and deleting unselected photos
+    def change_to_filter_selection_frame(self):
+        operator = self.camera.image_list.look()
+        print(selected_images)
+        image_list_transform = []
+        selected_images_transform = []
+
+        for name in operator:
+            new_directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/" +  name
+            image_list_transform.append(new_directory)
+        print(image_list_transform)
+
+        print(selected_images_transform)
+        for directory in image_list_transform:
+            if directory not in selected_images:
+                os.remove(directory)
+                print("Removed")
+            else:
+                print("Not Removed")
+
+        self.picture_grid_frame.pack_forget()
+        self.picture_selection_frame.pack_forget()
+
+        self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
+
+        if frame_mode == 1:
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/PASTELGRADIENT.png")
+            self.picture_preview_scale = tuple([round(self.frame_image.size[0] * 0.46), round(self.frame_image.size[1] * 0.46)])
+            self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
+            self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
+        
+            self.picture_preview_label = customtkinter.CTkLabel(master = self.picture_preview_frame,
+                                                                image = self.picture_preview_python)
+
+            self.theme_color_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
+            self.picture_preview_label.grid(row = 1, column = 0, padx = 40)
+            self.theme_color_selection_frame.grid(row = 1, column = 1, padx = 40)
+
+            # self.theme_color_selection_frame_label.pack(side = "top", padx = 20, pady = 20)
+            # self.picture_preview_label.pack(side = "left", padx = 40)
+            # self.theme_color_selection_frame.pack(side = "right", padx = 40)
+
+        elif frame_mode == 2:
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/PASTELGRADIENT.png")
+            self.picture_preview_scale = tuple([round(self.picture_preview.size[0] * 0.4), round(self.picture_preview.size[1] * 0.4)])
+            self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
+            self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
+        
+            self.picture_preview_label = customtkinter.CTkLabel(master = self.picture_preview_frame,
+                                                                image = self.picture_preview_python)
+
+            self.theme_color_selection_frame_label.grid(row = 0, column = 0)
+            self.picture_preview_label.grid(row = 1, column = 0)
+            self.theme_color_selection_frame.grid(row = 1, column = 1)
 
     # Picture selection button function
     def reset_all_selection(self):
@@ -481,6 +651,27 @@ class MainUI(customtkinter.CTk):
             button.place_forget()
             
         self.make_picture_button()
+
+    # Change Theme Color Button commands
+    def change_theme_color(self, mode):
+        if mode == 0:
+            pass
+
+        elif mode == 1:
+            pass
+
+        elif mode == 2:
+            pass
+
+        elif mode == 3:
+            pass
+
+        elif mode == 4:
+            pass
+
+        elif mode == 5:
+            pass
+        
 
     # Change the global variable state
     def change_frame_mode(self, mode):
