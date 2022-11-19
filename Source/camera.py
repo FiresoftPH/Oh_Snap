@@ -1,8 +1,6 @@
 import cv2
 import os
 import mediapipe as mp
-from customtkinter import CTkLabel, CTk
-from PIL import Image, ImageTk
 import time
 from data_structure import Stack
 
@@ -165,6 +163,10 @@ class ShowFrame:
             self.stop_detect = False
 
             return self.image_list
+
+    def reset_image_list(self):
+        self.image_list = Stack([], 8)
+        return self.image_list
 
     def close_all(self):
         self.stop_detect = True

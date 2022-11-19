@@ -15,8 +15,8 @@ Command Codes List (The number corresponds to the command)
 
 # Importing other python scripts from other files
 
-from data_structure import Stack, SinglyLinkedList
 from camera import ShowFrame
+from image_processing import ImageProcessing, Output_IMAGE
 
 # print(os.getcwd())
 default_directory = os.getcwd()
@@ -67,6 +67,7 @@ class MainUI(customtkinter.CTk):
         self.confirmation_window = None
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
         self.camera = ShowFrame()
+        self.image_processing = ImageProcessing()
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
@@ -247,7 +248,7 @@ class MainUI(customtkinter.CTk):
                                                          fg_color = "#BFD4FF",
                                                          border_width = 0)
 
-        self.next_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Black_Arrow_Button.png")
+        self.next_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
         # print(self.manual_button_icon.size)
         self.next_button_icon_resize = self.next_button_icon.resize((61, 61))
         self.next_button_image = ImageTk.PhotoImage(self.manual_button_icon_resize)
@@ -289,7 +290,6 @@ class MainUI(customtkinter.CTk):
         # Theme selection buttons
         self.black_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Black_Bond.png")
         self.black_bond_icon_resize = self.black_bond_icon.resize((self.black_bond_icon.size[0] // 10, self.black_bond_icon.size[1] // 10))
-        print(self.black_bond_icon_resize.size)
         self.black_bond_icon_picture = ImageTk.PhotoImage(self.black_bond_icon_resize)
         self.black_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
                                                          width = 0,
@@ -302,7 +302,6 @@ class MainUI(customtkinter.CTk):
 
         self.blue_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Blue_Bond.png")
         self.blue_bond_icon_resize = self.blue_bond_icon.resize((self.blue_bond_icon.size[0] // 10, self.blue_bond_icon.size[1] // 10))
-        print(self.blue_bond_icon_resize.size)
         self.blue_bond_icon_picture = ImageTk.PhotoImage(self.blue_bond_icon_resize)
         self.blue_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
                                                          width = 0,
@@ -395,10 +394,10 @@ class MainUI(customtkinter.CTk):
     # Using threading, the two process can run simulataneously
     def threaded_opencv(self):
         thread_1 = threading.Thread(target = self.change_to_camera_instructions_frame)
-        thread_2 = threading.Thread(target = self.run_hand_detect)
+        # thread_2 = threading.Thread(target = self.run_hand_detect)
 
         thread_1.start()
-        thread_2.start()
+        # thread_2.start()
 
     # Taking a photo
     def take_picture(self):
@@ -587,19 +586,21 @@ class MainUI(customtkinter.CTk):
         self.picture_grid_frame.pack(side = "right", padx = 20, pady = 20, fill = "both", expand = 1)
         self.picture_selection_frame.pack(side = "left", padx = 20, pady = 20, fill = "both")
 
+    # Activating the picture strip code
+    def make_picture_strip(self, color, mod):
+        self.image_processing.make_picture_strip(selected_images, frame_mode, color, Output_IMAGE, mod)
+
     # Changing to theme selection frame and deleting unselected photos
     def change_to_filter_selection_frame(self):
         operator = self.camera.image_list.look()
         print(selected_images)
         image_list_transform = []
-        selected_images_transform = []
 
         for name in operator:
             new_directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/" +  name
             image_list_transform.append(new_directory)
         print(image_list_transform)
 
-        print(selected_images_transform)
         for directory in image_list_transform:
             if directory not in selected_images:
                 os.remove(directory)
@@ -607,34 +608,44 @@ class MainUI(customtkinter.CTk):
             else:
                 print("Not Removed")
 
+        self.make_picture_strip(1, 2)
+
         self.picture_grid_frame.pack_forget()
         self.picture_selection_frame.pack_forget()
 
         # My Progress is right here
         
-        self.change_to_filter_selection_frame_button = customtkinter.CTk()
+        self.white_arrow_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
+        self.white_arrow_button_resize = self.white_arrow_button.resize((61, 61))
+        self.white_arrow_button_picture = ImageTk.PhotoImage(self.white_arrow_button_resize)
+        self.change_to_filter_selection_frame_button = customtkinter.CTkButton(master = self.picture_preview_frame,
+                                                                               image = self.white_arrow_button_picture,
+                                                                               text = "",
+                                                                               width = 0,
+                                                                               height = 0,
+                                                                               hover = False,
+                                                                               fg_color = "#5C5C5C",
+                                                                               bg_color = "#5C5C5C",
+                                                                               command = None)
 
         self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
 
         if frame_mode == 1:
-            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/PASTELGRADIENT.png")
-            self.picture_preview_scale = tuple([round(self.frame_image.size[0] * 0.46), round(self.frame_image.size[1] * 0.46)])
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Posted_Image.png")
+            self.picture_preview_scale = tuple([round(self.frame_image.size[0] * 0.45), round(self.frame_image.size[1] * 0.45)])
             self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
             self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
         
             self.picture_preview_label = customtkinter.CTkLabel(master = self.picture_preview_frame,
                                                                 image = self.picture_preview_python)
 
-            self.theme_color_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
-            self.picture_preview_label.grid(row = 1, column = 0, padx = 40)
-            self.theme_color_selection_frame.grid(row = 1, column = 1, padx = 40)
-
-            # self.theme_color_selection_frame_label.pack(side = "top", padx = 20, pady = 20)
-            # self.picture_preview_label.pack(side = "left", padx = 40)
-            # self.theme_color_selection_frame.pack(side = "right", padx = 40)
+            self.theme_color_selection_frame_label.grid(row = 0, column = 0, padx = 20)
+            self.picture_preview_label.grid(row = 1, column = 0, padx = 20)
+            self.theme_color_selection_frame.grid(row = 1, column = 1, padx = 20)
+            self.change_to_filter_selection_frame_button.grid(row = 2, column = 3)
 
         elif frame_mode == 2:
-            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/PASTELGRADIENT.png")
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Posted_Image.png")
             self.picture_preview_scale = tuple([round(self.picture_preview.size[0] * 0.4), round(self.picture_preview.size[1] * 0.4)])
             self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
             self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
@@ -644,22 +655,34 @@ class MainUI(customtkinter.CTk):
 
             self.theme_color_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
             self.picture_preview_label.grid(row = 1, column = 0, padx = 20, pady = 20)
-            self.theme_color_selection_frame.grid(row = 1, column = 1)
+            self.theme_color_selection_frame.grid(row = 1, column = 1, pady = 40)
+            self.change_to_filter_selection_frame_button.grid(row = 2, column = 1, pady = 20, padx = 20)
 
     # Picture selection button function
     def reset_all_selection(self):
         
         for button in selected_button:
             button.place_forget()
-            
-        self.make_picture_button()
+        
+        selected_images.clear()
+        selected_button.clear()
+        # self.make_picture_button()
 
     # Change Theme Color Button commands
     def change_theme_color(self, mode):
         global theme_color
         theme_color = mode
-        print(theme_color)
-        return
+        self.image_processing.make_picture_strip(selected_images, frame_mode, theme_color, Output_IMAGE, 2)
+        picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Posted_Image.png")
+        picture_preview_resize = picture_preview.resize(self.picture_preview_scale)
+        picture_preview_python = ImageTk.PhotoImage(picture_preview_resize)
+
+        self.picture_preview_label.configure(image = picture_preview_python)
+        self.picture_preview_label.image = picture_preview_python
+
+        # self.picture_preview_frame.pack_forget()
+        # self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
+        return theme_color
 
     # Change the global variable state
     def change_frame_mode(self, mode):

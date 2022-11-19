@@ -1,11 +1,13 @@
 from PIL import Image, ImageEnhance, ImageOps
+import os
 
 class ImageProcessing:
     
-    def make_picture_strip(self, Images, Mode, Frame, Output):
+    def make_picture_strip(self, Images, Mode, Frame, Output, Modify):
         self.Images = list(Images)
         self.Mode = Mode
         self.Output = Output
+        self.Modify = Modify
 
         if self.Mode == 1: 
             self.new_size_x = 557
@@ -18,27 +20,27 @@ class ImageProcessing:
             self.columns = 2
             
             if Frame == 1:
-                BG_Image_Vertical = Image.open("D:\Saved Images\BLACK_Vertical.png") 
+                BG_Image_Vertical = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/BLACK.png") 
                 self.BG = BG_Image_Vertical.resize((1240, 1432)) 
                 
             elif Frame == 2:
-                BG_Image_Vertical = Image.open("D:\Saved Images\WHITE_Vertical.png") 
+                BG_Image_Vertical = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/WHITE.png") 
                 self.BG = BG_Image_Vertical.resize((1240, 1432)) 
 
             elif Frame == 3:
-                BG_Image_Vertical = Image.open("D:\Saved Images\RED_Vertical.png") 
+                BG_Image_Vertical = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/RED.png") 
                 self.BG = BG_Image_Vertical.resize((1240, 1432)) 
 
             elif Frame == 4:
-                BG_Image_Vertical = Image.open("D:\Saved Images\LIGHTBLUE_Vertical.png") 
+                BG_Image_Vertical = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/LIGHTBLUE.png") 
                 self.BG = BG_Image_Vertical.resize((1240, 1432)) 
 
             elif Frame == 5:
-                BG_Image_Vertical = Image.open("D:\Saved Images\PASTELGRADIENT_Vertical.png") 
+                BG_Image_Vertical = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/PASTELGRADIENT.png") 
                 self.BG = BG_Image_Vertical.resize((1240, 1432)) 
 
             else:
-                BG_Image_Vertical = Image.open("D:\Saved Images\BLACK_Vertical.png") 
+                BG_Image_Vertical = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/BLACK.png") 
                 self.BG = BG_Image_Vertical.resize((1240, 1432)) 
 
         elif self.Mode == 2: 
@@ -52,27 +54,27 @@ class ImageProcessing:
             self.columns = 3
             
             if Frame == 1:
-                BG_Image_Horizontal = Image.open("D:\Saved Images\BLACK_Horizontal.png") 
+                BG_Image_Horizontal = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/BLACK.png") 
                 self.BG = BG_Image_Horizontal.resize((1665, 1100)) 
                 
             elif Frame == 2:
-                BG_Image_Horizontal = Image.open("D:\Saved Images\WHITE_Horizontal.png") 
+                BG_Image_Horizontal = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/WHITE.png") 
                 self.BG = BG_Image_Horizontal.resize((1665, 1100)) 
 
             elif Frame == 3:
-                BG_Image_Horizontal = Image.open("D:\Saved Images\RED_Horizontal.png") 
+                BG_Image_Horizontal = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/RED.png") 
                 self.BG = BG_Image_Horizontal.resize((1665, 1100)) 
 
             elif Frame == 4:
-                BG_Image_Horizontal = Image.open("D:\Saved Images\LIGHTBLUE_Horizontal.png") 
+                BG_Image_Horizontal = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/LIGHTBLUE.png") 
                 self.BG = BG_Image_Horizontal.resize((1665, 1100)) 
 
             elif Frame == 5:
-                BG_Image_Horizontal = Image.open("D:\Saved Images\PASTELGRADIENT_Horizontal.png") 
+                BG_Image_Horizontal = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/PASTELGRADIENT.png") 
                 self.BG = BG_Image_Horizontal.resize((1665, 1100)) 
 
             else:
-                BG_Image_Horizontal = Image.open("D:\Saved Images\BLACK_Horizontal.png")
+                BG_Image_Horizontal = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/BLACK.png")
                 self.BG = BG_Image_Horizontal.resize((1665, 1100)) 
 
         else:
@@ -85,11 +87,16 @@ class ImageProcessing:
 
             self.columns = 2
             
-            BG_Image_Vertical = Image.open("D:\Saved Images\BLACK_Vertical.png")
-            self.BG = BG_Image_Vertical.resize((1240, 1432)) 
+            if self.Mode == 1:
+                BG_Image_Vertical = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2)/SOLIDCOLOR/BLACK.png")
+                self.BG = BG_Image_Vertical.resize((1240, 1432)) 
 
-        IMAGE_Resize = self.Resize_Image(Modify) 
-        self.combine_images(Images=IMAGE_Resize) 
+            elif self.Mode == 2:
+                BG_Image_Horizontal = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3)/SOLIDCOLOR/BLACK.png") 
+                self.BG = BG_Image_Horizontal.resize((1665, 1100)) 
+
+        IMAGE_Resize = self.Resize_Image(self.Modify) 
+        self.combine_images(Images = IMAGE_Resize) 
 
     
     def Resize_Image(self, Modify):
@@ -119,7 +126,7 @@ class ImageProcessing:
                     
                     img_resize_Vertical = enhancer.enhance(Level)
 
-                Output_Vertical_Name = f"D:Saved Images\Photo_Vertical_{i}.jpg" 
+                Output_Vertical_Name = f"/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Photo_Vertical_{i}.jpg" 
                 LIST.append(Output_Vertical_Name) 
                 img_resize_Vertical.save(Output_Vertical_Name) 
 
@@ -142,7 +149,7 @@ class ImageProcessing:
                     
                     img_resize_Horizontal = enhancer.enhance(Level)
 
-                Output_Horizontal_Name = f"D:Saved Images\Photo_Horizontal_{i}.jpg" 
+                Output_Horizontal_Name = f"/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Photo_Horizontal_{i}.jpg" 
                 LIST.append(Output_Horizontal_Name) 
                 
                 img_resize_Horizontal.save(Output_Horizontal_Name) 
@@ -168,28 +175,28 @@ class ImageProcessing:
                 y += self.new_size_y + self.space_y  
                 x = 0 
                 
-        background.save(self.Output) 
+        background.save(self.Output)
 
-
+    def clear_cached_images(self):
+        for x in range(6):
+            os.remove
 
         
 
-IMAGE = ["D:\Saved Images\Photo_0.jpg",   
-         "D:\Saved Images\Photo_1.jpg",
-         "D:\Saved Images\Photo_2.jpg",
-         "D:\Saved Images\Photo_3.jpg",
-         "D:\Saved Images\Photo_4.jpg",
-         "D:\Saved Images\Photo_5.jpg"
+IMAGE = ["/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",   
+         "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",
+         "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",
+         "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",
+         "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",
+         "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg"
          ]
 
-Mode = 1 
-Frame = 1 
-Modify = 2 
-Output_IMAGE = "D:\Output Image\Posted_Image.png" 
+# Mode = 1 
+# Frame = 1 
+# Modify = 2 
+Output_IMAGE = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Posted_Image.png" 
 
+# app = ImageProcessing()
 
-
-
-app = ImageProcessing()
-app.make_picture_strip(IMAGE, Mode, Frame, Output_IMAGE)
+# app.make_picture_strip(IMAGE, Mode, Frame, Output_IMAGE)
 
