@@ -198,5 +198,5 @@ Output_IMAGE = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed
 
 # app = ImageProcessing()
 
-# app.make_picture_strip(IMAGE, Mode, Frame, Output_IMAGE)
+# app.make_picture_strip(IMAGE, Mode, Frame, Output_IMAGE, Modify)
 
