@@ -34,7 +34,7 @@ class ShowFrame:
         initial_time = time.time()
         
         #Start endless loop to create video frame by frame Add details about video size and image post-processing to better identify bodies
-        while self.image_list.size() < 8 and self.stop_detect == True:
+        while self.image_list.size() < 8 and self.stop_detect == False:
             
             key = cv2.waitKey(1)
             if self.stop_detect == False:
