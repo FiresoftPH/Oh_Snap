@@ -249,7 +249,6 @@ class MainUI(customtkinter.CTk):
                                                          border_width = 0)
 
         self.next_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
-        # print(self.manual_button_icon.size)
         self.next_button_icon_resize = self.next_button_icon.resize((61, 61))
         self.next_button_image = ImageTk.PhotoImage(self.manual_button_icon_resize)
 
@@ -259,7 +258,7 @@ class MainUI(customtkinter.CTk):
                                                         height = 0,
                                                         image = self.next_button_image,
                                                         hover = False,
-                                                        command = self.change_to_filter_selection_frame,
+                                                        command = self.change_to_theme_selection_frame,
                                                         fg_color = "#BFD4FF",
                                                         text = "")
 
@@ -340,13 +339,13 @@ class MainUI(customtkinter.CTk):
         self.original_bond_icon_resize = self.original_bond_icon.resize((self.original_bond_icon.size[0] // 10, self.original_bond_icon.size[1] // 10))
         self.original_bond_icon_picture = ImageTk.PhotoImage(self.original_bond_icon_resize)
         self.original_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
-                                                         width = 0,
-                                                         image = self.original_bond_icon_picture,
-                                                         height = 0,
-                                                         text = "",
-                                                         fg_color = "#FFFFFF",
-                                                         hover = False,
-                                                         command = lambda: self.change_theme_color(2))
+                                                            width = 0,
+                                                            image = self.original_bond_icon_picture,
+                                                            height = 0,
+                                                            text = "",
+                                                            fg_color = "#FFFFFF",
+                                                            hover = False,
+                                                            command = lambda: self.change_theme_color(2))
 
         # Placing the buttons on the frame
         self.black_bond_button.grid(row = 0, column = 0)
@@ -354,6 +353,33 @@ class MainUI(customtkinter.CTk):
         self.purple_pink_bond_button.grid(row = 0, column = 2)
         self.red_bond_button.grid(row = 1, column = 0)
         self.original_bond_button.grid(row = 1, column = 1)
+
+        # Filter selection frame preview
+        # self.picture_preview_frame = customtkinter.CTkFrame(master = self,
+        #                                                     width = 960,
+        #                                                     height = 600,
+        #                                                     corner_radius = 0,
+        #                                                     fg_color = "#5C5C5C",
+        #                                                     border_width = 0)
+
+        # # Theme color selection button frame
+        # self.theme_color_selection_frame = customtkinter.CTkFrame(master = self.picture_preview_frame,
+        #                                                           width = 480,
+        #                                                           height = 400,
+        #                                                           corner_radius = 10,
+        #                                                           fg_color = "#FFFFFF",
+        #                                                           border_width = 0)
+        
+        # # Instruction label
+        # self.theme_color_selection_frame_label = customtkinter.CTkLabel(master = self.picture_preview_frame,
+        #                                                                 text = "Select Filter Mode",
+        #                                                                 fg_color = "#5C5C5C",
+        #                                                                 text_color = "White",
+        #                                                                 text_font = ("Inter", 30, "underline"),
+        #                                                                 corner_radius = 10)
+
+        # Filter Selection Button
+        # self.color
 
     # Destroy the window
     def quit(self, e):
@@ -394,10 +420,10 @@ class MainUI(customtkinter.CTk):
     # Using threading, the two process can run simulataneously
     def threaded_opencv(self):
         thread_1 = threading.Thread(target = self.change_to_camera_instructions_frame)
-        # thread_2 = threading.Thread(target = self.run_hand_detect)
+        thread_2 = threading.Thread(target = self.run_hand_detect)
 
         thread_1.start()
-        # thread_2.start()
+        thread_2.start()
 
     # Taking a photo
     def take_picture(self):
@@ -410,10 +436,11 @@ class MainUI(customtkinter.CTk):
                 self.manual_button_label.configure(text = "Next")
 
         else:
+            self.camera.close_all()
             self.camera_controller_frame.pack_forget()
             self.make_picture_grid_label()
             self.make_picture_button()
-            self.camera.close_all()
+            
 
     # Create a frame grid label for preview image
     def make_picture_grid_label(self):
@@ -591,10 +618,11 @@ class MainUI(customtkinter.CTk):
         self.image_processing.make_picture_strip(selected_images, frame_mode, color, Output_IMAGE, mod)
 
     # Changing to theme selection frame and deleting unselected photos
-    def change_to_filter_selection_frame(self):
+    def change_to_theme_selection_frame(self):
         operator = self.camera.image_list.look()
         print(selected_images)
         image_list_transform = []
+
 
         for name in operator:
             new_directory = "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/" +  name
@@ -656,8 +684,12 @@ class MainUI(customtkinter.CTk):
             self.theme_color_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
             self.picture_preview_label.grid(row = 1, column = 0, padx = 20, pady = 20)
             self.theme_color_selection_frame.grid(row = 1, column = 1, pady = 40)
-            self.change_to_filter_selection_frame_button.grid(row = 2, column = 1, pady = 20, padx = 20)
+            self.change_to_filter_selection_frame_button.grid(row = 2, column = 2, pady = 20, padx = 20)
 
+    def change_to_filter_selection_frame(self):
+        self.picture_preview_frame.pack_forget()
+
+        pass
     # Picture selection button function
     def reset_all_selection(self):
         
