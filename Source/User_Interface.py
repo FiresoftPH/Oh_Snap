@@ -658,6 +658,7 @@ class MainUI(customtkinter.CTk):
     def change_theme_color(self, mode):
         global theme_color
         theme_color = mode
+        print(theme_color)
         return
 
     # Change the global variable state
