@@ -155,7 +155,7 @@ class ImageProcessing:
                 img_resize_Horizontal.save(Output_Horizontal_Name) 
 
 
-        else:
+        else: 
             print("Mode Error")
 
         return LIST

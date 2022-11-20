@@ -1,0 +1,54 @@
+<<<<<<< Updated upstream
+body {
+    display:grid;
+    background-image: url("/static/BG_PG1.png"); 
+    width: 100%;
+    height: auto;
+    background-size: 100% 650px; 
+    background-repeat:no-repeat;
+}
+h3{
+    font-family:Georgia;
+    text-align: center;
+    font-size:medium;
+    font-weight:700;
+    color: #214694;
+    text-decoration-line: overline underline;
+    text-decoration-color: #214694;
+}
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.div-1 {
+    margin: 0 auto;
+    background-color:#BFD4FF";
+=======
+body {
+    display:grid;
+    background-image: url("/static/BG_PG1.png"); 
+    width: 100%;
+    height: auto;
+    background-size: 100% 650px; 
+    background-repeat:no-repeat;
+}
+h3{
+    font-family:Georgia;
+    text-align: center;
+    font-size:medium;
+    font-weight:700;
+    color: #214694;
+    text-decoration-line: overline underline;
+    text-decoration-color: #214694;
+}
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.div-1 {
+    margin: 0 auto;
+    background-color:#BFD4FF";
+>>>>>>> Stashed changes
+}

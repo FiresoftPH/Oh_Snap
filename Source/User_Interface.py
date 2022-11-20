@@ -49,7 +49,7 @@ class MainUI(customtkinter.CTk):
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
         self.bind('<Button-2>', lambda p: self.minimize(window_state, p))
-        # self.attributes('-fullscreen', True)
+        self.attributes('-fullscreen', True)
         
         # self.configure(fg_color = "#BFD4FF")
 
@@ -362,61 +362,115 @@ class MainUI(customtkinter.CTk):
                                                            fg_color = "#5C5C5C",
                                                            border_width = 0)
 
-        # Theme color selection button frame
+        # Filter selection button frame
         self.filter_selection_frame = customtkinter.CTkFrame(master = self.filter_preview_frame,
                                                                   width = 480,
                                                                   height = 400,
                                                                   corner_radius = 10,
-                                                                  fg_color = "#FFFFFF",
+                                                                  fg_color = "#D3D3D3",
                                                                   border_width = 0)
         
         # Instruction label
         self.filter_selection_frame_label = customtkinter.CTkLabel(master = self.filter_preview_frame,
-                                                                        text = "Select Filter Mode",
-                                                                        fg_color = "#5C5C5C",
-                                                                        text_color = "White",
-                                                                        text_font = ("Inter", 30, "underline"),
-                                                                        corner_radius = 10)
+                                                                   text = "Select Filter",
+                                                                   fg_color = "#5C5C5C",
+                                                                   text_color = "White",
+                                                                   text_font = ("Inter", 30, "underline"),
+                                                                   corner_radius = 10)
 
         # Filter Selection Button
         self.bright_filter_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bright_Button.png")
-        self.bright_filter_picture = ImageTk.PhotoImage(self.bright_filter_icon)
+        self.bright_filter_icon_resize = self.bright_filter_icon.resize((160, 160))
+        self.bright_filter_picture = ImageTk.PhotoImage(self.bright_filter_icon_resize)
         self.bright_filter_button = customtkinter.CTkButton(master = self.filter_selection_frame,
                                                             width = 0,
                                                             image = self.bright_filter_picture,
                                                             height = 0,
                                                             text = "",
-                                                            fg_color = "#FFFFFF",
+                                                            fg_color = "#D3D3D3",
                                                             hover = False,
-                                                            command = lambda: None)
+                                                            command = lambda: self.change_filter_mode(2))
 
         self.normal_filter_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Normal_Color_Button.png")
-        self.normal_filter_picture = ImageTk.PhotoImage(self.normal_filter_icon)
+        self.normal_filter_icon_resize = self.normal_filter_icon.resize((160, 160))
+        self.normal_filter_picture = ImageTk.PhotoImage(self.normal_filter_icon_resize)
         self.normal_filter_button = customtkinter.CTkButton(master = self.filter_selection_frame,
                                                             width = 0,
                                                             image = self.normal_filter_picture,
                                                             height = 0,
                                                             text = "",
-                                                            fg_color = "#FFFFFF",
+                                                            fg_color = "#D3D3D3",
                                                             hover = False,
-                                                            command = lambda: None)
+                                                            command = lambda: self.change_filter_mode(0))
 
         self.grayscale_filter_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Grayscale_Button.png")
-        self.grayscale_filter_picture = ImageTk.PhotoImage(self.grayscale_filter_icon)
+        self.grayscale_filter_icon_resize = self.grayscale_filter_icon.resize((160, 160))
+        self.grayscale_filter_picture = ImageTk.PhotoImage(self.grayscale_filter_icon_resize)
         self.grayscale_filter_button = customtkinter.CTkButton(master = self.filter_selection_frame,
                                                                width = 0,
                                                                image = self.grayscale_filter_picture,
                                                                height = 0,
                                                                text = "",
-                                                               fg_color = "#FFFFFF",
+                                                               fg_color = "#D3D3D3",
                                                                hover = False,
-                                                               command = lambda: None)
+                                                               command = lambda: self.change_filter_mode(1))
 
+        self.bright_filter_button_label = customtkinter.CTkLabel(master = self.filter_selection_frame,
+                                                                 text = "Bright",
+                                                                 fg_color = "#D3D3D3",
+                                                                 text_color = "Black",
+                                                                 text_font = ("Inter", 15, "underline"),
+                                                                 corner_radius = 0)
+
+        self.normal_filter_button_label = customtkinter.CTkLabel(master = self.filter_selection_frame,
+                                                                 text = "Normal",
+                                                                 fg_color = "#D3D3D3",
+                                                                 text_color = "Black",
+                                                                 text_font = ("Inter", 15, "underline"),
+                                                                 corner_radius = 0)
+
+        self.grayscale_filter_button_label = customtkinter.CTkLabel(master = self.filter_selection_frame,
+                                                                    text = "Grayscale",
+                                                                    fg_color = "#D3D3D3",
+                                                                    text_color = "Black",
+                                                                    text_font = ("Inter", 15, "underline"),
+                                                                    corner_radius = 0)                                                             
         # Placing filter selection buttons to the frame
 
         self.bright_filter_button.grid(row = 0, column = 0)
         self.normal_filter_button.grid(row = 0, column = 1)
         self.grayscale_filter_button.grid(row = 0, column = 2)
+        self.bright_filter_button_label.grid(row  = 1, column = 0)
+        self.normal_filter_button_label.grid(row = 1, column = 1)
+        self.grayscale_filter_button_label.grid(row = 1, column = 2)
+
+        # QR Code UI button frame and elements
+
+        self.qr_code_frame = customtkinter.CTkFrame(master = self,
+                                                    width = 960,
+                                                    height = 600,
+                                                    corner_radius = 0,
+                                                    fg_color = "#BFD4FF",
+                                                    border_width = 0)
+
+        self.qr_code_frame_label = customtkinter.CTkLabel(master = self.qr_code_frame,
+                                                          text = "Scan QR Code for Image",
+                                                          fg_color = "#BFD4FF",
+                                                          text_color = "Black",
+                                                          text_font = ("Inter", 30, "underline"),
+                                                          corner_radius = 0)
+
+        self.home_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Home_Button.png")
+        self.home_button_icon_picture = ImageTk.PhotoImage(self.home_button_icon)
+        self.home_button = customtkinter.CTkButton(master = self.qrcode_frame,
+                                                   width = 0,
+                                                   image = self.normal_filter_picture,
+                                                   height = 0,
+                                                   text = "",
+                                                   fg_color = "#BFD4FF",
+                                                   hover = False,
+                                                   command = None)
+
 
     # Destroy the window
     def quit(self, e):
@@ -461,6 +515,7 @@ class MainUI(customtkinter.CTk):
             if self.camera.image_list.size() == 8:
                 print("Im here")
                 self.manual_button_label.configure(text = "Next")
+                self.manual_button_label.text = "Continue"
 
         else:
             self.camera.close_all()
@@ -670,11 +725,14 @@ class MainUI(customtkinter.CTk):
         self.picture_selection_frame.pack_forget()
 
         # My Progress is right here
-        
-        self.white_arrow_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
-        self.white_arrow_button_resize = self.white_arrow_button.resize((61, 61))
-        self.white_arrow_button_picture = ImageTk.PhotoImage(self.white_arrow_button_resize)
-        self.change_to_filter_selection_frame_button = customtkinter.CTkButton(master = self.picture_preview_frame,
+
+        self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
+
+        if frame_mode == 1:
+            self.white_arrow_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
+            self.white_arrow_button_resize = self.white_arrow_button.resize((61, 61))
+            self.white_arrow_button_picture = ImageTk.PhotoImage(self.white_arrow_button_resize)
+            self.change_to_filter_selection_frame_button = customtkinter.CTkButton(master = self.picture_preview_frame,
                                                                                image = self.white_arrow_button_picture,
                                                                                text = "",
                                                                                width = 0,
@@ -684,9 +742,6 @@ class MainUI(customtkinter.CTk):
                                                                                bg_color = "#5C5C5C",
                                                                                command = self.change_to_filter_selection_frame)
 
-        self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
-
-        if frame_mode == 1:
             self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
             self.picture_preview_scale = tuple([round(self.frame_image.size[0] * 0.45), round(self.frame_image.size[1] * 0.45)])
             self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
@@ -701,6 +756,19 @@ class MainUI(customtkinter.CTk):
             self.change_to_filter_selection_frame_button.grid(row = 2, column = 2)
 
         elif frame_mode == 2:
+            self.white_arrow_button = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
+            self.white_arrow_button_resize = self.white_arrow_button.resize((91, 91))
+            self.white_arrow_button_picture = ImageTk.PhotoImage(self.white_arrow_button_resize)
+            self.change_to_filter_selection_frame_button = customtkinter.CTkButton(master = self.picture_preview_frame,
+                                                                               image = self.white_arrow_button_picture,
+                                                                               text = "",
+                                                                               width = 0,
+                                                                               height = 0,
+                                                                               hover = False,
+                                                                               fg_color = "#5C5C5C",
+                                                                               bg_color = "#5C5C5C",
+                                                                               command = self.change_to_filter_selection_frame)
+
             self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
             self.picture_preview_scale = tuple([round(self.picture_preview.size[0] * 0.4), round(self.picture_preview.size[1] * 0.4)])
             self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
@@ -710,14 +778,63 @@ class MainUI(customtkinter.CTk):
                                                                 image = self.picture_preview_python)
 
             self.theme_color_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
-            self.picture_preview_label.grid(row = 1, column = 0, padx = 20, pady = 20)
-            self.theme_color_selection_frame.grid(row = 1, column = 1, pady = 60)
-            self.change_to_filter_selection_frame_button.grid(row = 2, column = 1, pady = 20)
+            self.picture_preview_label.grid(row = 1, column = 0, padx = 20, pady = 60)
+            self.theme_color_selection_frame.grid(row = 1, column = 1, pady = 0)
+            self.change_to_filter_selection_frame_button.grid(row = 2, column = 1)
 
     def change_to_filter_selection_frame(self):
         self.picture_preview_frame.pack_forget()
 
+        # My Progress is right here
+        
+        self.change_to_qrcode_frame_button = customtkinter.CTkButton(master = self.filter_preview_frame,
+                                                                     image = self.white_arrow_button_picture,
+                                                                     text = "",
+                                                                     width = 0,
+                                                                     height = 0,
+                                                                     hover = False,
+                                                                     fg_color = "#5C5C5C",
+                                                                     bg_color = "#5C5C5C",
+                                                                     command = self.change_to_qrcode_frame)
+
+        self.filter_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
+
+        if frame_mode == 1:
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
+            self.picture_preview_scale = tuple([round(self.frame_image.size[0] * 0.45), round(self.frame_image.size[1] * 0.45)])
+            self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
+            self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
+            self.filter_preview_label = customtkinter.CTkLabel(master = self.filter_preview_frame,
+                                                                image = self.picture_preview_python)
+
+            self.filter_selection_frame_label.grid(row = 0, column = 0, padx = 20)
+            self.filter_preview_label.grid(row = 1, column = 0, padx = 20)
+            self.filter_selection_frame.grid(row = 1, column = 1, padx = 20)
+            self.change_to_qrcode_frame_button.grid(row = 2, column = 2)
+
+        elif frame_mode == 2:
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
+            self.picture_preview_scale = tuple([round(self.picture_preview.size[0] * 0.4), round(self.picture_preview.size[1] * 0.4)])
+            self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
+            self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
+        
+            self.filter_preview_label = customtkinter.CTkLabel(master = self.filter_preview_frame,
+                                                                image = self.picture_preview_python)
+
+            self.filter_selection_frame_label.grid(row = 0, column = 0, padx = 20, pady = 20)
+            self.filter_preview_label.grid(row = 1, column = 0, padx = 20, pady = 60)
+            self.filter_selection_frame.grid(row = 1, column = 1, pady = 100)
+            self.change_to_qrcode_frame_button.grid(row = 2, column = 1)
+        
+    # Changing to QR Code frame
+
+    def change_to_qrcode_frame(self):
+        self.filter_preview_frame.pack_forget()
+
+        self.qr_code_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
+
         pass
+
     # Picture selection button function
     def reset_all_selection(self):
         
@@ -732,18 +849,29 @@ class MainUI(customtkinter.CTk):
     def change_theme_color(self, mode):
         global theme_color
         theme_color = mode
-        self.image_processing.make_picture_strip(selected_images, frame_mode, theme_color, Output_IMAGE, 2)
-        picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Posted_Image.png")
+        self.image_processing.make_picture_strip(selected_images, frame_mode, theme_color, Output_IMAGE, 0)
+        picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
         picture_preview_resize = picture_preview.resize(self.picture_preview_scale)
         picture_preview_python = ImageTk.PhotoImage(picture_preview_resize)
 
         self.picture_preview_label.configure(image = picture_preview_python)
         self.picture_preview_label.image = picture_preview_python
 
-        # self.picture_preview_frame.pack_forget()
-        # self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
         return theme_color
 
+    # Change Filter Mode Button commands
+    def change_filter_mode(self, mode):
+        global theme_color
+        filter_mode = mode
+        self.image_processing.make_picture_strip(selected_images, frame_mode, theme_color, Output_IMAGE, filter_mode)
+        picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
+        picture_preview_resize = picture_preview.resize(self.picture_preview_scale)
+        picture_preview_python = ImageTk.PhotoImage(picture_preview_resize)
+
+        self.filter_preview_label.configure(image = picture_preview_python)
+        self.filter_preview_label.image = picture_preview_python
+
+        return filter_mode
     # Change the global variable state
     def change_frame_mode(self, mode):
         global frame_mode
