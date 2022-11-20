@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel='stylesheet' type = "text/css" href="{{url_for('static',filename='/styles/style.css')}}">
+    <!-- <script src='main.js'></script> -->
+    <!-- <style>
+        body {
+            display:grid;
+            background-image: url("/static/BG_PG1.png"); 
+            width: 100%;
+            height: auto;
+            background-size: 100% 650px; 
+            background-repeat:no-repeat;
+        }
+        h3{
+            font-family:Georgia;
+            text-align: center;
+            font-size:medium;
+            font-weight:700;
+            color: #214694;
+            text-decoration-line: overline underline;
+            text-decoration-color: #214694;
+        }
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .div-1 {
+            margin: 0 auto;
+            background-color:#BFD4FF";
+        }
+    </style> -->
+</head>
+<body style = "background-color:#BFD4FF">
+    <img src="{{url_for('static',filename='/New_Logo.png')}}" alt="titleimg" class="center" style="max-width:45%;height:auto;"/>
+
+    <img src="{{url_for('static',filename='/opencvframe0.jpg')}}" alt="opencv0img" class="center" style="max-width:85%;height:auto;"/>
+    <div class="div-1">
+        <h3>Tap hold an image to download it</h3>
+    </div>
+    
+</body>
+</html>
