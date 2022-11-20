@@ -160,13 +160,13 @@ class ShowFrame:
             cv2.destroyWindow("Photo") 
 
             self.image_counter += 1
-
             self.stop_detect = False
 
             return self.image_list
 
     def reset_image_list(self):
-        self.image_list = Stack([], 8)
+        self.image_counter = 0
+        self.image_list.clear()
         return self.image_list
 
     def close_all(self):

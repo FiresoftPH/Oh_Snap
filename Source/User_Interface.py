@@ -4,6 +4,7 @@ import random
 import customtkinter
 from PIL import Image, ImageTk
 import threading
+import shutil
 
 # Created By Pattarapark Chutisamoot (FiresoftGH)
 
@@ -17,9 +18,12 @@ Command Codes List (The number corresponds to the command)
 
 from camera import ShowFrame
 from image_processing import ImageProcessing, Output_IMAGE
+from webserver import Website
 
 # print(os.getcwd())
 default_directory = os.getcwd()
+
+os.chdir(default_directory)
 
 # This process is here to make sure that overridden does not happen too much
 def remove_cache_photo():
@@ -53,7 +57,7 @@ class MainUI(customtkinter.CTk):
         
         # self.configure(fg_color = "#BFD4FF")
 
-        self.main_background = Image.open("Pictures/BG_PG1.png")
+        self.main_background = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/BG_PG1.png")
         self.main_background_image = ImageTk.PhotoImage(self.main_background)
 
         # Background Label
@@ -68,6 +72,7 @@ class MainUI(customtkinter.CTk):
         self.number_to_text = {5: "Five", 4: "Four", 3: "Three", 2: "Two", 1: "One", 0: "Zero"}
         self.camera = ShowFrame()
         self.image_processing = ImageProcessing()
+        self.website = Website()
 
         # First Frame
         self.start_frame = customtkinter.CTkFrame(master = self,
@@ -76,7 +81,7 @@ class MainUI(customtkinter.CTk):
                                                   corner_radius = 0,
                                                   fg_color = "#BFD4FF")
         
-        self.logo = Image.open("Pictures/New_Logo.png")
+        self.logo = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/New_Logo.png")
         # print(self.logo.size)
         self.logo_resize = self.logo.resize((605, 650))
         self.logo_picture = ImageTk.PhotoImage(self.logo_resize)
@@ -108,7 +113,7 @@ class MainUI(customtkinter.CTk):
                                                       corner_radius = 0,
                                                       fg_color = "#BFD4FF")
         
-        self.vertical_frame = Image.open("Pictures/VERTICAL_FRAME_(3X2).png")
+        self.vertical_frame = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/VERTICAL_FRAME_(3X2).png")
         self.vertical_frame_resize = self.vertical_frame.resize((round(0.375 * self.vertical_frame.size[0]), round(0.375 * self.vertical_frame.size[1])))
    
         self.vertical_frame_picture = ImageTk.PhotoImage(self.vertical_frame_resize)
@@ -127,7 +132,7 @@ class MainUI(customtkinter.CTk):
         
         # Horizontal frame widgets
 
-        self.horizontal_frame = Image.open("Pictures/HORIZONTAL_FRAME_(2X3).png")
+        self.horizontal_frame = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/HORIZONTAL_FRAME_(2X3).png")
         self.horizontal_frame_resize = self.horizontal_frame.resize((round(0.25 * self.horizontal_frame.size[0]), round(0.25 * self.horizontal_frame.size[1])))
         self.horizontal_frame_picture = ImageTk.PhotoImage(self.horizontal_frame_resize)
 
@@ -167,7 +172,7 @@ class MainUI(customtkinter.CTk):
 
         # Camera start UI
 
-        self.camera_icon = Image.open("Pictures/Camera_Icon.png")
+        self.camera_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Camera_Icon.png")
         self.camera_icon_resize = self.camera_icon.resize((self.camera_icon.size[0] * 1, self.camera_icon.size[1] * 1))
         self.camera_icon_picture = ImageTk.PhotoImage(self.camera_icon_resize)
 
@@ -189,7 +194,7 @@ class MainUI(customtkinter.CTk):
                                                               fg_color = "#5C5C5C",
                                                               border_width = 0)
 
-        self.hand_icon = Image.open("Pictures/Hand_Icon.png")
+        self.hand_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Hand_Icon.png")
         self.hand_icon_resize = self.hand_icon.resize((290, 290))
         self.hand_icon_picture = ImageTk.PhotoImage(self.hand_icon_resize)
 
@@ -202,7 +207,7 @@ class MainUI(customtkinter.CTk):
                                                  text_color = "White",
                                                  text_font = ("Inter", 35))
 
-        self.manual_button_icon = Image.open("Pictures/Arrow_Button.png")
+        self.manual_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
         # print(self.manual_button_icon.size)
         self.manual_button_icon_resize = self.manual_button_icon.resize((61, 61))
         self.manual_button_picture = ImageTk.PhotoImage(self.manual_button_icon)
@@ -462,15 +467,14 @@ class MainUI(customtkinter.CTk):
 
         self.home_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Home_Button.png")
         self.home_button_icon_picture = ImageTk.PhotoImage(self.home_button_icon)
-        self.home_button = customtkinter.CTkButton(master = self.qrcode_frame,
+        self.home_button = customtkinter.CTkButton(master = self.qr_code_frame,
                                                    width = 0,
-                                                   image = self.normal_filter_picture,
+                                                   image = self.home_button_icon_picture,
                                                    height = 0,
                                                    text = "",
                                                    fg_color = "#BFD4FF",
                                                    hover = False,
-                                                   command = None)
-
+                                                   command = self.go_home)
 
     # Destroy the window
     def quit(self, e):
@@ -512,17 +516,12 @@ class MainUI(customtkinter.CTk):
         if self.camera.image_list.size() < 8:
             self.camera.show_cam()
             self.threaded_opencv()
-            if self.camera.image_list.size() == 8:
-                print("Im here")
-                self.manual_button_label.configure(text = "Next")
-                self.manual_button_label.text = "Continue"
 
         else:
             self.camera.close_all()
             self.camera_controller_frame.pack_forget()
             self.make_picture_grid_label()
             self.make_picture_button()
-            
 
     # Create a frame grid label for preview image
     def make_picture_grid_label(self):
@@ -697,6 +696,7 @@ class MainUI(customtkinter.CTk):
 
     # Activating the picture strip code
     def make_picture_strip(self, color, mod):
+
         self.image_processing.make_picture_strip(selected_images, frame_mode, color, Output_IMAGE, mod)
 
     # Changing to theme selection frame and deleting unselected photos
@@ -719,6 +719,7 @@ class MainUI(customtkinter.CTk):
 
         # Clearing the image_list and making the default picture strip
         self.camera.reset_image_list()
+
         self.make_picture_strip(1, 2)
 
         self.picture_grid_frame.pack_forget()
@@ -783,9 +784,8 @@ class MainUI(customtkinter.CTk):
             self.change_to_filter_selection_frame_button.grid(row = 2, column = 1)
 
     def change_to_filter_selection_frame(self):
-        self.picture_preview_frame.pack_forget()
 
-        # My Progress is right here
+        self.picture_preview_frame.pack_forget()
         
         self.change_to_qrcode_frame_button = customtkinter.CTkButton(master = self.filter_preview_frame,
                                                                      image = self.white_arrow_button_picture,
@@ -795,7 +795,7 @@ class MainUI(customtkinter.CTk):
                                                                      hover = False,
                                                                      fg_color = "#5C5C5C",
                                                                      bg_color = "#5C5C5C",
-                                                                     command = self.change_to_qrcode_frame)
+                                                                     command = self.run_website)
 
         self.filter_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
 
@@ -825,15 +825,41 @@ class MainUI(customtkinter.CTk):
             self.filter_preview_label.grid(row = 1, column = 0, padx = 20, pady = 60)
             self.filter_selection_frame.grid(row = 1, column = 1, pady = 100)
             self.change_to_qrcode_frame_button.grid(row = 2, column = 1)
-        
+    
+    # Run website methods
+    def run_website(self):
+        thread_3 = threading.Thread(target = self.website.flasK)
+        thread_4 = threading.Thread(target = self.change_to_qrcode_frame)
+
+        thread_3.start()
+        thread_4.start()
+
     # Changing to QR Code frame
 
     def change_to_qrcode_frame(self):
         self.filter_preview_frame.pack_forget()
+        self.filter_selection_frame.grid_forget()
 
         self.qr_code_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
 
-        pass
+        self.qr_code_frame_label.grid(row = 0, column = 0, padx = 320, pady = 20)
+
+        shutil.copy("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png", "/home/pi/Documents/Project/Oh_Snap/Source/static")
+
+        self.qr_code_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/qrcodela.png")
+        self.qr_code_icon_picture = ImageTk.PhotoImage(self.qr_code_icon)
+
+        self.qr_code_picture_label = customtkinter.CTkLabel(master = self.qr_code_frame,
+                                                            image = self.qr_code_icon_picture)
+        self.qr_code_picture_label.grid(row = 1, column = 0, pady = 140)
+
+        self.home_button.grid(row = 2, column = 1)
+
+    # Packing the first frame and reset everything
+    def go_home(self):
+        self.qr_code_frame.pack_forget()
+        self.camera.reset_image_list()
+        self.start_frame.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
 
     # Picture selection button function
     def reset_all_selection(self):
@@ -861,9 +887,13 @@ class MainUI(customtkinter.CTk):
 
     # Change Filter Mode Button commands
     def change_filter_mode(self, mode):
-        global theme_color
+        global filter_mode
         filter_mode = mode
-        self.image_processing.make_picture_strip(selected_images, frame_mode, theme_color, Output_IMAGE, filter_mode)
+        if theme_color:
+            self.image_processing.make_picture_strip(selected_images, frame_mode, theme_color, Output_IMAGE, filter_mode)
+        else:
+            self.image_processing.make_picture_strip(selected_images, frame_mode, 1, Output_IMAGE, filter_mode)
+
         picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
         picture_preview_resize = picture_preview.resize(self.picture_preview_scale)
         picture_preview_python = ImageTk.PhotoImage(picture_preview_resize)
