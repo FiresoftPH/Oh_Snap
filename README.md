@@ -59,9 +59,7 @@ sudo pip3 install Jinja2==X.XX
 
 ## Usage
 
-```terminal
 Run the User_Interface.py and configure all the directories according to your directories of the code. Later revisions to the code that doesn't require this modification will be provided later.
-```
 
 ## Contributors
 
