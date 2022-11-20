@@ -687,7 +687,7 @@ class MainUI(customtkinter.CTk):
         self.picture_preview_frame.pack(padx = 20, pady = 20, side = "right", fill = "both", expand = 1)
 
         if frame_mode == 1:
-            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Posted_Image.png")
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
             self.picture_preview_scale = tuple([round(self.frame_image.size[0] * 0.45), round(self.frame_image.size[1] * 0.45)])
             self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
             self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
@@ -701,7 +701,7 @@ class MainUI(customtkinter.CTk):
             self.change_to_filter_selection_frame_button.grid(row = 2, column = 2)
 
         elif frame_mode == 2:
-            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Processed_Image/Posted_Image.png")
+            self.picture_preview = Image.open("/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Output_Image/Posted_Image.png")
             self.picture_preview_scale = tuple([round(self.picture_preview.size[0] * 0.4), round(self.picture_preview.size[1] * 0.4)])
             self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
             self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
