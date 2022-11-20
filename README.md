@@ -63,10 +63,10 @@ Run the User_Interface.py and configure all the directories according to your di
 
 ## Contributors
 
-Pattarapark Chutisamoot - User Interface, Major Camera Software and Major Code Integration
-Puttipong Aunggulsant - Webserver/Website, Minor Camera Software and Minor Code Integration
-Pimchanok Payungwataseth - Hardware Design/Assembling, UI Designer and Art Designer
-Phattarada Limsuchaiwat - Picture Processing Software and Art Designer
+- Pattarapark Chutisamoot - User Interface, Major Camera Software and Major Code Integration
+- Puttipong Aunggulsant - Webserver/Website, Minor Camera Software and Minor Code Integration
+- Pimchanok Payungwataseth - Hardware Design/Assembling, UI Designer and Art Designer
+- Phattarada Limsuchaiwat - Picture Processing Software and Art Designer
 
 ## Credits
 
