@@ -11,6 +11,10 @@ Oh Snap! is a mini PhotoBooth Project that uses Rasperry Pi 4B as the main compu
 - 10.1" Touch Enabled Screen
 - Wooden Enclosure (Can be different according to your design
 
+## Design
+
+TBA
+
 ## Installation
 
 Install the following libraries required to run the software
