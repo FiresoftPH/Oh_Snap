@@ -70,12 +70,12 @@ Run the User_Interface.py and configure all the directories according to your di
 
 ## Credits
 
-Google Mediapipe - https://google.github.io/mediapipe/
-Customtkinter - https://github.com/TomSchimansky/CustomTkinter
-OpenCV - https://opencv.org/
-Flask - https://github.com/pallets/flask
-Jinja2 - https://github.com/pallets/jinja
-Pillow (PIL) - https://pillow.readthedocs.io/en/stable/index.html
+- Google Mediapipe - https://google.github.io/mediapipe/
+- Customtkinter - https://github.com/TomSchimansky/CustomTkinter
+- OpenCV - https://opencv.org/
+- Flask - https://github.com/pallets/flask
+- Jinja2 - https://github.com/pallets/jinja
+- Pillow (PIL) - https://pillow.readthedocs.io/en/stable/index.html
 
 ## License
 
