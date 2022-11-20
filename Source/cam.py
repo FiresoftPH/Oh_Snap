@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> 49f45a72299767299101d1c81669e672c429b5fc
 import cv2
 import os
 import tkinter as tk
@@ -43,6 +46,7 @@ def cam():
 
 # toclick = tk.Button(root, text="Click this", command=Website.flasK())
 # toclick.pack()
+<<<<<<< HEAD
 =======
 import cv2
 import os
@@ -89,4 +93,6 @@ def cam():
 # toclick = tk.Button(root, text="Click this", command=Website.flasK())
 # toclick.pack()
 >>>>>>> Stashed changes
+=======
+>>>>>>> 49f45a72299767299101d1c81669e672c429b5fc
 # root.mainloop()

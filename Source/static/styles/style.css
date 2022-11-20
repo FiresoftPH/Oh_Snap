@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> 49f45a72299767299101d1c81669e672c429b5fc
 body {
     display:grid;
     background-image: url("/static/BG_PG1.png"); 
@@ -24,6 +27,7 @@ img {
 .div-1 {
     margin: 0 auto;
     background-color:#BFD4FF";
+<<<<<<< HEAD
 =======
 body {
     display:grid;
@@ -51,4 +55,6 @@ img {
     margin: 0 auto;
     background-color:#BFD4FF";
 >>>>>>> Stashed changes
+=======
+>>>>>>> 49f45a72299767299101d1c81669e672c429b5fc
 }
