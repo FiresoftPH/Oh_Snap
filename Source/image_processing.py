@@ -185,9 +185,9 @@ class ImageProcessing:
                 
         background.save(self.Output)
 
-    def clear_cached_images(self):
-        for x in range(6):
-            os.remove
+#    def clear_cached_images(self): 
+#        for x in range(6):
+#            os.remove
 
         
 
