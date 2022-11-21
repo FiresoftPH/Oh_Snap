@@ -805,7 +805,7 @@ class MainUI(customtkinter.CTk):
             self.picture_preview_resize = self.picture_preview.resize(self.picture_preview_scale)
             self.picture_preview_python = ImageTk.PhotoImage(self.picture_preview_resize)
             self.filter_preview_label = customtkinter.CTkLabel(master = self.filter_preview_frame,
-                                                                image = self.picture_preview_python)
+                                                               image = self.picture_preview_python)
 
             self.filter_selection_frame_label.grid(row = 0, column = 0, padx = 20)
             self.filter_preview_label.grid(row = 1, column = 0, padx = 20)

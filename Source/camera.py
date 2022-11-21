@@ -60,7 +60,7 @@ class ShowFrame:
                     # print('Right Hand thing: ', right_hand)
                     print('Intergrity Count: ', track_integrity)
                     
-                    if track_integrity >= 430 and track_integrity < 480:
+                    if track_integrity >= 410 and track_integrity < 480:
                         self.confidence = True
                         print("Ready to Track")
 
@@ -117,10 +117,11 @@ class ShowFrame:
             # Display countdown on each frame
             # specify the font and draw the
             # countdown using puttext
+            text_display = "Time: " + str(TIMER) + " Image Count: " + str(self.image_counter + 1) 
             font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(resize, str(TIMER),
+            cv2.putText(resize, str(text_display),
                         (50, 120), font,
-                        3, (0, 255, 255),
+                        2, (0, 255, 255),
                         2, cv2.LINE_4)
             cv2.imshow('Photo', resize)
             cv2.waitKey(125)
