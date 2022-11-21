@@ -15,7 +15,7 @@ drive = GoogleDrive(gauth)
 
 # replace the value of this variable
 # with the absolute path of the directory
-path = r"C:\Users\Pim\OneDrive\Desktop\Oh_Snap\Source\GoogleDrive_Test\drive_test2.py"
+path = r"/home/pi/Documents/Project/Oh_Snap/Source/GoogleDrive_Test/drive_test2.py"
 
 # iterating thought all the files/folder
 # of the desired directory

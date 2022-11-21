@@ -352,12 +352,25 @@ class MainUI(customtkinter.CTk):
                                                             hover = False,
                                                             command = lambda: self.change_theme_color(2))
 
+        self.purple_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Purple_Bond.png")
+        self.purple_bond_icon_resize = self.purple_bond_icon.resize((self.purple_bond_icon.size[0] // 10, self.purple_bond_icon.size[1] // 10))
+        self.purple_bond_icon_picture = ImageTk.PhotoImage(self.purple_bond_icon_resize)
+        self.purple_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
+                                                            width = 0,
+                                                            image = self.purple_bond_icon_picture,
+                                                            height = 0,
+                                                            text = "",
+                                                            fg_color = "#FFFFFF",
+                                                            hover = False,
+                                                            command = lambda: self.change_theme_color(6))
+
         # Placing the buttons on the frame
         self.black_bond_button.grid(row = 0, column = 0)
         self.blue_bond_button.grid(row = 0, column = 1)
         self.purple_pink_bond_button.grid(row = 0, column = 2)
         self.red_bond_button.grid(row = 1, column = 0)
         self.original_bond_button.grid(row = 1, column = 1)
+        self.purple_bond_button.grid(row = 1, column = 2)
 
         # Filter selection frame preview
         self.filter_preview_frame = customtkinter.CTkFrame(master = self,
