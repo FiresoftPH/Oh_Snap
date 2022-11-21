@@ -340,7 +340,7 @@ class MainUI(customtkinter.CTk):
                                                          hover = False,
                                                          command = lambda: self.change_theme_color(3))
 
-        self.original_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/Original_Bond.png")
+        self.original_bond_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Bond/White_Bond.png")
         self.original_bond_icon_resize = self.original_bond_icon.resize((self.original_bond_icon.size[0] // 10, self.original_bond_icon.size[1] // 10))
         self.original_bond_icon_picture = ImageTk.PhotoImage(self.original_bond_icon_resize)
         self.original_bond_button = customtkinter.CTkButton(master = self.theme_color_selection_frame,
