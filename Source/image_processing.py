@@ -191,7 +191,7 @@ class ImageProcessing:
 
         
 
-IMAGE = ["/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",   
+IMAGE = ["/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",   # dont forget the change the file's location
          "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",
          "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",
          "/home/pi/Documents/Project/Oh_Snap/Source/Saved_Images/Photo_3.jpg",
