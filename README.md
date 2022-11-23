@@ -13,7 +13,7 @@ Oh Snap! is a mini PhotoBooth Project that uses Rasperry Pi 4B as the main compu
 
 ## Design
 
-TBA
+!(https://github.com/FiresoftPH/Oh_Snap/blob/master/Pictures/Design.png)
 
 ## Installation
 
