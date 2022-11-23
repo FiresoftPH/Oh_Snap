@@ -85,4 +85,4 @@ Run the User_Interface.py and configure all the directories according to your di
 
 ## License
 
-TBA
+[GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/)
