@@ -13,7 +13,9 @@ Oh Snap! is a mini PhotoBooth Project that uses Rasperry Pi 4B as the main compu
 
 ## Design
 
-TBA
+![](https://github.com/FiresoftPH/Oh_Snap/blob/master/Pictures/Design.png)
+
+The design of the hardware includes a touch screen monitor at the bottom of the box, a camera at the center where the result of the image would not have a too high or too low angle of the user’s face, and a LED above the camera to brighten up the user’s face for the filter process in the photo taking process.
 
 ## Installation
 
@@ -63,14 +65,14 @@ sudo pip3 install Jinja2==X.XX
 
 ## Usage
 
-Run the User_Interface.py and configure all the directories according to your directories of the code. Later revisions to the code that doesn't require this modification will be provided later.
+Run the User_Interface.py and configure all the directories according to your directories of the code. Later revisions to the code that doesn't require this modification will be provided at a later revision.
 
 ## Contributors
 
 - Pattarapark Chutisamoot - User Interface, Major Camera Software and Major Code Integration
 - Puttipong Aunggulsant - Webserver/Website, Minor Camera Software and Minor Code Integration
 - Pimchanok Payungwataseth - Hardware Design/Assembling, UI Designer and Art Designer
-- Phattarada Limsuchaiwat - Picture Processing Software and Art Designer
+- Phattarada Limsuchaiwat - Picture Processing Software, UI Designer and Art Designer
 
 ## Credits
 
