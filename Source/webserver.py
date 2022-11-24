@@ -4,6 +4,9 @@ import tkinter as tk
 from PIL import ImageTk,Image  
 import os
 import png
+
+# Created by Puttipong (785putt)
+
 # from main import cam
 class Website:
     def genQR(self):

@@ -1,12 +1,11 @@
 # Import required Libraries
 import os
-import random
 import customtkinter
 from PIL import Image, ImageTk
 import threading
 import shutil
 
-# Created By Pattarapark Chutisamoot (FiresoftGH)
+# Created By Pattarapark Chutisamoot (FiresoftGH) with other pieces of code
 
 """
 Command Codes List (The number corresponds to the command)

@@ -1,6 +1,8 @@
 from PIL import Image, ImageEnhance, ImageOps
 import os
 
+# Created by Phattharada and Pattarapark (FiresoftGH)
+
 class ImageProcessing:
     
     def make_picture_strip(self, Images, Mode, Frame, Output, Modify):
