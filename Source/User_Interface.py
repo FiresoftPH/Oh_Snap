@@ -497,9 +497,6 @@ class MainUI(customtkinter.CTk):
         self.camera_ui_frame.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
         self.confirmation_window.destroy()
 
-    def close_pop_up(self):
-        self.confirmation_window.destroy()
-
     # Change from photo taking frame to selecting pictures frame
     def change_to_camera_instructions_frame(self):
         self.camera_ui_frame.pack_forget()
