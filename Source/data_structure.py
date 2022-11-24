@@ -30,7 +30,7 @@ class Stack:
         if len(self.data) == 0:
             return "Stack is Empty"
         else:
-            return self.data[self.size()]
+            return self.data[self.size() - 1]
 
     def is_empty(self):
         if len(self.data) == 0:

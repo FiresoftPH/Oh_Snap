@@ -46,7 +46,7 @@ class MainUI(customtkinter.CTk):
         self.geometry("1280x800")
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
-        self.attributes('-fullscreen', True)
+        # self.attributes('-fullscreen', True)
         
         # self.configure(fg_color = "#BFD4FF")
 
@@ -490,6 +490,10 @@ class MainUI(customtkinter.CTk):
     def change_to_select_frame(self):
         self.start_frame.pack_forget()
         self.frame_selection.pack(anchor = "center", padx = 20, pady = 20, fill = "both", expand = 1)
+
+    # Close the pop up window
+    def close_pop_up(self):
+        self.confirmation_window.destroy()
 
     # Pop-Up Button controls
     def change_to_taking_picture_frame(self):
