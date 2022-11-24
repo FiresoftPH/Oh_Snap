@@ -2,6 +2,8 @@
 
 Oh Snap! is a mini PhotoBooth Project that uses Rasperry Pi 4B as the main computing device. The Raspberry Pi operating system is Raspberry Pi Legacy OS (Debian 10 Buster) for an optimal library support. The main software is Python based with free to use open-sourced libraries such as Google Mediapipe, OpenCV and Customtkinter. (Linked to their respective repositories will be listed in the credits section. This project requires specific hardware requirements which will be listed below.
 
+Note: This project is still ongoing in development stages. There will still be frequent updates and commits.
+
 ## Hardware used in the project
 
 - Raspberry Pi 4B (4GB or more RAM)
