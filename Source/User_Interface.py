@@ -38,11 +38,6 @@ remove_cache_photo()
 
 os.chdir(default_directory)
 
-# Global Variables
-picture_button_dictionary = {}
-command_code = 0
-window_state = 0
-
 class MainUI(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -596,6 +591,8 @@ class MainUI(customtkinter.CTk):
         selected_button = []
         global selected_images
         selected_images = []
+        global picture_button_dictionary
+        picture_button_dictionary = {}
         
         self.next_page_button.place_forget()
         self.picture_selection_frame_label.grid(row = 0, column = 0, padx = 10, pady = 10)
