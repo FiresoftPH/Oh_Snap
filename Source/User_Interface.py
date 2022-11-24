@@ -46,7 +46,6 @@ class MainUI(customtkinter.CTk):
         self.geometry("1280x800")
         self.title("Oh Snap!")
         self.bind('<Escape>',lambda e: quit(e))
-        self.bind('<Button-2>', lambda p: self.minimize(window_state, p))
         self.attributes('-fullscreen', True)
         
         # self.configure(fg_color = "#BFD4FF")
