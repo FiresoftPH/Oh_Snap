@@ -109,7 +109,7 @@ class ShowFrame:
         
         prev = time.time()
         
-        while TIMER >= 0:
+        while TIMER > 0:
             ret, img = self.cap.read()
             flip = cv2.flip(img, flipCode = 1)
             resize = cv2.resize(flip, (1280, 800))
