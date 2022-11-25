@@ -76,7 +76,7 @@ class ShowFrame:
                         self.show_cam()
 
                     current_time = time.time()
-                    if current_time - initial_time >= 0.5 :
+                    if current_time - initial_time >= 3 :
                         self.first_pose_bool = False
                         self.second_pose_bool = False
                         self.coinfidence = False
