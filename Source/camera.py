@@ -60,7 +60,7 @@ class ShowFrame:
                     # print('Right Hand thing: ', right_hand)
                     print('Intergrity Count: ', track_integrity)
                     
-                    if track_integrity >= 410 and track_integrity < 480:
+                    if track_integrity >= 450 and track_integrity < 520:
                         self.confidence = True
                         print("Ready to Track")
 

@@ -224,41 +224,7 @@ class MainUI(customtkinter.CTk):
         self.manual_button_label.grid(row = 2, column = 1)
         self.manual_button.grid(row = 3, column = 1)
 
-        # Picture selection
-        self.picture_selection_frame = customtkinter.CTkFrame(master = self,
-                                                              width = 460,
-                                                              height = 600,
-                                                              corner_radius = 0,
-                                                              fg_color = "#BFD4FF",
-                                                              border_width = 0)
 
-        # Select Image label
-        self.picture_selection_frame_label = customtkinter.CTkLabel(master = self.picture_selection_frame,
-                                                                    text_font = ("Inter", 25, "underline"),
-                                                                    text = "Select Image",
-                                                                    fg_color = "#BFD4FF")
-
-        # Picture grid frame
-        self.picture_grid_frame = customtkinter.CTkFrame(master = self,
-                                                         width = 460,
-                                                         height = 600,
-                                                         corner_radius = 0,
-                                                         fg_color = "#BFD4FF",
-                                                         border_width = 0)
-
-        self.next_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
-        self.next_button_icon_resize = self.next_button_icon.resize((61, 61))
-        self.next_button_image = ImageTk.PhotoImage(self.manual_button_icon_resize)
-
-        # Next Page button for the picture selection frame
-        self.next_page_button = customtkinter.CTkButton(master = self.picture_grid_frame, 
-                                                        width = 0,
-                                                        height = 0,
-                                                        image = self.next_button_image,
-                                                        hover = False,
-                                                        command = self.change_to_theme_selection_frame,
-                                                        fg_color = "#BFD4FF",
-                                                        text = "")
 
         # Picture Preview frame for theme selection
         self.picture_preview_frame = customtkinter.CTkFrame(master = self,
@@ -532,6 +498,42 @@ class MainUI(customtkinter.CTk):
 
     # Create a frame grid label for preview image
     def make_picture_grid_label(self):
+
+        # Picture selection
+        self.picture_selection_frame = customtkinter.CTkFrame(master = self,
+                                                              width = 460,
+                                                              height = 600,
+                                                              corner_radius = 0,
+                                                              fg_color = "#BFD4FF",
+                                                              border_width = 0)
+
+        # Select Image label
+        self.picture_selection_frame_label = customtkinter.CTkLabel(master = self.picture_selection_frame,
+                                                                    text_font = ("Inter", 25, "underline"),
+                                                                    text = "Select Image",
+                                                                    fg_color = "#BFD4FF")
+
+        # Picture grid frame
+        self.picture_grid_frame = customtkinter.CTkFrame(master = self,
+                                                         width = 460,
+                                                         height = 600,
+                                                         corner_radius = 0,
+                                                         fg_color = "#BFD4FF",
+                                                         border_width = 0)
+
+        self.next_button_icon = Image.open("/home/pi/Documents/Project/Oh_Snap/Pictures/Arrow_Button.png")
+        self.next_button_icon_resize = self.next_button_icon.resize((61, 61))
+        self.next_button_image = ImageTk.PhotoImage(self.manual_button_icon_resize)
+
+        # Next Page button for the picture selection frame
+        self.next_page_button = customtkinter.CTkButton(master = self.picture_grid_frame, 
+                                                        width = 0,
+                                                        height = 0,
+                                                        image = self.next_button_image,
+                                                        hover = False,
+                                                        command = self.change_to_theme_selection_frame,
+                                                        fg_color = "#BFD4FF",
+                                                        text = "")
         
         print(frame_mode)
         if frame_mode == 1:
@@ -794,6 +796,10 @@ class MainUI(customtkinter.CTk):
 
     def change_to_filter_selection_frame(self):
 
+        self.theme_color_selection_frame_label.grid_forget()
+        self.theme_color_selection_frame.grid_forget()
+        self.change_to_filter_selection_frame_button.grid_forget()
+        self.picture_preview_label.grid_forget()
         self.picture_preview_frame.pack_forget()
         
         self.change_to_qrcode_frame_button = customtkinter.CTkButton(master = self.filter_preview_frame,
@@ -846,6 +852,11 @@ class MainUI(customtkinter.CTk):
     # Changing to QR Code frame
 
     def change_to_qrcode_frame(self):
+
+        self.filter_preview_label.grid_forget()
+        self.filter_selection_frame_label.grid_forget()
+        self.change_to_qrcode_frame_button.grid_forget()
+        self.filter_preview_label.grid_forget()
         self.filter_preview_frame.pack_forget()
         self.filter_selection_frame.grid_forget()
 
